@@ -3,7 +3,7 @@ import torch
 #from utils import DatasetSplit
 #from server import evaluate_server, train_server
 from random import random
-from clients import Client
+from client import Client
 
 def label_flipping_setup(attack, label_flipping) :
     sources = [int(i.strip()) for i in attack.split("->")[0].split(",")]
