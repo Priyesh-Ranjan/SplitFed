@@ -11,7 +11,7 @@ import numpy as np
 
 # Server-side function associated with Training 
 class Server() :
-    def __init__(self, net_model_server, net_glob_server, criterion, device, lr, n) :
+    def __init__(self, net_glob_server, criterion, device, lr, n) :
         self.device = device
         self.net_model_server = [net_glob_server for i in range(n)]
         self.net_glob_server = net_glob_server
