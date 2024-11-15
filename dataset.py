@@ -4,7 +4,7 @@ from torch.utils.data import Dataset
 from PIL import Image
 import pandas as pd
 import os.path
-import glob
+from glob import glob
 from sklearn.model_selection import train_test_split
 from torchvision import transforms
 
