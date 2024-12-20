@@ -23,7 +23,7 @@ class SkinData(Dataset):
     
     def __getitem__(self, index):
         
-        X = Image.open(self.df['path'][index]).resize((64, 64))
+        X = Image.open(self.df['path'][index]).resize((256, 256))
         y = torch.tensor(int(self.df['target'][index]))
         
         if self.transform:
@@ -105,14 +105,14 @@ def prepare_dataset(num_users, dataset, loader) :
                             transforms.RandomVerticalFlip(),
                             transforms.Pad(3),
                             transforms.RandomRotation(10),
-                            transforms.CenterCrop(64),
+                            transforms.CenterCrop(256),
                             transforms.ToTensor(), 
                             transforms.Normalize(mean = mean, std = std)
                             ])
         
     test_transforms = transforms.Compose([
                             transforms.Pad(3),
-                            transforms.CenterCrop(64),
+                            transforms.CenterCrop(256),
                             transforms.ToTensor(), 
                             transforms.Normalize(mean = mean, std = std)
                             ])    

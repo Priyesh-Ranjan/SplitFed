@@ -76,9 +76,9 @@ def main(args) :
     
     for idx in idxs_users :
         if idx < args.scale :
-            clients.append(Attacker_LF(args.PDR, flip, idx, lr, device, local_epochs, dataset_train = dataset_train, dataset_test = dataset_test, idxs = dict_users[idx], idxs_test = dict_users_test[idx]))
+            clients.append(Attacker_LF(args.PDR, flip, idx, lr, device, dataset_train = dataset_train, dataset_test = dataset_test, idxs = dict_users[idx], idxs_test = dict_users_test[idx], local_ep = local_epochs))
         else :    
-            clients.append(Client(idx, lr, device, local_epochs, dataset_train = dataset_train, dataset_test = dataset_test, idxs = dict_users[idx], idxs_test = dict_users_test[idx]))
+            clients.append(Client(idx, lr, device, dataset_train = dataset_train, dataset_test = dataset_test, idxs = dict_users[idx], idxs_test = dict_users_test[idx], local_ep = local_epochs))  
     
     
     #------------ Training And Testing  -----------------
@@ -116,7 +116,7 @@ def main(args) :
         
         l, a = server.eval_train(i, acc_clients_train, loss_clients_train)
         loss_train.append(l); acc_train.append(a)
-        l, a = server.evaluate_fed(i, acc_clients_test, loss_clients_test)
+        l, a = server.eval_fed(i, acc_clients_test, loss_clients_test)
         loss_test.append(l); acc_test.append(a)
         
     #===================================================================================     

@@ -74,7 +74,7 @@ class Server() :
         return loss_train, acc_train
 
 # Server-side functions associated with Testing
-    def evaluate_server(self, fx_client, y, idx, len_batch, ell):
+    def eval_server(self, fx_client, y, idx, len_batch, ell):
         net = copy.deepcopy(self.net_model_server[idx]).to(self.device)
         net.eval()
       

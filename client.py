@@ -8,7 +8,7 @@ def prGreen(skk): print("\033[92m {}\033[00m" .format(skk))
 
 # Client-side functions associated with Training and Testing
 class Client(object):
-    def __init__(self, idx, lr, device, local_ep = 1, dataset_train = None, dataset_test = None, idxs = None, idxs_test = None):
+    def __init__(self, idx, lr, device, dataset_train, dataset_test, idxs, idxs_test, local_ep = 1):
         self.idx = idx
         self.device = device
         self.lr = lr
@@ -37,19 +37,19 @@ class Client(object):
                 
                 # Sending activations to server and receiving gradients from server
                 dfx, batch_loss, batch_acc = server.train_server(client_fx, labels, self.idx)
-                loss.extend(batch_loss.item())
-                acc.extend(batch_acc.item())
+                loss.append(batch_loss.item())
+                acc.append(batch_acc.item())
                 
                 #--------backward prop -------------
                 fx.backward(dfx)
                 optimizer_client.step()
             
-            prRed('Client{} Train => Local Epoch: {} \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, self.local_ep, 
+            prRed('Client{} Train => Local Epoch: {} / {} \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, ep, self.local_ep, 
                                                                                           np.average(acc), np.average(loss)))
         
             #prRed('Client{} Train => Epoch: {}'.format(self.idx, ell))
            
-        return net.state_dict() 
+        return np.average(loss), np.average(acc), net.state_dict() 
     
     def evaluate(self, server, net, ell):
         net.eval()
@@ -62,9 +62,9 @@ class Client(object):
                 fx = net(images)
                 
                 # Sending activations to server 
-                batch_loss, batch_acc = server.evaluate_server(fx, labels, self.idx, len_batch, ell)
-                loss.extend(batch_loss.item())
-                acc.extend(batch_acc.item())
+                batch_loss, batch_acc = server.eval_server(fx, labels, self.idx, len_batch, ell)
+                loss.append(batch_loss.item())
+                acc.append(batch_acc.item())
                         
         prGreen('Client{} Test =>                   \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, np.average(acc), np.average(loss)))
         return np.average(loss), np.average(acc)   
