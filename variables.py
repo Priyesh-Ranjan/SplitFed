@@ -22,5 +22,4 @@ def parse_args():
     parser.add_argument("--inner_epochs", type=int, default=1)
 
     args = parser.parse_args()
-            
     return args
