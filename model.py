@@ -1,6 +1,13 @@
 import torch.nn.functional as F
 import math
 from torch import nn
+from torchvision.models.resnet import resnet18
+
+def Net(num_classes):
+    model = resnet18(pretrained=True)
+    n = model.fc.in_features
+    model.fc = nn.Linear(n, num_classes)
+    return model
 
 #=====================================================================================================
 #                           Client-side Model definition

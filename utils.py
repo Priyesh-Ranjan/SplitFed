@@ -1,5 +1,6 @@
 import torch
 import copy
+import np
 
 # Federated averaging: FedAvg
 def FedAvg(w):
@@ -16,3 +17,24 @@ def calculate_accuracy(fx, y):
     correct = preds.eq(y.view_as(preds)).sum()
     acc = 100.00 *correct.float()/preds.shape[0]
     return acc
+
+
+def eval_train(self, ell, acc_train_collect_user, loss_train_collect_user) :
+    # server-side global model update and distribute that model to all clients ------------------------------
+    loss_train, acc_train = np.average(loss_train_collect_user), np.average(acc_train_collect_user)
+        
+    print("====================== SERVER V1==========================")
+    print(' Train: Round {:3d}, Avg Accuracy {:.3f} | Avg Loss {:.3f}'.format(ell, acc_train, loss_train))
+        
+    return loss_train, acc_train
+
+
+def eval_fed(self, ell, acc_test_collect_user, loss_test_collect_user) :        
+        
+    loss_test, acc_test = np.average(loss_test_collect_user), np.average(acc_test_collect_user)
+                      
+        
+    print(' Test: Round {:3d}, Avg Accuracy {:.3f} | Avg Loss {:.3f}'.format(ell, acc_test, loss_test))
+    print("==========================================================") 
+        
+    return loss_test, acc_test

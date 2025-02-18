@@ -33,6 +33,10 @@ def main(args) :
     
     if args.setup.upper() == "SPLIT" :
         loss_train, acc_train, loss_test, acc_test = Split(args, dataset_train, dataset_test, dict_users, dict_users_test)
+    elif args.setup.upper() == "FED" :
+        loss_train, acc_train, loss_test, acc_test = Fed(args, dataset_train, dataset_test, dict_users, dict_users_test)
+    elif args.setup.upper() == "SPLIT_FED" :
+        loss_train, acc_train, loss_test, acc_test = Split_Fed(args, dataset_train, dataset_test, dict_users, dict_users_test)
     
     print("Training and Evaluation completed!")    
 

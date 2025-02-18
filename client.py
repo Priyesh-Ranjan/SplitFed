@@ -2,16 +2,20 @@ from torch.utils.data import DataLoader
 import torch
 from dataset import DatasetSplit
 import numpy as np
+from copy import deepcopy
+from utils import calculate_accuracy
 
 def prRed(skk): print("\033[91m {}\033[00m" .format(skk)) 
 def prGreen(skk): print("\033[92m {}\033[00m" .format(skk))     
 
 # Client-side functions associated with Training and Testing
 class Client(object):
-    def __init__(self, idx, lr, device, dataset_train, dataset_test, idxs, idxs_test, local_ep = 1):
+    def __init__(self, net_glob_client, idx, lr, device, optimizer, dataset_train, dataset_test, idxs, idxs_test, local_ep = 1):
+        self.model = net_glob_client
         self.idx = idx
         self.device = device
         self.lr = lr
+        self.optimizer_client = optimizer
         self.local_ep = local_ep
         #self.selected_clients = []
         self.ldr_train = DataLoader(DatasetSplit(dataset_train, idxs), batch_size = 256, shuffle = True)
@@ -20,19 +24,22 @@ class Client(object):
     def data_transform(self, images, labels) :
         return images, labels
     
-    def train(self, server, net):
-        net.train()
-        optimizer_client = torch.optim.Adam(net.parameters(), lr = self.lr) 
-        
+    def setModelParameter(self, states):
+        self.model.load_state_dict(deepcopy(states))
+        self.originalState = deepcopy(states)
+        self.model.zero_grad()
+    
+    def train(self, server):
+        self.model.train()
         for ep in range(self.local_ep):
             #len_batch = len(self.ldr_train)
             loss = []; acc = []
             for batch_idx, (images, labels) in enumerate(self.ldr_train):
                 images, labels = self.data_transform(images, labels)
                 images, labels = images.to(self.device), labels.to(self.device)
-                optimizer_client.zero_grad()
+                self.optimizer_client.zero_grad()
                 #---------forward prop-------------
-                fx = net(images)
+                fx = self.model(images)
                 client_fx = fx.clone().detach().requires_grad_(True)
                 
                 # Sending activations to server and receiving gradients from server
@@ -42,24 +49,53 @@ class Client(object):
                 
                 #--------backward prop -------------
                 fx.backward(dfx)
-                optimizer_client.step()
+                self.optimizer_client.step()
             
             prRed('Client{} Train => Local Epoch: {} / {} \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, ep, self.local_ep, 
                                                                                           np.average(acc), np.average(loss)))
-        
             #prRed('Client{} Train => Epoch: {}'.format(self.idx, ell))
            
-        return np.average(loss), np.average(acc), net.state_dict() 
+        return np.average(loss), np.average(acc), self.model.state_dict() 
     
-    def evaluate(self, server, net, ell):
-        net.eval()
+    def train_federated(self):
+        self.model.train()
+        for ep in range(self.local_ep):
+            #len_batch = len(self.ldr_train)
+            loss = []; acc = []
+            for batch_idx, (images, labels) in enumerate(self.ldr_train):
+                images, labels = self.data_transform(images, labels)
+                images, labels = images.to(self.device), labels.to(self.device)
+                self.optimizer_client.zero_grad()
+                #---------forward prop-------------
+                out = self.model(images)
+                #client_fx = fx.clone().detach().requires_grad_(True)
+                
+                batch_loss = self.criterion(out, labels)
+                batch_acc = calculate_accuracy(out, labels)
+                
+                #--------backward prop--------------
+                
+                loss.append(batch_loss.item())
+                acc.append(batch_acc.item())
+                
+                loss.backward()
+                self.optimizer_client.step()
+            
+            prRed('Client{} Train => Local Epoch: {} / {} \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, ep, self.local_ep, 
+                                                                                          np.average(acc), np.average(loss)))
+            #prRed('Client{} Train => Epoch: {}'.format(self.idx, ell))
+           
+        return np.average(loss), np.average(acc), self.model.state_dict() 
+    
+    def evaluate(self, server, ell):
+        self.model.eval()
         loss = []; acc= []   
         with torch.no_grad():
             len_batch = len(self.ldr_test)
             for batch_idx, (images, labels) in enumerate(self.ldr_test):
                 images, labels = images.to(self.device), labels.to(self.device)
                 #---------forward prop-------------
-                fx = net(images)
+                fx = self.model(images)
                 
                 # Sending activations to server 
                 batch_loss, batch_acc = server.eval_server(fx, labels, self.idx, len_batch, ell)
@@ -67,4 +103,24 @@ class Client(object):
                 acc.append(batch_acc.item())
                         
         prGreen('Client{} Test =>                   \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, np.average(acc), np.average(loss)))
-        return np.average(loss), np.average(acc)   
+        return np.average(loss), np.average(acc) 
+    
+    def evaluate_federated(self, ell) :
+        self.model.eval()
+        loss = []; acc= []   
+        with torch.no_grad():
+            len_batch = len(self.ldr_test)
+            for batch_idx, (images, labels) in enumerate(self.ldr_test):
+                images, labels = images.to(self.device), labels.to(self.device)
+                #---------forward prop-------------
+                out = self.model(images)
+                
+                batch_loss = self.criterion(out, labels)
+                # calculate accuracy
+                batch_acc = calculate_accuracy(out, labels)
+                
+                loss.append(batch_loss.item())
+                acc.append(batch_acc.item())
+                        
+        prGreen('Client{} Test =>                   \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, np.average(acc), np.average(loss)))
+        return np.average(loss), np.average(acc) 
