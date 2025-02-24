@@ -19,8 +19,8 @@ def label_flipping_setup(attack, label_flipping) :
     return flip  
 
 class Attacker_LF(Client):
-    def __init__(self, PDR, flip, idx, lr, device, local_ep = 1, dataset_train = None, dataset_test = None, idxs = None, idxs_test = None):
-        super(Attacker_LF, self).__init__(idx, lr, device, local_ep = 1, dataset_train = None, dataset_test = None, idxs = None, idxs_test = None)
+    def __init__(self, PDR, flip, idx, lr, device, dataset_train, dataset_test, idxs, idxs_test, local_ep = 1):
+        super(Attacker_LF, self).__init__(idx, lr, device, dataset_train, dataset_test, idxs, idxs_test, local_ep = 1)
         self.PDR = PDR
         self.flip = flip
 

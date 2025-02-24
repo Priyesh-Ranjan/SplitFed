@@ -1,6 +1,13 @@
 import torch.nn.functional as F
 import math
 from torch import nn
+from torchvision.models.resnet import resnet18
+
+def Net(num_classes):
+    model = resnet18(pretrained=True)
+    n = model.fc.in_features
+    model.fc = nn.Linear(n, num_classes)
+    return model
 
 #=====================================================================================================
 #                           Client-side Model definition
@@ -82,7 +89,7 @@ class ResNet18_server_side(nn.Module):
         self.layer4 = self._layer(block, 128, num_layers[0], stride = 2)
         self.layer5 = self._layer(block, 256, num_layers[1], stride = 2)
         self.layer6 = self._layer(block, 512, num_layers[2], stride = 2)
-        self. averagePool = nn.AvgPool2d(kernel_size = 7, stride = 1)
+        self.averagePool = nn.AvgPool2d(kernel_size = 7, stride = 1)
         self.fc = nn.Linear(512 * block.expansion, classes)
         
         for m in self.modules():
