@@ -10,7 +10,7 @@ from utils import FedAvg, eval_train, eval_fed#, eval_glob
 
 from codecarbon import track_emissions
 
-@track_emissions(offline=True, country_iso_code="USA", project_name="split", output_dir = "/carbon/", output_file = "split.csv")
+#@track_emissions(offline=True, country_iso_code="USA", project_name="split", output_dir = "/carbon/", output_file = "split.csv")
 def Split(args, trainData, testData):   
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -93,7 +93,7 @@ def Split(args, trainData, testData):
         #loss_glob.append(l); acc_glob.append(a)
     return loss_train, acc_train, loss_test, acc_test#, loss_glob, acc_glob
 
-@track_emissions(offline=True, country_iso_code="USA", project_name="split_fed", output_dir = "/carbon/", output_file = "split_fed.csv")
+#@track_emissions(offline=True, country_iso_code="USA", project_name="split_fed", output_dir = "/carbon/", output_file = "split_fed.csv")
 def Split_Fed(args, trainData, testData):
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -189,7 +189,7 @@ def Split_Fed(args, trainData, testData):
         #loss_glob.append(l); acc_glob.append(a)
     return loss_train, acc_train, loss_test, acc_test#, loss_glob, acc_glob
 
-@track_emissions(offline=True, country_iso_code="USA", project_name="fed", output_dir = "/carbon/", output_file = "fed.csv")
+#@track_emissions(offline=True, country_iso_code="USA", project_name="fed", output_file = "fed.csv")
 def Fed(args, trainData, testData) :
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
