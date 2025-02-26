@@ -202,6 +202,7 @@ def Fed(args, trainData, testData) :
     lr = args.lr
     
     net_glob_client = Net(10)
+    #net_glob_client = ResNet18_client_side()
     if torch.cuda.device_count() > 1:
         print("We use",torch.cuda.device_count(), "GPUs")
         net_glob_client = nn.DataParallel(net_glob_client)    

@@ -16,7 +16,7 @@ def parse_args():
     parser.add_argument("--loader_type", type=str, choices=["iid", "dirichlet"], default="dirichlet")
     parser.add_argument("--AR", type=str, default="fedavg")
     parser.add_argument("--PDR",type=float,default=1.0)
-    parser.add_argument("--attack", type=str)
+    parser.add_argument("--attack", type=str, default="No Attack")
     parser.add_argument("--label_flipping",nargs='?',type=str,choices=["uni","bi"], default="uni")
     parser.add_argument("--experiment_name", type=str)
     parser.add_argument("--inner_epochs", type=int, default=1)
