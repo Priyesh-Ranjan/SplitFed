@@ -32,7 +32,11 @@ def Split(args, trainData, testData):
     print(net_glob_client) 
     optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr)
 
-    net_glob_server = ResNet18_server_side(Baseblock, [2,2,2], 10) #7 is my numbr of classes
+    if args.dataset.upper() == "CIFAR" :    
+        net_glob_server = ResNet18_server_side(Baseblock, [2,2,2], 10) #10 is my numbr of classes
+    if args.dataset.upper() == "PLANT" :
+        net_glob_server = ResNet18_server_side(Baseblock, [2,2,2], 38)
+        
     if torch.cuda.device_count() > 1:
         print("We use",torch.cuda.device_count(), "GPUs")
         net_glob_server = nn.DataParallel(net_glob_server)   # to use the multiple GPUs 
@@ -116,7 +120,11 @@ def Split_Fed(args, trainData, testData):
     optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr) 
 
 
-    net_glob_server = ResNet18_server_side(Baseblock, [2,2,2], 10) #7 is my numbr of classes
+    if args.dataset.upper() == "CIFAR" :    
+        net_glob_server = ResNet18_server_side(Baseblock, [2,2,2], 10) #10 is my numbr of classes
+    if args.dataset.upper() == "PLANT" :
+        net_glob_server = ResNet18_server_side(Baseblock, [2,2,2], 38)
+        
     if torch.cuda.device_count() > 1:
         print("We use",torch.cuda.device_count(), "GPUs")
         net_glob_server = nn.DataParallel(net_glob_server)   # to use the multiple GPUs 
@@ -201,7 +209,12 @@ def Fed(args, trainData, testData) :
     #frac = 1        # participation of clients; if 1 then 100% clients participate in SFLV1
     lr = args.lr
     
-    net_glob_client = Net(10)
+    if args.dataset.upper() == "CIFAR" :    
+        net_glob_client = Net(10) #10 is my numbr of classes
+    if args.dataset.upper() == "PLANT" :
+        net_glob_client = Net(38)
+    
+    #net_glob_client = Net(10)
     #net_glob_client = ResNet18_client_side()
     if torch.cuda.device_count() > 1:
         print("We use",torch.cuda.device_count(), "GPUs")
