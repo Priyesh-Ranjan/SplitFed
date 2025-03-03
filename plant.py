@@ -8,7 +8,7 @@ from torchvision import datasets, transforms
 #import pytorch_lightning as pl
 #import torch.nn.functional as F
 
-from dataloader import iidLoader, byLabelLoader, dirichletLoader
+from dataloaders import iidLoader, byLabelLoader, dirichletLoader
 
 IMG_SIZE = (256, 256)
 

@@ -12,7 +12,7 @@ def parse_args():
     parser.add_argument("--seed", type=int, default=1)
     parser.add_argument("--num_clients", type=int, default=10)
     parser.add_argument("--scale",type=int, default=0)
-    parser.add_argument("--dataset", type=str, choices=["mnist", "cifar", "plant"], default="cifar")
+    parser.add_argument("--dataset", type=str, choices=["mnist", "cifar", "plant"], default="plant")
     parser.add_argument("--loader_type", type=str, choices=["iid", "dirichlet"], default="dirichlet")
     parser.add_argument("--AR", type=str, default="fedavg")
     parser.add_argument("--PDR",type=float,default=1.0)

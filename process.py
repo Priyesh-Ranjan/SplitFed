@@ -56,12 +56,13 @@ def main(args) :
     round_process = [i for i in range(1, len(acc_train)+1)]
     df = DataFrame({'round': round_process,'loss_train':loss_train,'acc_train':acc_train, 
                     'loss_test':loss_test, 'acc_test':acc_test, 
+                    'Emissions':emissions
                     #'loss_glob':loss_glob, 'acc_glob':acc_glob
                     })     
     file_name = program+".xlsx"    
     df.to_excel(file_name, sheet_name= "v1_test", index = False)     
     
-    pd.DataFrame(emissions).to_csv(str(program)+"_carbon.csv",index = False)
+    #pd.DataFrame.from_dict(emissions, orient="index").to_csv(str(program)+"_carbon.csv", index = False)
     #=============================================================================
     #                         Program Completed
     #=============================================================================
