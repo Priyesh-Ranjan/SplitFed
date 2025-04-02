@@ -44,6 +44,7 @@ class Client(object):
                 self.optimizer_client.zero_grad()
                 #---------forward prop-------------
                 fx = self.model(images)
+                fx = fx.view(fx.size(0), -1)
                 client_fx = fx.clone().detach().requires_grad_(True)
                 
                 # Sending activations to server and receiving gradients from server
@@ -102,7 +103,7 @@ class Client(object):
                 images, labels = images.to(self.device), labels.to(self.device)
                 #---------forward prop-------------
                 fx = self.model(images)
-                
+                fx = fx.view(fx.size(0), -1)
                 # Sending activations to server 
                 batch_loss, batch_acc = server.eval_server(fx, labels, self.idx, len_batch, ell)
                 loss.append(batch_loss.item())

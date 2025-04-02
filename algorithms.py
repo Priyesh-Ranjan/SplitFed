@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 
-from model import ResNet18_client_side, ResNet18_server_side, Baseblock, Net
+from model import Net, VGG16_Client_Side
 import copy
 from server import Server
 from client import Client
@@ -22,41 +22,25 @@ def Split(args, trainData, testData):
     local_epochs = args.inner_epochs
     #frac = 1        # participation of clients; if 1 then 100% clients participate in SFLV1
     lr = args.lr
-
-    net_glob_client = ResNet18_client_side()
+    
     if torch.cuda.device_count() > 1:
         print("We use",torch.cuda.device_count(), "GPUs")
-        net_glob_client = nn.DataParallel(net_glob_client)    
-
-    net_glob_client.to(device)
-    print(net_glob_client) 
-    optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr)
-
-    if args.dataset.upper() == "CIFAR" :    
-        net_glob_server = ResNet18_server_side(Baseblock, [2,2,2], 10) #10 is my numbr of classes
-    if args.dataset.upper() == "PLANT" :
-        net_glob_server = ResNet18_server_side(Baseblock, [2,2,2], 38)
-        
-    if torch.cuda.device_count() > 1:
-        print("We use",torch.cuda.device_count(), "GPUs")
-        net_glob_server = nn.DataParallel(net_glob_server)   # to use the multiple GPUs 
-
-    net_glob_server.to(device)
-    print(net_glob_server)      
-    optimizer_server = torch.optim.Adam(net_glob_server.parameters(), lr = lr)
-
-    #client idx collector
-    
-    # Initialization of net_model_server and net_server (server-side model)
-    
-    server = Server(net_glob_server, nn.CrossEntropyLoss(), optimizer_server, device, lr, num_users)
-    #optimizer_server = torch.optim.Adam(net_server.parameters(), lr = lr)    
     
     idxs_users = range(num_users)
     clients = []
 
     for idx in idxs_users :
+        net_glob_client = VGG16_Client_Side()
+        
+        if torch.cuda.device_count() > 1:
+            net_glob_client = nn.DataParallel(net_glob_client)    
+
+        net_glob_client.to(device) 
+        optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr)
         clients.append(Client(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))  
+        
+    server = Server(nn.CrossEntropyLoss(), device, lr, num_users)
+    #optimizer_server = torch.optim.Adam(net_server.parameters(), lr = lr)    
     
     #------------ Training And Testing  -----------------
     #net_glob_client.train()
@@ -110,34 +94,8 @@ def Split_Fed(args, trainData, testData):
     #frac = 1        # participation of clients; if 1 then 100% clients participate in SFLV1
     lr = args.lr
     
-    net_glob_client = ResNet18_client_side()
     if torch.cuda.device_count() > 1:
         print("We use",torch.cuda.device_count(), "GPUs")
-        net_glob_client = nn.DataParallel(net_glob_client)    
-
-    net_glob_client.to(device)
-    print(net_glob_client) 
-    optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr) 
-
-
-    if args.dataset.upper() == "CIFAR" :    
-        net_glob_server = ResNet18_server_side(Baseblock, [2,2,2], 10) #10 is my numbr of classes
-    if args.dataset.upper() == "PLANT" :
-        net_glob_server = ResNet18_server_side(Baseblock, [2,2,2], 38)
-        
-    if torch.cuda.device_count() > 1:
-        print("We use",torch.cuda.device_count(), "GPUs")
-        net_glob_server = nn.DataParallel(net_glob_server)   # to use the multiple GPUs 
-
-    net_glob_server.to(device)
-    print(net_glob_server)      
-    optimizer_server = torch.optim.Adam(net_glob_server.parameters(), lr = lr)
-    #client idx collector
-    
-    # Initialization of net_model_server and net_server (server-side model)
-    
-    server = Server(net_glob_server, nn.CrossEntropyLoss(), optimizer_server, device, lr, num_users)
-    #optimizer_server = torch.optim.Adam(net_server.parameters(), lr = lr)    
     
     idxs_users = range(num_users)
     clients = []
@@ -146,11 +104,20 @@ def Split_Fed(args, trainData, testData):
         flip = label_flipping_setup(args.attack, args.label_flipping)
     
     for idx in idxs_users :
+        net_glob_client = VGG16_Client_Side()
+        
+        if torch.cuda.device_count() > 1:
+            net_glob_client = nn.DataParallel(net_glob_client)    
+
+        net_glob_client.to(device)
+        optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr) 
+ 
         if idx < args.scale :
             clients.append(Attacker_LF(net_glob_client, args.PDR, flip, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
         else :    
             clients.append(Client(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))  
     
+    server = Server(nn.CrossEntropyLoss(), device, lr, num_users)
     
     #------------ Training And Testing  -----------------
     #copy weights
@@ -186,7 +153,7 @@ def Split_Fed(args, trainData, testData):
         print("------ FedServer: Federation process at Client-Side ------- ")
         print("-----------------------------------------------------------")
         w_glob_client = FedAvg(w_locals_client)   
-        
+        server.aggregation()
         # Update client-side global model 
         
         l, a = eval_train(i, acc_clients_train, loss_clients_train)
@@ -209,20 +176,8 @@ def Fed(args, trainData, testData) :
     #frac = 1        # participation of clients; if 1 then 100% clients participate in SFLV1
     lr = args.lr
     
-    if args.dataset.upper() == "CIFAR" :    
-        net_glob_client = Net(10) #10 is my numbr of classes
-    if args.dataset.upper() == "PLANT" :
-        net_glob_client = Net(38)
-    
     #net_glob_client = Net(10)
-    #net_glob_client = ResNet18_client_side()
-    if torch.cuda.device_count() > 1:
-        print("We use",torch.cuda.device_count(), "GPUs")
-        net_glob_client = nn.DataParallel(net_glob_client)    
-
-    net_glob_client.to(device)
-    print(net_glob_client) 
-    optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr) 
+    #net_glob_client = ResNet18_client_side() 
 
     #net_glob_server = ResNet18_server_side(Baseblock, [2,2,2], 7) #7 is my numbr of classes
     #if torch.cuda.device_count() > 1:
@@ -246,6 +201,16 @@ def Fed(args, trainData, testData) :
         flip = label_flipping_setup(args.attack, args.label_flipping)
     
     for idx in idxs_users :
+        net_glob_client = Net(38)
+            
+        if torch.cuda.device_count() > 1:
+            print("We use",torch.cuda.device_count(), "GPUs")
+            net_glob_client = nn.DataParallel(net_glob_client)  
+            
+        net_glob_client.to(device)
+
+        optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr)    
+        
         if idx < args.scale :
             clients.append(Attacker_LF(net_glob_client, args.PDR, flip, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
         else :    

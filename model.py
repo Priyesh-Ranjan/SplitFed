@@ -2,17 +2,53 @@ import torch.nn.functional as F
 import math
 from torch import nn
 from torchvision.models.resnet import resnet18
+from torchvision.models import vgg16
+import torch
+import torchvision.models as models
 
 def Net(num_classes):
-    model = resnet18(pretrained=True)
-    n = model.fc.in_features
-    model.fc = nn.Linear(n, num_classes)
+    model = vgg16(pretrained=True)
+    n = model.classifier[0].in_features
+    model.classifier = nn.Linear(n, num_classes)
     return model
+
+class VGG16_Client_Side(nn.Module):
+    def __init__(self):
+        
+        super(VGG16_Client_Side, self).__init__()
+        vgg16 = models.vgg16(pretrained=True)
+        
+        self.features = vgg16.features
+    
+    def forward(self, x):
+        
+        return self.features(x)
+
+class VGG16_Server_Side(nn.Module):
+    def __init__(self, num_classes=38):
+        super(VGG16_Server_Side, self).__init__()
+
+        self.classifier = nn.Sequential(
+            nn.Linear(25088, 4096),
+            nn.ReLU(),
+            nn.Dropout(0.5),
+            nn.Linear(4096, 1024),
+            nn.ReLU(),
+            nn.Dropout(0.5),
+            nn.Linear(1024, num_classes)
+        )
+
+    def forward(self, x):
+        
+        return self.classifier(x)
+
+
 
 #=====================================================================================================
 #                           Client-side Model definition
 #=====================================================================================================
 # Model at client side
+"""
 class ResNet18_client_side(nn.Module):
     def __init__(self):
         super(ResNet18_client_side, self).__init__()
@@ -129,4 +165,4 @@ class ResNet18_server_side(nn.Module):
         x8 = x7.view(x7.size(0), -1) 
         y_hat =self.fc(x8)
         
-        return y_hat
+        return y_hat"""
