@@ -1,1 +1,1 @@
-python main.py --attack "8->3" --experiment_name "Test"
+parallel --bar -a Plant_Fed.txt -j 3 bash -c "{} > /dev/null && echo {} >> finished.txt"

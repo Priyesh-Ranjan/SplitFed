@@ -23,19 +23,19 @@ def Split(args, trainData, testData):
     #frac = 1        # participation of clients; if 1 then 100% clients participate in SFLV1
     lr = args.lr
     
-    if torch.cuda.device_count() > 1:
-        print("We use",torch.cuda.device_count(), "GPUs")
+    #if torch.cuda.device_count() > 1:
+    #    print("We use",torch.cuda.device_count(), "GPUs")
     
     idxs_users = range(num_users)
     clients = []
 
     for idx in idxs_users :
-        net_glob_client = VGG16_Client_Side()
+        net_glob_client = Net().features
         
-        if torch.cuda.device_count() > 1:
-            net_glob_client = nn.DataParallel(net_glob_client)    
+        #if torch.cuda.device_count() > 1:
+        #    net_glob_client = nn.DataParallel(net_glob_client)    
 
-        net_glob_client.to(device) 
+        #net_glob_client.to(device) 
         optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr)
         clients.append(Client(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))  
         
@@ -94,8 +94,8 @@ def Split_Fed(args, trainData, testData):
     #frac = 1        # participation of clients; if 1 then 100% clients participate in SFLV1
     lr = args.lr
     
-    if torch.cuda.device_count() > 1:
-        print("We use",torch.cuda.device_count(), "GPUs")
+    #if torch.cuda.device_count() > 1:
+    #    print("We use",torch.cuda.device_count(), "GPUs")
     
     idxs_users = range(num_users)
     clients = []
@@ -104,12 +104,12 @@ def Split_Fed(args, trainData, testData):
         flip = label_flipping_setup(args.attack, args.label_flipping)
     
     for idx in idxs_users :
-        net_glob_client = VGG16_Client_Side()
+        net_glob_client = Net().features
         
-        if torch.cuda.device_count() > 1:
-            net_glob_client = nn.DataParallel(net_glob_client)    
+        #if torch.cuda.device_count() > 1:
+        #    net_glob_client = nn.DataParallel(net_glob_client)    
 
-        net_glob_client.to(device)
+        #net_glob_client.to(device)
         optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr) 
  
         if idx < args.scale :
@@ -203,11 +203,11 @@ def Fed(args, trainData, testData) :
     for idx in idxs_users :
         net_glob_client = Net(38)
             
-        if torch.cuda.device_count() > 1:
-            print("We use",torch.cuda.device_count(), "GPUs")
-            net_glob_client = nn.DataParallel(net_glob_client)  
+        #if torch.cuda.device_count() > 1:
+        #    print("We use",torch.cuda.device_count(), "GPUs")
+        #    net_glob_client = nn.DataParallel(net_glob_client)  
             
-        net_glob_client.to(device)
+        #net_glob_client.to(device)
 
         optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr)    
         

@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = ['main.py', 'variables.py', 'dataset.py', 'process.py', 'algorithms.py', 'server.py', 'client.py', 'model.py', 'ham.py', 'client_attackers.py', 'client_attackers-RS4FJ2XP3.py', 'client-RS4FJ2XP3.py', 'dataset-RS4FJ2XP3.py']
+recent_files = ['variables.py', 'process.py', 'algorithms.py', 'server.py', 'client.py', 'model.py', 'client_attackers.py']
 
 [main]
 version = 0.2.0

@@ -4,7 +4,7 @@ from utils import FedAvg, calculate_accuracy
 import numpy as np
 import torch
 from torch import nn
-from model import VGG16_Server_Side
+from model import VGG16_Server_Side, Net
 
 #====================================================================================================
 #                                  Server Side Program
@@ -24,22 +24,22 @@ class Server() :
         self.clients = n
         self.init_model()
         
-        def init_model(self):
+    def init_model(self):
             for i in range(self.clients) :
-                net_glob_server = VGG16_Server_Side(38)
+                net_glob_server = Net().classifier
             
-                if torch.cuda.device_count() > 1:
-                    net_glob_server = nn.DataParallel(net_glob_server)
+                #if torch.cuda.device_count() > 1:
+                #    net_glob_server = nn.DataParallel(net_glob_server)
    
-                self.net_model_server.append(net_glob_server.to(device))
-                self.optimizer_server.append(torch.optim.Adam(net_glob_server.parameters(), lr = lr))
+                self.net_model_server.append(net_glob_server) #self.net_model_server.append(net_glob_server.to(self.device))
+                self.optimizer_server.append(torch.optim.Adam(net_glob_server.parameters(), lr = self.lr))
         
     def train_server(self, fx_client, y, idx):
-        net_server = copy.deepcopy(self.net_model_server[idx]).to(self.device)
-        net_server.train()
+        net_server = copy.deepcopy(self.net_model_server[idx]) #net_server = copy.deepcopy(self.net_model_server[idx].to(self.device))
+        net_server.to(self.device);net_server.train()
         
         # train and update
-        self.optimizer_server.zero_grad()
+        self.optimizer_server[idx].zero_grad()
         
         fx_client = fx_client.to(self.device)
         y = y.to(self.device)
@@ -55,12 +55,18 @@ class Server() :
         #--------backward prop--------------
         loss.backward()
         dfx_client = fx_client.grad.clone().detach()
-        self.optimizer_server.step()
+        self.optimizer_server[idx].step()
         
         # Update the server-side model for the current batch
-        self.net_model_server[idx] = copy.deepcopy(net_server)
+        self.net_model_server[idx] = copy.deepcopy(net_server);net_server.cpu()
         
         return dfx_client, loss, acc
+    
+    def setModelParameter(self, w_glob_server):
+        for idx in range(self.clients) :
+            self.net_model_server[idx].load_state_dict(copy.deepcopy(w_glob_server))
+            self.originalState = copy.deepcopy(w_glob_server)
+            self.net_model_server[idx].zero_grad()
     
     def aggregation(self):
         print("------------------------------------------------")
@@ -75,8 +81,9 @@ class Server() :
             
         w_glob_server = FedAvg(w_locals_server)
         
-        for i in range(self.clients) :
-            self.net_model_server[i] = self.net_model_server[i].load_state_dict(w_glob_server)
+        #for i in range(self.clients) :
+        #    self.net_model_server[i].load_state_dict(w_glob_server)
+        self.setModelParameter(w_glob_server)
 
 # Server-side functions associated with Testing
     def eval_server(self, fx_client, y, idx, len_batch, ell):
@@ -93,4 +100,5 @@ class Server() :
             loss = self.criterion(fx_server, y)
             # calculate accuracy
             acc = calculate_accuracy(fx_server, y)
+            fx_server.cpu();y.cpu()
             return loss, acc

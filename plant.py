@@ -10,7 +10,7 @@ from torchvision import datasets, transforms
 
 from dataloaders import iidLoader, byLabelLoader, dirichletLoader
 
-IMG_SIZE = (256, 256)
+IMG_SIZE = (224, 224)
 
 def getDataset():
     dataset = datasets.ImageFolder(root='./data/plant/train',

@@ -34,6 +34,7 @@ class Client(object):
         self.model.zero_grad()
     
     def train(self, server):
+        self.model.to(self.device)
         self.model.train()
         for ep in range(self.local_ep):
             #len_batch = len(self.ldr_train)
@@ -60,11 +61,13 @@ class Client(object):
                                                                                           np.average(acc), np.average(loss)))
             #prRed('Client{} Train => Epoch: {}'.format(self.idx, ell))
            
+        self.model.cpu()
         return np.average(loss), np.average(acc), self.model.state_dict() 
     
     def train_federated(self):
+        self.model.to(self.device)
         self.model.train()
-        for ep in range(self.local_ep):
+       	for ep in range(self.local_ep):
             #len_batch = len(self.ldr_train)
             loss = []; acc = []
             for batch_idx, (images, labels) in enumerate(self.ldr_train):
@@ -90,10 +93,11 @@ class Client(object):
                                                                                           np.average(acc), np.average(loss)))
             #prRed('Client{} Train => Epoch: {}'.format(self.idx, ell))
            
+        self.model.cpu()
         return np.average(loss), np.average(acc), self.model.state_dict() 
     
     def evaluate(self, server, ell, test):
-        self.model.eval()
+        self.model.to(self.device);self.model.eval()
         loss = []; acc= []  
         if test == "local" : ldr = self.ldr_test
         #elif test == 'global' : ldr = self.ldr_glob
@@ -110,11 +114,12 @@ class Client(object):
                 acc.append(batch_acc.item())
                         
         prGreen(' Client{} Test =>                   \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, np.average(acc), np.average(loss)))
+        self.model.cpu()
         return np.average(loss), np.average(acc) 
     
     def evaluate_federated(self, test) :
-        temp_model = copy.deepcopy(self.model).to(self.device)
-        temp_model.eval()
+        temp_model = copy.deepcopy(self.model)
+        temp_model.to(self.device);temp_model.eval()
         if test == "local" : ldr = self.ldr_test
         #elif test == 'global' : ldr = self.ldr_glob
         loss = []; acc= []   
@@ -133,4 +138,5 @@ class Client(object):
                 acc.append(batch_acc.item())
                         
         prGreen(' Client{} Test =>                   \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, np.average(acc), np.average(loss)))
+        temp_model.cpu()
         return np.average(loss), np.average(acc) 
