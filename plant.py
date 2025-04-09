@@ -31,7 +31,7 @@ def basic_loader(num_clients, loader_type, dist):
         return loader_type(num_clients, dataset)
 
 
-def train_dataloader(num_clients, loader_type='iid', store=True, path='./data/loader.pk', dist=0.9):
+def train_dataloader(num_clients, loader_type='iid', store=True, dist=0.9, path='./data/loader.pk'):
     assert loader_type in ['iid', 'byLabel',
                            'dirichlet'], 'Loader has to be one of the  \'iid\',\'byLabel\',\'dirichlet\''
     if loader_type == 'iid':
