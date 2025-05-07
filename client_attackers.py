@@ -28,3 +28,65 @@ class Attacker_LF(Client):
         target_ = torch.tensor(list(map(lambda x: self.flip[int(x)] if (x in list(self.flip.keys()) and random() <= self.PDR) else x, target)))
         assert target.shape == target_.shape, "Inconsistent target shape"
         return data, target_
+    
+    def model_transform(self, model) :
+        pass
+
+
+class Attacker_Random(Client):
+    def _init(self, PDR, idx, lr, device, dataset_train, dataset_test, idxs, idxs_test, local_ep = 1):
+        super(Attacker_Random, self).__init__(idx, lr, device, dataset_train, dataset_test, idxs, idxs_test, local_ep = 1)
+        self.PDR = PDR
+        self.labels = range(len(self.ldr_test.dataset.classes))
+    
+    def data_transform(self, data, target) :
+        target_ = torch.tensor(list(map(lambda x: random.choice(self.labels) if random() <= self.PDR else x, target)))
+        return data, target_ 
+    
+    def model_transform(self, model) :
+        pass
+    
+class Attacker_SignFlipping(Client):
+    def _init(self, idx, lr, device, dataset_train, dataset_test, idxs, idxs_test, local_ep = 1):
+        super(Attacker_SignFlipping, self).__init__(idx, lr, device, dataset_train, dataset_test, idxs, idxs_test, local_ep = 1)
+    
+    def data_transform(self, data, target) :
+        return data, target
+    
+    def model_transform(self) :
+        state_dict = self.model.state_dict()
+
+        for key in state_dict:
+            state_dict[key] = -1 * state_dict[key]
+
+        self.model.load_state_dict(state_dict)
+        
+class Attacker_ModelPoisoning(Client):
+    def _init(self, std, mu, idx, lr, device, dataset_train, dataset_test, idxs, idxs_test, local_ep = 1):
+        super(Attacker_ModelPoisoning, self).__init__(idx, lr, device, dataset_train, dataset_test, idxs, idxs_test, local_ep = 1)
+        self.std = std
+        self.mu = mu
+    def data_transform(self, data, target) :
+        return data, target
+    
+    def model_transform(self) :
+        state_dict = self.model.state_dict()
+
+        for key in state_dict:
+            noise = torch.randn_like(state_dict[key]) * self.std + self.mu
+            state_dict[key] = state_dict[key] + noise
+
+        self.model.load_state_dict(state_dict) 
+        
+class Attacker_DataPoisoning(Client):
+    def _init(self, PDR, std, mu, idx, lr, device, dataset_train, dataset_test, idxs, idxs_test, local_ep = 1):
+        super(Attacker_ModelPoisoning, self).__init__(idx, lr, device, dataset_train, dataset_test, idxs, idxs_test, local_ep = 1)
+        self.std = std
+        self.mu = mu
+        self.PDR = PDR
+    def data_transform(self, data, target) :
+        data_ = torch.tensor(list(map(lambda x: x + torch.randn_like(x) * self.std + self.mu if random() <= self.PDR else x, data)))
+        return data_, target
+    
+    def model_transform(self) :
+        pass

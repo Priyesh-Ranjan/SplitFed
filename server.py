@@ -5,6 +5,7 @@ import numpy as np
 import torch
 from torch import nn
 from model import VGG16_Server_Side, Net
+from codecarbon import EmissionsTracker
 
 #====================================================================================================
 #                                  Server Side Program
@@ -25,14 +26,14 @@ class Server() :
         self.init_model()
         
     def init_model(self):
-            for i in range(self.clients) :
-                net_glob_server = Net().classifier
+        for i in range(self.clients) :
+            net_glob_server = Net().classifier
             
                 #if torch.cuda.device_count() > 1:
                 #    net_glob_server = nn.DataParallel(net_glob_server)
    
-                self.net_model_server.append(net_glob_server) #self.net_model_server.append(net_glob_server.to(self.device))
-                self.optimizer_server.append(torch.optim.Adam(net_glob_server.parameters(), lr = self.lr))
+            self.net_model_server.append(net_glob_server) #self.net_model_server.append(net_glob_server.to(self.device))
+            self.optimizer_server.append(torch.optim.Adam(net_glob_server.parameters(), lr = self.lr))
         
     def train_server(self, fx_client, y, idx):
         net_server = copy.deepcopy(self.net_model_server[idx]) #net_server = copy.deepcopy(self.net_model_server[idx].to(self.device))
@@ -45,6 +46,8 @@ class Server() :
         y = y.to(self.device)
         
         #---------forward prop-------------
+        tracker = EmissionsTracker()
+        tracker.start()
         fx_server = net_server(fx_client)
         
         # calculate loss
@@ -59,8 +62,9 @@ class Server() :
         
         # Update the server-side model for the current batch
         self.net_model_server[idx] = copy.deepcopy(net_server);net_server.cpu()
+        server_train_emissions: float = tracker.stop()
         
-        return dfx_client, loss, acc
+        return dfx_client, loss, acc, server_train_emissions
     
     def setModelParameter(self, w_glob_server):
         for idx in range(self.clients) :

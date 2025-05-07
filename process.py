@@ -10,7 +10,6 @@ import pandas as pd
 
 import random
 import numpy as np
-from codecarbon import EmissionsTracker
 
 import matplotlib
 matplotlib.use('Agg')
@@ -39,17 +38,14 @@ def main(args) :
         #dataset_train, dataset_test, dict_users, dict_users_test = prepare_dataset(num_users, args.dataset, args.loader_type)    
         
     #===================================================================================     
-    tracker = EmissionsTracker()
-    tracker.start()
+
     if args.setup.upper() == "SPLIT" :
         loss_train, acc_train, loss_test, acc_test = Split(args, trainData, testData)
     elif args.setup.upper() == "FED" :
         loss_train, acc_train, loss_test, acc_test = Fed(args, trainData, testData)
     elif args.setup.upper() == "SPLIT_FED" :
         loss_train, acc_train, loss_test, acc_test = Split_Fed(args, trainData, testData)
-    emissions: float = tracker.stop()
     print("Training and Evaluation completed!")    
-    print(emissions)
 
     #===============================================================================
     # Save output data to .excel file (we use for comparision plots)

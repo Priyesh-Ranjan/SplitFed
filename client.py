@@ -5,6 +5,7 @@ import numpy as np
 from copy import deepcopy
 from utils import calculate_accuracy
 from torch import nn
+from codecarbon import EmissionsTracker
 import copy
 
 def prRed(skk): print("\033[91m {}\033[00m" .format(skk)) 
@@ -28,6 +29,9 @@ class Client(object):
     def data_transform(self, images, labels) :
         return images, labels
     
+    def model_transform(self) :
+        pass
+    
     def setModelParameter(self, states):
         self.model.load_state_dict(deepcopy(states))
         self.originalState = deepcopy(states)
@@ -42,27 +46,36 @@ class Client(object):
             for batch_idx, (images, labels) in enumerate(self.ldr_train):
                 images, labels = self.data_transform(images, labels)
                 images, labels = images.to(self.device), labels.to(self.device)
+                
+                tracker = EmissionsTracker()
+                tracker.start()
                 self.optimizer_client.zero_grad()
                 #---------forward prop-------------
                 fx = self.model(images)
                 fx = fx.view(fx.size(0), -1)
                 client_fx = fx.clone().detach().requires_grad_(True)
+                train_emissions_1: float = tracker.stop()
                 
                 # Sending activations to server and receiving gradients from server
-                dfx, batch_loss, batch_acc = server.train_server(client_fx, labels, self.idx)
+                dfx, batch_loss, batch_acc, server_train_emissions = server.train_server(client_fx, labels, self.idx)
+                tracker = EmissionsTracker()
+                tracker.start()
                 loss.append(batch_loss.item())
                 acc.append(batch_acc.item())
                 
                 #--------backward prop -------------
                 fx.backward(dfx)
                 self.optimizer_client.step()
+                train_emissions_2: float = tracker.stop()
             
             prRed('Client{} Train => Local Epoch: {} / {} \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, ep, self.local_ep, 
                                                                                           np.average(acc), np.average(loss)))
             #prRed('Client{} Train => Epoch: {}'.format(self.idx, ell))
-           
+        
+        self.model_transform()    
         self.model.cpu()
-        return np.average(loss), np.average(acc), self.model.state_dict() 
+        client_train_emissions = train_emissions_1 + train_emissions_2
+        return np.average(loss), np.average(acc), self.model.state_dict(), client_train_emissions, server_train_emissions
     
     def train_federated(self):
         self.model.to(self.device)
@@ -92,7 +105,8 @@ class Client(object):
             prRed('Client{} Train => Local Epoch: {} / {} \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, ep, self.local_ep, 
                                                                                           np.average(acc), np.average(loss)))
             #prRed('Client{} Train => Epoch: {}'.format(self.idx, ell))
-           
+        
+        self.model_transform()    
         self.model.cpu()
         return np.average(loss), np.average(acc), self.model.state_dict() 
     

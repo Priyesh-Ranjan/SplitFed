@@ -10,7 +10,6 @@ from utils import FedAvg, eval_train, eval_fed#, eval_glob
 
 from codecarbon import track_emissions
 
-#@track_emissions(offline=True, country_iso_code="USA", project_name="split", output_dir = "/carbon/", output_file = "split.csv")
 def Split(args, trainData, testData):   
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -52,17 +51,20 @@ def Split(args, trainData, testData):
     # this epoch is global epoch, also known as rounds
     loss_train = []; acc_train = []
     loss_test = []; acc_test = []
+    client_carbon = []; server_carbon = []
     #loss_glob = []; acc_glob = []
     for i in range(epochs):
         #w_locals_client = []
         loss_clients_train = []; acc_clients_train = []
         loss_clients_test = []; acc_clients_test = []
+        client_temp = 0; server_temp = 0
         #loss_clients_glob = []; acc_clients_glob = []
         for client in clients:
             # Training ------------------
-            train_loss, train_acc, w_client = client.train(server)
+            train_loss, train_acc, w_client, client_emissions, server_emissions = client.train(server)
             #w_locals_client.append(copy.deepcopy(w_client))
             
+            client_temp += client_emissions; server_temp += server_emissions
             # Testing -------------------
             test_loss, test_acc = client.evaluate(server, ell= i, test = "local")
             #glob_loss, glob_acc = client.evaluate(server, ell= i, test = "global")
@@ -77,11 +79,11 @@ def Split(args, trainData, testData):
         loss_train.append(l); acc_train.append(a)
         l, a = eval_fed(i, acc_clients_test, loss_clients_test)
         loss_test.append(l); acc_test.append(a)
+        client_carbon.append(client_temp); server_carbon.append(server_temp)
         #l, a = eval_glob(i, acc_clients_glob, loss_clients_glob)
         #loss_glob.append(l); acc_glob.append(a)
     return loss_train, acc_train, loss_test, acc_test#, loss_glob, acc_glob
 
-#@track_emissions(offline=True, country_iso_code="USA", project_name="split_fed", output_dir = "/carbon/", output_file = "split_fed.csv")
 def Split_Fed(args, trainData, testData):
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -100,8 +102,13 @@ def Split_Fed(args, trainData, testData):
     idxs_users = range(num_users)
     clients = []
     
-    if args.attack.upper() == "Label_Flipping" :
+    if args.attack.upper().count("LABEL_FLIPPING") :
+        att = "LF"
         flip = label_flipping_setup(args.attack, args.label_flipping)
+    if args.attack.upper().count("SIGN_FLIPPING") :
+        att = "SF"
+    if args.attack.upper().count("RANDOM_LABEL_FLIPPING") :
+        att = "RLF"
     
     for idx in idxs_users :
         net_glob_client = Net().features
@@ -113,7 +120,9 @@ def Split_Fed(args, trainData, testData):
         optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr) 
  
         if idx < args.scale :
-            clients.append(Attacker_LF(net_glob_client, args.PDR, flip, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "SF": clients.append(Attacker_LF(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "RLF": clients.append(Attacker_LF(net_glob_client, args.PDR, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "LF": clients.append(Attacker_LF(net_glob_client, args.PDR, flip, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
         else :    
             clients.append(Client(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))  
     
@@ -164,7 +173,6 @@ def Split_Fed(args, trainData, testData):
         #loss_glob.append(l); acc_glob.append(a)
     return loss_train, acc_train, loss_test, acc_test#, loss_glob, acc_glob
 
-#@track_emissions(offline=True, country_iso_code="USA", project_name="fed", output_file = "fed.csv")
 def Fed(args, trainData, testData) :
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -197,8 +205,13 @@ def Fed(args, trainData, testData) :
     idxs_users = range(num_users)
     clients = []
     
-    if args.attack.upper() == "Label_Flipping" :
+    if args.attack.upper().count("LABEL_FLIPPING") :
+        att = "LF"
         flip = label_flipping_setup(args.attack, args.label_flipping)
+    if args.attack.upper().count("SIGN_FLIPPING") :
+        att = "SF"
+    if args.attack.upper().count("RANDOM_LABEL_FLIPPING") :
+        att = "RLF"
     
     for idx in idxs_users :
         net_glob_client = Net(38)
@@ -212,7 +225,9 @@ def Fed(args, trainData, testData) :
         optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr)    
         
         if idx < args.scale :
-            clients.append(Attacker_LF(net_glob_client, args.PDR, flip, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "SF": clients.append(Attacker_LF(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "RLF": clients.append(Attacker_LF(net_glob_client, args.PDR, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "LF": clients.append(Attacker_LF(net_glob_client, args.PDR, flip, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
         else :    
             clients.append(Client(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))  
     
