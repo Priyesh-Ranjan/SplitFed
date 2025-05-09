@@ -2,10 +2,11 @@ import torch
 import copy
 import numpy as np
 from codecarbon import EmissionsTracker
+import logging
 
 # Federated averaging: FedAvg
 def FedAvg(w):
-    tracker = EmissionsTracker()
+    tracker = EmissionsTracker(log_level=logging.CRITICAL)
     tracker.start()
     w_avg = copy.deepcopy(w[0])
     for k in w_avg.keys():

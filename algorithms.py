@@ -8,6 +8,7 @@ from client import Client
 from client_attackers import Attacker_LF, label_flipping_setup, Attacker_SignFlipping, Attacker_Random
 from client_attackers import Attacker_DataPoisoning, Attacker_ModelPoisoning, poisoning_setup
 from utils import FedAvg, eval_train, eval_fed#, eval_glob
+import io
 
 from codecarbon import EmissionsTracker
 
@@ -163,13 +164,21 @@ def Split_Fed(args, trainData, testData):
         for client in clients:
             # Training ------------------
             client_temp += client.setModelParameter(w_glob_client) 
-            down += w_glob_client.element_size() * w_glob_client.nelement()            
+            buffer = io.BytesIO()
+            torch.save(w_glob_client, buffer)
+            down += buffer.tell()
+            #down += w_glob_client.element_size() * w_glob_client.nelement()            
             train_loss, train_acc, w_client, client_emissions, server_emissions, u, d = client.train(server)
             up += u; down += d
             w_locals_client.append(copy.deepcopy(w_client))
             
             client_temp += client_emissions; server_temp += server_emissions
-            up += w_locals_client.element_size() * w_locals_client.nelement()
+            
+            buffer = io.BytesIO()
+            torch.save(w_client, buffer)
+            up += buffer.tell()
+            
+            #up += w_locals_client.element_size() * w_locals_client.nelement()
 
             # Testing -------------------
             test_loss, test_acc = client.evaluate(server, ell= i, test = "local")
@@ -285,14 +294,20 @@ def Fed(args, trainData, testData) :
         up = 0; down = 0
         #loss_clients_glob = []; acc_clients_glob = []
         for client in clients:
-            down += w_glob_client.element_size() * w_glob_client.nelement()
+            buffer = io.BytesIO()
+            torch.save(w_glob_client, buffer)
+            down += buffer.tell()
+            #down += w_glob_client.element_size() * w_glob_client.nelement()
             client_temp += client.setModelParameter(w_glob_client) 
             # Training ------------------
             train_loss, train_acc, w_client, client_emissions, server_emissions, u, d = client.train_federated()
             w_locals_client.append(copy.deepcopy(w_client))
             client_temp += client_emissions; server_temp += server_emissions
             
-            up += w_client.element_size() * w_client.nelement()
+            buffer = io.BytesIO()
+            torch.save(w_client, buffer)
+            up += buffer.tell()
+            #up += w_client.element_size() * w_client.nelement()
             
             # Testing -------------------
             test_loss, test_acc = client.evaluate_federated(test = "local")

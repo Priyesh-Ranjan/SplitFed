@@ -7,6 +7,7 @@ from utils import calculate_accuracy
 from torch import nn
 from codecarbon import EmissionsTracker
 import copy
+import logging
 
 def prRed(skk): print("\033[91m {}\033[00m" .format(skk)) 
 def prGreen(skk): print("\033[92m {}\033[00m" .format(skk))     
@@ -33,7 +34,7 @@ class Client(object):
         pass
     
     def setModelParameter(self, states):
-        tracker = EmissionsTracker()
+        tracker = EmissionsTracker(log_level=logging.CRITICAL)
         tracker.start()
         self.model.load_state_dict(deepcopy(states))
         self.originalState = deepcopy(states)
@@ -53,7 +54,7 @@ class Client(object):
                 images, labels = self.data_transform(images, labels)
                 images, labels = images.to(self.device), labels.to(self.device)
                 
-                tracker = EmissionsTracker()
+                tracker = EmissionsTracker(log_level=logging.CRITICAL)
                 tracker.start()
                 self.optimizer_client.zero_grad()
                 #---------forward prop-------------
@@ -68,7 +69,7 @@ class Client(object):
                 dfx, batch_loss, batch_acc, emissions = server.train_server(client_fx, labels, self.idx)
                 down += dfx.element_size() * dfx.nelement()
                 server_train_emissions += emissions
-                tracker = EmissionsTracker()
+                tracker = EmissionsTracker(log_level=logging.CRITICAL)
                 tracker.start()
                 loss.append(batch_loss.item())
                 acc.append(batch_acc.item())
@@ -98,7 +99,7 @@ class Client(object):
             for batch_idx, (images, labels) in enumerate(self.ldr_train):
                 images, labels = self.data_transform(images, labels)
                 images, labels = images.to(self.device), labels.to(self.device)
-                tracker = EmissionsTracker()
+                tracker = EmissionsTracker(log_level=logging.CRITICAL)
                 tracker.start()
                 self.optimizer_client.zero_grad()
                 #---------forward prop-------------

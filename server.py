@@ -6,6 +6,7 @@ import torch
 from torch import nn
 from model import VGG16_Server_Side, Net
 from codecarbon import EmissionsTracker
+import logging
 
 #====================================================================================================
 #                                  Server Side Program
@@ -46,7 +47,7 @@ class Server() :
         y = y.to(self.device)
         
         #---------forward prop-------------
-        tracker = EmissionsTracker()
+        tracker = EmissionsTracker(log_level=logging.CRITICAL)
         tracker.start()
         fx_server = net_server(fx_client)
         
