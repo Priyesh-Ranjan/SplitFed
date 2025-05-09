@@ -40,11 +40,11 @@ def main(args) :
     #===================================================================================     
 
     if args.setup.upper() == "SPLIT" :
-        loss_train, acc_train, loss_test, acc_test = Split(args, trainData, testData)
+        loss_train, acc_train, loss_test, acc_test, client_train_carbon, server_train_carbon, client_agg_carbon, server_agg_carbon, uplink_data, downlink_data = Split(args, trainData, testData)
     elif args.setup.upper() == "FED" :
-        loss_train, acc_train, loss_test, acc_test = Fed(args, trainData, testData)
+        loss_train, acc_train, loss_test, acc_test, client_train_carbon, server_train_carbon, client_agg_carbon, server_agg_carbon, uplink_data, downlink_data = Fed(args, trainData, testData)
     elif args.setup.upper() == "SPLIT_FED" :
-        loss_train, acc_train, loss_test, acc_test = Split_Fed(args, trainData, testData)
+        loss_train, acc_train, loss_test, acc_test, client_train_carbon, server_train_carbon, client_agg_carbon, server_agg_carbon, uplink_data, downlink_data = Split_Fed(args, trainData, testData)
     print("Training and Evaluation completed!")    
 
     #===============================================================================
@@ -52,7 +52,9 @@ def main(args) :
     round_process = [i for i in range(1, len(acc_train)+1)]
     df = DataFrame({'round': round_process,'loss_train':loss_train,'acc_train':acc_train, 
                     'loss_test':loss_test, 'acc_test':acc_test, 
-                    'Emissions':emissions
+                    'Client_carbon_emissions_training':client_train_carbon, 'Server_carbon_emissions_training': server_train_carbon,
+                    'Client_carbon_emissions_aggregation':client_agg_carbon, 'Server_carbon_emissions_aggregation': server_agg_carbon,
+                    'Data_sent_from_client_to_server': uplink_data, 'Data_sent_from_server_to_client': downlink_data
                     #'loss_glob':loss_glob, 'acc_glob':acc_glob
                     })     
     file_name = program+".xlsx"    

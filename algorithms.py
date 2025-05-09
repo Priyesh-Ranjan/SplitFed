@@ -5,10 +5,11 @@ from model import Net, VGG16_Client_Side
 import copy
 from server import Server
 from client import Client
-from client_attackers import Attacker_LF, label_flipping_setup
+from client_attackers import Attacker_LF, label_flipping_setup, Attacker_SignFlipping, Attacker_Random
+from client_attackers import Attacker_DataPoisoning, Attacker_ModelPoisoning, poisoning_setup
 from utils import FedAvg, eval_train, eval_fed#, eval_glob
 
-from codecarbon import track_emissions
+from codecarbon import EmissionsTracker
 
 def Split(args, trainData, testData):   
     
@@ -52,19 +53,22 @@ def Split(args, trainData, testData):
     loss_train = []; acc_train = []
     loss_test = []; acc_test = []
     client_carbon = []; server_carbon = []
+    uplink = []; downlink = []
     #loss_glob = []; acc_glob = []
     for i in range(epochs):
         #w_locals_client = []
         loss_clients_train = []; acc_clients_train = []
         loss_clients_test = []; acc_clients_test = []
         client_temp = 0; server_temp = 0
+        up = 0; down = 0
         #loss_clients_glob = []; acc_clients_glob = []
         for client in clients:
             # Training ------------------
-            train_loss, train_acc, w_client, client_emissions, server_emissions = client.train(server)
+            train_loss, train_acc, w_client, client_emissions, server_emissions, u, d = client.train(server)
             #w_locals_client.append(copy.deepcopy(w_client))
             
             client_temp += client_emissions; server_temp += server_emissions
+            up+= u; down+= d
             # Testing -------------------
             test_loss, test_acc = client.evaluate(server, ell= i, test = "local")
             #glob_loss, glob_acc = client.evaluate(server, ell= i, test = "global")
@@ -72,7 +76,7 @@ def Split(args, trainData, testData):
             loss_clients_test.append(test_loss); acc_clients_test.append(test_acc)  
             #loss_clients_glob.append(glob_loss); acc_clients_glob.append(glob_acc)
             #w_glob_client = w_locals_client  
-            client.setModelParameter(w_client)
+            client_temp += client.setModelParameter(w_client)
             #net_glob_client.load_state_dict(w_locals_client)    
         
         l, a = eval_train(i, acc_clients_train, loss_clients_train)
@@ -80,9 +84,10 @@ def Split(args, trainData, testData):
         l, a = eval_fed(i, acc_clients_test, loss_clients_test)
         loss_test.append(l); acc_test.append(a)
         client_carbon.append(client_temp); server_carbon.append(server_temp)
+        uplink.append(u); downlink.append(d)
         #l, a = eval_glob(i, acc_clients_glob, loss_clients_glob)
         #loss_glob.append(l); acc_glob.append(a)
-    return loss_train, acc_train, loss_test, acc_test#, loss_glob, acc_glob
+    return loss_train, acc_train, loss_test, acc_test, client_carbon, server_carbon, 0.0, 0.0, uplink, downlink
 
 def Split_Fed(args, trainData, testData):
     
@@ -109,6 +114,12 @@ def Split_Fed(args, trainData, testData):
         att = "SF"
     if args.attack.upper().count("RANDOM_LABEL_FLIPPING") :
         att = "RLF"
+    if args.attack.upper().count("DATA_POISONING") :
+        att = "DP"
+        mu, std = poisoning_setup(args.attack)
+    if args.attack.upper().count("MODEL_POISONING") :
+        att = "MP"
+        mu, std = poisoning_setup(args.attack)
     
     for idx in idxs_users :
         net_glob_client = Net().features
@@ -120,9 +131,11 @@ def Split_Fed(args, trainData, testData):
         optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr) 
  
         if idx < args.scale :
-            if att == "SF": clients.append(Attacker_LF(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
-            if att == "RLF": clients.append(Attacker_LF(net_glob_client, args.PDR, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "SF": clients.append(Attacker_SignFlipping(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "RLF": clients.append(Attacker_Random(net_glob_client, args.PDR, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
             if att == "LF": clients.append(Attacker_LF(net_glob_client, args.PDR, flip, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "DP": clients.append(Attacker_DataPoisoning(net_glob_client, args.PDR, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "MP": clients.append(Attacker_ModelPoisoning(net_glob_client, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
         else :    
             clients.append(Client(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))  
     
@@ -135,19 +148,29 @@ def Split_Fed(args, trainData, testData):
     # this epoch is global epoch, also known as rounds
     loss_train = []; acc_train = []
     loss_test = []; acc_test = []
+    client_carbon = []; server_carbon = []
+    client_agg_carbon = []; server_agg_carbon = []
+    uplink = []; downlink = []
     #loss_glob = []; acc_glob = []
     
     for i in range(epochs):
         w_locals_client = []
         loss_clients_train = []; acc_clients_train = []
         loss_clients_test = []; acc_clients_test = []
+        client_temp = 0; server_temp = 0
+        up = 0; down = 0
         #loss_clients_glob = []; acc_clients_glob = []
         for client in clients:
             # Training ------------------
-            client.setModelParameter(w_glob_client) 
-            train_loss, train_acc, w_client = client.train(server)
+            client_temp += client.setModelParameter(w_glob_client) 
+            down += w_glob_client.element_size() * w_glob_client.nelement()            
+            train_loss, train_acc, w_client, client_emissions, server_emissions, u, d = client.train(server)
+            up += u; down += d
             w_locals_client.append(copy.deepcopy(w_client))
             
+            client_temp += client_emissions; server_temp += server_emissions
+            up += w_locals_client.element_size() * w_locals_client.nelement()
+
             # Testing -------------------
             test_loss, test_acc = client.evaluate(server, ell= i, test = "local")
             #glob_loss, glob_acc = client.evaluate(server, ell= i, test = "global")
@@ -161,17 +184,20 @@ def Split_Fed(args, trainData, testData):
         print("-----------------------------------------------------------")
         print("------ FedServer: Federation process at Client-Side ------- ")
         print("-----------------------------------------------------------")
-        w_glob_client = FedAvg(w_locals_client)   
-        server.aggregation()
+        w_glob_client, c = FedAvg(w_locals_client) 
+        t = server.aggregation()
         # Update client-side global model 
         
         l, a = eval_train(i, acc_clients_train, loss_clients_train)
         loss_train.append(l); acc_train.append(a)
         l, a = eval_fed(i, acc_clients_test, loss_clients_test)
         loss_test.append(l); acc_test.append(a)
+        client_carbon.append(client_temp); server_carbon.append(server_temp)
+        client_agg_carbon.append(c); server_agg_carbon.append(t)
+        uplink.append(up); downlink.append(down)
         #l, a = eval_glob(i, acc_clients_glob, loss_clients_glob)
         #loss_glob.append(l); acc_glob.append(a)
-    return loss_train, acc_train, loss_test, acc_test#, loss_glob, acc_glob
+    return loss_train, acc_train, loss_test, acc_test, client_carbon, server_carbon, client_agg_carbon, server_agg_carbon
 
 def Fed(args, trainData, testData) :
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -212,6 +238,12 @@ def Fed(args, trainData, testData) :
         att = "SF"
     if args.attack.upper().count("RANDOM_LABEL_FLIPPING") :
         att = "RLF"
+    if args.attack.upper().count("DATA_POISONING") :
+        att = "DP"
+        mu, std = poisoning_setup(args.attack)
+    if args.attack.upper().count("MODEL_POISONING") :
+        att = "MP"
+        mu, std = poisoning_setup(args.attack)
     
     for idx in idxs_users :
         net_glob_client = Net(38)
@@ -225,9 +257,11 @@ def Fed(args, trainData, testData) :
         optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr)    
         
         if idx < args.scale :
-            if att == "SF": clients.append(Attacker_LF(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
-            if att == "RLF": clients.append(Attacker_LF(net_glob_client, args.PDR, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "SF": clients.append(Attacker_SignFlipping(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "RLF": clients.append(Attacker_Random(net_glob_client, args.PDR, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
             if att == "LF": clients.append(Attacker_LF(net_glob_client, args.PDR, flip, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "DP": clients.append(Attacker_DataPoisoning(net_glob_client, args.PDR, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "MP": clients.append(Attacker_ModelPoisoning(net_glob_client, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
         else :    
             clients.append(Client(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))  
     
@@ -239,17 +273,26 @@ def Fed(args, trainData, testData) :
     # this epoch is global epoch, also known as rounds
     loss_train = []; acc_train = []
     loss_test = []; acc_test = []
+    client_carbon = []; server_carbon = []
+    client_agg_carbon = []; server_agg_carbon = []
+    uplink = []; downlink = []
     #loss_glob = []; acc_glob = []
     for i in range(epochs):
         w_locals_client = []
         loss_clients_train = []; acc_clients_train = []
         loss_clients_test = []; acc_clients_test = []
+        client_temp = 0; server_temp = 0
+        up = 0; down = 0
         #loss_clients_glob = []; acc_clients_glob = []
         for client in clients:
-            client.setModelParameter(w_glob_client) 
+            down += w_glob_client.element_size() * w_glob_client.nelement()
+            client_temp += client.setModelParameter(w_glob_client) 
             # Training ------------------
-            train_loss, train_acc, w_client = client.train_federated()
+            train_loss, train_acc, w_client, client_emissions, server_emissions, u, d = client.train_federated()
             w_locals_client.append(copy.deepcopy(w_client))
+            client_temp += client_emissions; server_temp += server_emissions
+            
+            up += w_client.element_size() * w_client.nelement()
             
             # Testing -------------------
             test_loss, test_acc = client.evaluate_federated(test = "local")
@@ -264,7 +307,7 @@ def Fed(args, trainData, testData) :
         print("-----------------------------------------------------------")
         print("------ FedServer: Federation process at Client-Side ------- ")
         print("-----------------------------------------------------------")
-        w_glob_client = FedAvg(w_locals_client)   
+        w_glob_client, c = FedAvg(w_locals_client)   
         
         # Update client-side global model 
         
@@ -272,6 +315,9 @@ def Fed(args, trainData, testData) :
         loss_train.append(l); acc_train.append(a)
         l, a = eval_fed(i, acc_clients_test, loss_clients_test)
         loss_test.append(l); acc_test.append(a)
+        client_agg_carbon.append(0.0); server_agg_carbon.append(c)
+        client_carbon.append(client_temp); server_carbon.append(server_temp)
+        uplink.append(up); downlink.append(down)
         #l, a = eval_glob(i, acc_clients_glob, loss_clients_glob)
         #loss_glob.append(l); acc_glob.append(a)
-    return loss_train, acc_train, loss_test, acc_test#, loss_glob, acc_glob
+    return loss_train, acc_train, loss_test, acc_test, client_carbon, server_carbon, client_agg_carbon, server_agg_carbon, uplink, downlink

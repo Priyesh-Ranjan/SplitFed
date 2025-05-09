@@ -79,6 +79,9 @@ class Server() :
         
         w_locals_server = []
         
+        tracker = EmissionsTracker()
+        tracker.start()
+        
         for idx in range(self.clients) :
             w_server = self.net_model_server[idx].state_dict()    
             w_locals_server.append(copy.deepcopy(w_server))
@@ -88,6 +91,9 @@ class Server() :
         #for i in range(self.clients) :
         #    self.net_model_server[i].load_state_dict(w_glob_server)
         self.setModelParameter(w_glob_server)
+        server_agg_emissions: float = tracker.stop()
+        
+        return server_agg_emissions
 
 # Server-side functions associated with Testing
     def eval_server(self, fx_client, y, idx, len_batch, ell):

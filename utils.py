@@ -1,15 +1,19 @@
 import torch
 import copy
 import numpy as np
+from codecarbon import EmissionsTracker
 
 # Federated averaging: FedAvg
 def FedAvg(w):
+    tracker = EmissionsTracker()
+    tracker.start()
     w_avg = copy.deepcopy(w[0])
     for k in w_avg.keys():
         for i in range(1, len(w)):
             w_avg[k] += w[i][k]
         w_avg[k] = torch.div(w_avg[k], len(w))
-    return w_avg
+    agg: float = tracker.stop()
+    return w_avg, agg
 
 
 def calculate_accuracy(fx, y):

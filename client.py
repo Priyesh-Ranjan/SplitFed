@@ -33,11 +33,17 @@ class Client(object):
         pass
     
     def setModelParameter(self, states):
+        tracker = EmissionsTracker()
+        tracker.start()
         self.model.load_state_dict(deepcopy(states))
         self.originalState = deepcopy(states)
         self.model.zero_grad()
+        agg_emissions: float = tracker.stop()
+        return agg_emissions
     
     def train(self, server):
+        client_train_emissions = 0; server_train_emissions = 0
+        up = 0; down = 0
         self.model.to(self.device)
         self.model.train()
         for ep in range(self.local_ep):
@@ -54,10 +60,14 @@ class Client(object):
                 fx = self.model(images)
                 fx = fx.view(fx.size(0), -1)
                 client_fx = fx.clone().detach().requires_grad_(True)
-                train_emissions_1: float = tracker.stop()
-                
+                te_1: float = tracker.stop()
+                client_train_emissions+=te_1
+                up += fx.element_size() * fx.nelement() + labels.element_size() * labels.nelement()
                 # Sending activations to server and receiving gradients from server
-                dfx, batch_loss, batch_acc, server_train_emissions = server.train_server(client_fx, labels, self.idx)
+                
+                dfx, batch_loss, batch_acc, emissions = server.train_server(client_fx, labels, self.idx)
+                down += dfx.element_size() * dfx.nelement()
+                server_train_emissions += emissions
                 tracker = EmissionsTracker()
                 tracker.start()
                 loss.append(batch_loss.item())
@@ -66,18 +76,20 @@ class Client(object):
                 #--------backward prop -------------
                 fx.backward(dfx)
                 self.optimizer_client.step()
-                train_emissions_2: float = tracker.stop()
+                te_2: float = tracker.stop()
             
+                client_train_emissions += te_2
             prRed('Client{} Train => Local Epoch: {} / {} \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, ep, self.local_ep, 
                                                                                           np.average(acc), np.average(loss)))
             #prRed('Client{} Train => Epoch: {}'.format(self.idx, ell))
         
         self.model_transform()    
         self.model.cpu()
-        client_train_emissions = train_emissions_1 + train_emissions_2
-        return np.average(loss), np.average(acc), self.model.state_dict(), client_train_emissions, server_train_emissions
+        #client_train_emissions = train_emissions_1 + train_emissions_2
+        return np.average(loss), np.average(acc), self.model.state_dict(), client_train_emissions, server_train_emissions, up, down
     
     def train_federated(self):
+        emissions = 0
         self.model.to(self.device)
         self.model.train()
        	for ep in range(self.local_ep):
@@ -86,6 +98,8 @@ class Client(object):
             for batch_idx, (images, labels) in enumerate(self.ldr_train):
                 images, labels = self.data_transform(images, labels)
                 images, labels = images.to(self.device), labels.to(self.device)
+                tracker = EmissionsTracker()
+                tracker.start()
                 self.optimizer_client.zero_grad()
                 #---------forward prop-------------
                 out = self.model(images)
@@ -101,14 +115,16 @@ class Client(object):
                 
                 batch_loss.backward()
                 self.optimizer_client.step()
-            
+                
+                em: float = tracker.stop()
+                emissions += em
             prRed('Client{} Train => Local Epoch: {} / {} \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, ep, self.local_ep, 
                                                                                           np.average(acc), np.average(loss)))
             #prRed('Client{} Train => Epoch: {}'.format(self.idx, ell))
         
         self.model_transform()    
         self.model.cpu()
-        return np.average(loss), np.average(acc), self.model.state_dict() 
+        return np.average(loss), np.average(acc), self.model.state_dict(), emissions, 0.0, 0, 0
     
     def evaluate(self, server, ell, test):
         self.model.to(self.device);self.model.eval()
