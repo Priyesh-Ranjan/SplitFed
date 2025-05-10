@@ -87,7 +87,7 @@ class Server() :
             w_server = self.net_model_server[idx].state_dict()    
             w_locals_server.append(copy.deepcopy(w_server))
             
-        w_glob_server = FedAvg(w_locals_server)
+        w_glob_server, t = FedAvg(w_locals_server)
         
         #for i in range(self.clients) :
         #    self.net_model_server[i].load_state_dict(w_glob_server)
