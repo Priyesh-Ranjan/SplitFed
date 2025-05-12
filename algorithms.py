@@ -206,7 +206,7 @@ def Split_Fed(args, trainData, testData):
         uplink.append(up); downlink.append(down)
         #l, a = eval_glob(i, acc_clients_glob, loss_clients_glob)
         #loss_glob.append(l); acc_glob.append(a)
-    return loss_train, acc_train, loss_test, acc_test, client_carbon, server_carbon, client_agg_carbon, server_agg_carbon
+    return loss_train, acc_train, loss_test, acc_test, client_carbon, server_carbon, client_agg_carbon, server_agg_carbon, uplink, downlink
 
 def Fed(args, trainData, testData) :
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
