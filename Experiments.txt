@@ -1,0 +1,3 @@
+python main.py --experiment_name "Plant_SplitFed_0.5_base" --setup "split_fed" --inner_epochs 5 --epochs 25
+python main.py --experiment_name "Plant_Split_0.5_base" --setup "split" --inner_epochs 5 --epochs 25
+python main.py --experiment_name "Plant_Fed_0.5_base" --setup "fed" --inner_epochs 5 --epochs 25
