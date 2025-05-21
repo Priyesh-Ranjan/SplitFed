@@ -2,10 +2,11 @@
 import torch
 #from utils import DatasetSplit
 #from server import evaluate_server, train_server
-from random import random
+from random import random, choice
 from client import Client
 
 def label_flipping_setup(attack, label_flipping) :
+    attack = attack.split(" ")[1]
     sources = [int(i.strip()) for i in attack.split("->")[0].split(",")]
     targets = [int(i.strip()) for i in attack.split("->")[1].split(",")]
     
@@ -35,25 +36,25 @@ class Attacker_LF(Client):
         assert target.shape == target_.shape, "Inconsistent target shape"
         return data, target_
     
-    def model_transform(self, model) :
+    def model_transform(self) :
         pass
 
 
 class Attacker_Random(Client):
-    def _init(self, net_glob_client, PDR, idx, lr, device, optimizer, trainData, testData, local_ep):
+    def __init__(self, net_glob_client, PDR, idx, lr, device, optimizer, trainData, testData, local_ep):
         super(Attacker_Random, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep)
         self.PDR = PDR
         self.labels = range(len(self.ldr_test.dataset.classes))
     
     def data_transform(self, data, target) :
-        target_ = torch.tensor(list(map(lambda x: random.choice(self.labels) if random() <= self.PDR else x, target)))
+        target_ = torch.tensor(list(map(lambda x: choice(self.labels) if random() <= self.PDR else x, target)))
         return data, target_ 
     
-    def model_transform(self, model) :
+    def model_transform(self) :
         pass
     
 class Attacker_SignFlipping(Client):
-    def _init(self, net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep):
+    def __init__(self, net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep):
         super(Attacker_SignFlipping, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep)
     
     def data_transform(self, data, target) :
@@ -68,7 +69,7 @@ class Attacker_SignFlipping(Client):
         self.model.load_state_dict(state_dict)
         
 class Attacker_ModelPoisoning(Client):
-    def _init(self, net_glob_client, std, mu, idx, lr, device, optimizer, trainData, testData, local_ep):
+    def __init__(self, net_glob_client, std, mu, idx, lr, device, optimizer, trainData, testData, local_ep):
         super(Attacker_ModelPoisoning, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep)
         self.std = std
         self.mu = mu
@@ -85,13 +86,14 @@ class Attacker_ModelPoisoning(Client):
         self.model.load_state_dict(state_dict) 
         
 class Attacker_DataPoisoning(Client):
-    def _init(self, net_glob_client, PDR, mu, std, idx, lr, device, optimizer, trainData, testData, local_ep):
+    def __init__(self, net_glob_client, PDR, mu, std, idx, lr, device, optimizer, trainData, testData, local_ep):
         super(Attacker_DataPoisoning, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep)
         self.std = std
         self.mu = mu
         self.PDR = PDR
     def data_transform(self, data, target) :
-        data_ = torch.tensor(list(map(lambda x: x + torch.randn_like(x) * self.std + self.mu if random() <= self.PDR else x, data)))
+        #data_ = torch.tensor(list(map(lambda x: x + torch.randn_like(x) * self.std + self.mu if random() <= self.PDR else x, data)))
+        data_ = torch.stack([x + torch.randn_like(x) * self.std + self.mu if random() <= self.PDR else x for x in data])
         return data_, target
     
     def model_transform(self) :

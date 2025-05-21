@@ -113,7 +113,7 @@ def Split_Fed(args, trainData, testData):
         flip = label_flipping_setup(args.attack, args.label_flipping)
     if args.attack.upper().count("SIGN_FLIPPING") :
         att = "SF"
-    if args.attack.upper().count("RANDOM_LABEL_FLIPPING") :
+    if args.attack.upper().count("RANDOM_FLIPPING") :
         att = "RLF"
     if args.attack.upper().count("DATA_POISONING") :
         att = "DP"
@@ -132,11 +132,11 @@ def Split_Fed(args, trainData, testData):
         optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr) 
  
         if idx < args.scale :
-            if att == "SF": clients.append(Attacker_SignFlipping(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
-            if att == "RLF": clients.append(Attacker_Random(net_glob_client, args.PDR, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
-            if att == "LF": clients.append(Attacker_LF(net_glob_client, args.PDR, flip, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
-            if att == "DP": clients.append(Attacker_DataPoisoning(net_glob_client, args.PDR, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
-            if att == "MP": clients.append(Attacker_ModelPoisoning(net_glob_client, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))
+            if att == "SF": clients.append(Attacker_SignFlipping(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
+            if att == "RLF": clients.append(Attacker_Random(net_glob_client, args.PDR, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
+            if att == "LF": clients.append(Attacker_LF(net_glob_client, args.PDR, flip, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
+            if att == "DP": clients.append(Attacker_DataPoisoning(net_glob_client, args.PDR, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
+            if att == "MP": clients.append(Attacker_ModelPoisoning(net_glob_client, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
         else :    
             clients.append(Client(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))  
     
