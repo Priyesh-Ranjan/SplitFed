@@ -25,8 +25,8 @@ def poisoning_setup(attack) :
     return mu, std
 
 class Attacker_LF(Client):
-    def __init__(self, net_glob_client, PDR, flip, idx, lr, device, optimizer, trainData, testData, local_ep = 1):
-        super(Attacker_LF, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep = 1)
+    def __init__(self, net_glob_client, PDR, flip, idx, lr, device, optimizer, trainData, testData, local_ep):
+        super(Attacker_LF, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep)
         self.PDR = PDR
         self.flip = flip
 
@@ -40,8 +40,8 @@ class Attacker_LF(Client):
 
 
 class Attacker_Random(Client):
-    def _init(self, net_glob_client, PDR, idx, lr, device, optimizer, trainData, testData, local_ep = 1):
-        super(Attacker_Random, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep = 1)
+    def _init(self, net_glob_client, PDR, idx, lr, device, optimizer, trainData, testData, local_ep):
+        super(Attacker_Random, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep)
         self.PDR = PDR
         self.labels = range(len(self.ldr_test.dataset.classes))
     
@@ -53,8 +53,8 @@ class Attacker_Random(Client):
         pass
     
 class Attacker_SignFlipping(Client):
-    def _init(self, net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep = 1):
-        super(Attacker_SignFlipping, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep = 1)
+    def _init(self, net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep):
+        super(Attacker_SignFlipping, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep)
     
     def data_transform(self, data, target) :
         return data, target
@@ -68,8 +68,8 @@ class Attacker_SignFlipping(Client):
         self.model.load_state_dict(state_dict)
         
 class Attacker_ModelPoisoning(Client):
-    def _init(self, net_glob_client, std, mu, idx, lr, device, optimizer, trainData, testData, local_ep = 1):
-        super(Attacker_ModelPoisoning, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep = 1)
+    def _init(self, net_glob_client, std, mu, idx, lr, device, optimizer, trainData, testData, local_ep):
+        super(Attacker_ModelPoisoning, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep)
         self.std = std
         self.mu = mu
     def data_transform(self, data, target) :
@@ -85,8 +85,8 @@ class Attacker_ModelPoisoning(Client):
         self.model.load_state_dict(state_dict) 
         
 class Attacker_DataPoisoning(Client):
-    def _init(self, net_glob_client, PDR, mu, std, idx, lr, device, optimizer, trainData, testData, local_ep = 1):
-        super(Attacker_DataPoisoning, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep = 1)
+    def _init(self, net_glob_client, PDR, mu, std, idx, lr, device, optimizer, trainData, testData, local_ep):
+        super(Attacker_DataPoisoning, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep)
         self.std = std
         self.mu = mu
         self.PDR = PDR
