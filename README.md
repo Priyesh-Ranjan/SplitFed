@@ -8,7 +8,7 @@ https://github.com/chandra2thapa/SplitFed-When-Federated-Learning-Meets-Split-Le
 
 ---
 
-### No Attack Cases
+## No Attack Cases
 
 For normal Split Learning (In split learning there is no attack) :
 
@@ -30,7 +30,7 @@ python main.py --experiment_name "split_baseline_inner_epochs=5_epochs=50" --set
 
 ---
 
-### For Attack Cases
+## For Attack Cases
 
 For Split-Fed and Fed Learning we can do these attacks:
 
