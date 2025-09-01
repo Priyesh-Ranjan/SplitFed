@@ -25,7 +25,16 @@ class Client(object):
         #self.selected_clients = []
         self.ldr_train = trainData
         self.ldr_test = testData
+        self.init_parameters()
         #self.ldr_glob = DataLoader(DatasetSplit(dataset_test, range(len(dataset_test))), batch_size = 256, shuffle = True)
+        
+    def init_parameters(self) :
+        states = deepcopy(self.model.state_dict())
+        for param, values in states.items():
+            values *= 0
+        self.stateChange = states
+        self.avg_delta = deepcopy(states)
+        self.sum_hog = deepcopy(states)
         
     def data_transform(self, images, labels) :
         return images, labels
@@ -41,6 +50,27 @@ class Client(object):
         self.model.zero_grad()
         agg_emissions: float = tracker.stop()
         return agg_emissions
+    
+    def get_sum_hog(self):
+        #return utils.net2vec(self.sum_hog)
+        return torch.cat([v.flatten() for v in self.sum_hog.values()])
+    
+    def get_avg_grad(self):
+        return torch.cat([v.flatten() for v in self.avg_delta.values()])
+    
+    def compute_hogs(self):
+        newState = self.model.state_dict()
+        for p in self.originalState:
+            self.stateChange[p] = newState[p] - self.originalState[p]
+            self.sum_hog[p] += self.stateChange[p]
+            K_ = len(self.hog_avg)
+            if K_ == 0:
+                self.avg_delta[p] = self.stateChange[p]
+            elif K_ < self.K_avg:
+                self.avg_delta[p] = (self.avg_delta[p]*K_ + self.stateChange[p])/(K_+1)
+            else:
+                self.avg_delta[p] += (self.stateChange[p] - self.hog_avg[0][p])/self.K_avg
+        self.hog_avg.append(self.stateChange)
     
     def train(self, server):
         client_train_emissions = 0; server_train_emissions = 0
@@ -86,6 +116,7 @@ class Client(object):
         
         self.model_transform()    
         self.model.cpu()
+        self.compute_hogs()
         #client_train_emissions = train_emissions_1 + train_emissions_2
         return np.average(loss), np.average(acc), self.model.state_dict(), client_train_emissions, server_train_emissions, up, down
     
@@ -125,6 +156,7 @@ class Client(object):
         
         self.model_transform()    
         self.model.cpu()
+        self.compute_hogs()
         return np.average(loss), np.average(acc), self.model.state_dict(), emissions, 0.0, 0, 0
     
     def evaluate(self, server, ell, test):

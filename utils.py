@@ -2,6 +2,7 @@ import torch
 import copy
 import numpy as np
 from codecarbon import EmissionsTracker
+#from mudhog import mud_hog_aggregation
 import logging
 
 # Federated averaging: FedAvg
@@ -14,8 +15,7 @@ def FedAvg(w):
             w_avg[k] += w[i][k]
         w_avg[k] = torch.div(w_avg[k], len(w))
     agg: float = tracker.stop()
-    return w_avg, agg
-
+    return w_avg, agg       
 
 def calculate_accuracy(fx, y):
     preds = fx.max(1, keepdim=True)[1]

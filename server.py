@@ -1,12 +1,14 @@
 import copy
 import torch
-from utils import FedAvg, calculate_accuracy
-import numpy as np
-import torch
-from torch import nn
-from model import VGG16_Server_Side, Net
+from utils import FedAvg, MuDHoG, calculate_accuracy
+#import numpy as np
+#import torch
+#from torch import nn
+from model import Net
 from codecarbon import EmissionsTracker
 import logging
+from collections import defaultdict
+from copy import deepcopy
 
 #====================================================================================================
 #                                  Server Side Program
@@ -16,7 +18,7 @@ import logging
 
 # Server-side function associated with Training 
 class Server() :
-    def __init__(self, criterion, device, lr, n) :
+    def __init__(self, criterion, device, lr, n, AR) :
         self.device = device
         self.net_model_server = []
         #self.net_glob_server = net_server
@@ -25,6 +27,9 @@ class Server() :
         self.criterion = criterion
         self.clients = n
         self.init_model()
+        self.AR = AR
+        self.originalState = defaultdict(int)
+        self.stateChange = defaultdict(int)
         
     def init_model(self):
         for i in range(self.clients) :
@@ -35,6 +40,11 @@ class Server() :
    
             self.net_model_server.append(net_glob_server) #self.net_model_server.append(net_glob_server.to(self.device))
             self.optimizer_server.append(torch.optim.Adam(net_glob_server.parameters(), lr = self.lr))
+            
+            states = deepcopy(net_glob_server.state_dict())
+            for param, values in states.items():
+                values *= 0
+            self.stateChange[i] = states
         
     def train_server(self, fx_client, y, idx):
         net_server = copy.deepcopy(self.net_model_server[idx]) #net_server = copy.deepcopy(self.net_model_server[idx].to(self.device))
@@ -70,8 +80,16 @@ class Server() :
     def setModelParameter(self, w_glob_server):
         for idx in range(self.clients) :
             self.net_model_server[idx].load_state_dict(copy.deepcopy(w_glob_server))
-            self.originalState = copy.deepcopy(w_glob_server)
+            self.originalState[idx] = copy.deepcopy(w_glob_server)
             self.net_model_server[idx].zero_grad()
+            
+    def return_delta(self):
+        #self.stateChange = defaultdict(int)
+        for idx in range(self.clients) :
+            newState = self.net_model_server[idx].state_dict()
+            for p in self.originalState[idx]:
+                self.stateChange[idx][p] = newState[p] - self.originalState[idx][p]
+        return self.stateChange          
     
     def aggregation(self):
         print("------------------------------------------------")
@@ -87,7 +105,10 @@ class Server() :
             w_server = self.net_model_server[idx].state_dict()    
             w_locals_server.append(copy.deepcopy(w_server))
             
-        w_glob_server, t = FedAvg(w_locals_server)
+        if self.AR == "fedavg" :
+            w_glob_server, t = FedAvg(w_locals_server)
+        if self.AR == "mudhog" :
+            w_glob_server, t = FedAvg(w_locals_server)
         
         #for i in range(self.clients) :
         #    self.net_model_server[i].load_state_dict(w_glob_server)

@@ -9,6 +9,7 @@ from client_attackers import Attacker_LF, label_flipping_setup, Attacker_SignFli
 from client_attackers import Attacker_DataPoisoning, Attacker_ModelPoisoning, poisoning_setup
 from utils import FedAvg, eval_train, eval_fed#, eval_glob
 import io
+from mudhog import MuDHoG
 
 from codecarbon import EmissionsTracker
 
@@ -23,6 +24,7 @@ def Split(args, trainData, testData):
     local_epochs = args.inner_epochs
     #frac = 1        # participation of clients; if 1 then 100% clients participate in SFLV1
     lr = args.lr
+    AR = args.AR
     
     #if torch.cuda.device_count() > 1:
     #    print("We use",torch.cuda.device_count(), "GPUs")
@@ -40,7 +42,7 @@ def Split(args, trainData, testData):
         optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr)
         clients.append(Client(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))  
         
-    server = Server(nn.CrossEntropyLoss(), device, lr, num_users)
+    server = Server(nn.CrossEntropyLoss(), device, lr, num_users, AR)
     #optimizer_server = torch.optim.Adam(net_server.parameters(), lr = lr)    
     
     #------------ Training And Testing  -----------------
@@ -101,6 +103,7 @@ def Split_Fed(args, trainData, testData):
     local_epochs = args.inner_epochs
     #frac = 1        # participation of clients; if 1 then 100% clients participate in SFLV1
     lr = args.lr
+    AR = args.AR
     
     #if torch.cuda.device_count() > 1:
     #    print("We use",torch.cuda.device_count(), "GPUs")
@@ -140,7 +143,7 @@ def Split_Fed(args, trainData, testData):
         else :    
             clients.append(Client(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))  
     
-    server = Server(nn.CrossEntropyLoss(), device, lr, num_users)
+    server = Server(nn.CrossEntropyLoss(), device, lr, num_users, AR)
     
     #------------ Training And Testing  -----------------
     #copy weights
@@ -274,6 +277,8 @@ def Fed(args, trainData, testData) :
         else :    
             clients.append(Client(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))  
     
+    if args.AR == "mudhog" :
+        mudhog_object = MuDHoG()
     
     #------------ Training And Testing  -----------------
     #copy weights
@@ -322,7 +327,10 @@ def Fed(args, trainData, testData) :
         print("-----------------------------------------------------------")
         print("------ FedServer: Federation process at Client-Side ------- ")
         print("-----------------------------------------------------------")
-        w_glob_client, c = FedAvg(w_locals_client)   
+        if args.AR == "fedavg" :
+            w_glob_client, c = FedAvg(w_locals_client)  
+        elif args.AR == "mudhog" :
+            w_glob_client, c = mudhog_object.aggregator(w_locals_client, clients)
         
         # Update client-side global model 
         
