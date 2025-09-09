@@ -145,6 +145,9 @@ def Split_Fed(args, trainData, testData):
     
     server = Server(nn.CrossEntropyLoss(), device, lr, num_users, AR)
     
+    if args.AR == "mudhog" :
+        mudhog_object = MuDHoG()
+    
     #------------ Training And Testing  -----------------
     #copy weights
     w_glob_client = net_glob_client.state_dict()
@@ -196,7 +199,12 @@ def Split_Fed(args, trainData, testData):
         print("-----------------------------------------------------------")
         print("------ FedServer: Federation process at Client-Side ------- ")
         print("-----------------------------------------------------------")
-        w_glob_client, c = FedAvg(w_locals_client) 
+        #w_glob_client, c = FedAvg(w_locals_client) 
+        if args.AR == "fedavg" :
+            w_glob_client, c = FedAvg(w_locals_client)  
+        elif args.AR == "mudhog" :
+            w_glob_client, c = mudhog_object.aggregator(w_locals_client, clients)
+            
         t = server.aggregation()
         # Update client-side global model 
         

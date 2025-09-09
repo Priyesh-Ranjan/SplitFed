@@ -5,12 +5,12 @@ from collections import defaultdict, Counter
 import torch
 from codecarbon import EmissionsTracker
 import logging
-import deepcopy
+from copy import deepcopy
 
 class MuDHoG():
     def __init__(self) :
         self.iter = 0
-        self.tao_0 = 3
+        self.tao_0 = 0
         self.dbscan_eps = 0.5
         self.mal_ids = set()
         self.dbscan_min_samples = 5
@@ -164,7 +164,7 @@ class MuDHoG():
             # MNIST uses default eps=0.5, min_sample=5
             # CIFAR uses eps=50, min_sample=5 (based on heuristic evaluation Euclidean distance of grad of RestNet18.
             #start_t = time.time()
-            cluster_sh = DBSCAN(eps=self.dbscan_eps, n_jobs=-1,
+            cluster_sh = DBSCAN(eps=self.dbscan_eps,
                 min_samples=self.dbscan_min_samples).fit(value_sHoGs)
             #t_dbscan = time.time() - start_t
             
@@ -268,5 +268,6 @@ class MuDHoG():
             weight_vec = np.ones(len(clients))
         
         self.iter += 1    
+        print(weight_vec)
         #out = self.FedFuncWholeNet(normal_clients, lambda arr: torch.mean(arr, dim=-1, keepdim=True))
         return weight_vec

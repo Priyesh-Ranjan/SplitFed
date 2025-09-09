@@ -1,6 +1,6 @@
 import copy
 import torch
-from utils import FedAvg, MuDHoG, calculate_accuracy
+from utils import FedAvg, calculate_accuracy
 #import numpy as np
 #import torch
 #from torch import nn
@@ -26,10 +26,10 @@ class Server() :
         self.optimizer_server = []
         self.criterion = criterion
         self.clients = n
-        self.init_model()
         self.AR = AR
         self.originalState = defaultdict(int)
         self.stateChange = defaultdict(int)
+        self.init_model()
         
     def init_model(self):
         for i in range(self.clients) :

@@ -8,6 +8,7 @@ from torch import nn
 from codecarbon import EmissionsTracker
 import copy
 import logging
+from collections import deque
 
 def prRed(skk): print("\033[91m {}\033[00m" .format(skk)) 
 def prGreen(skk): print("\033[92m {}\033[00m" .format(skk))     
@@ -26,6 +27,8 @@ class Client(object):
         self.ldr_train = trainData
         self.ldr_test = testData
         self.init_parameters()
+        self.K_avg = 3
+        self.hog_avg = deque(maxlen=self.K_avg)
         #self.ldr_glob = DataLoader(DatasetSplit(dataset_test, range(len(dataset_test))), batch_size = 256, shuffle = True)
         
     def init_parameters(self) :
