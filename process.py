@@ -29,8 +29,12 @@ def main(args) :
     num_users = args.num_clients
     if args.dataset.upper() == "CIFAR" :
         from cifar import train_dataloader, test_dataloader
-        trainData = train_dataloader(num_users, loader_type=args.loader_type, store=False, dist = args.alpha)
+        trainData = train_dataloader(num_users, loader_type=args.loader_type, store=False)
         testData = test_dataloader(args.test_batch_size)
+    if args.dataset.upper() == "MNIST" :
+        from mnist import train_dataloader, test_dataloader
+        trainData = train_dataloader(num_users, loader_type=args.loader_type, store=False)
+        testData = test_dataloader(args.test_batch_size)    
     elif args.dataset.upper() == "PLANT" :
         from plant import train_dataloader, test_dataloader
         trainData = train_dataloader(num_users, loader_type=args.loader_type, store=False, dist = args.alpha)

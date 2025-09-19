@@ -8,9 +8,9 @@ import numpy as np
 
 def getDataset():
     dataset = datasets.CIFAR10('./data',
-                               train=True,
+                               train=False,
                                download=True,
-                               transform=transforms.Compose([transforms.Resize((256, 256)),transforms.CenterCrop(224),
+                               transform=transforms.Compose([
                                                              transforms.ToTensor(),
                                                              transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]))
     return dataset
@@ -50,7 +50,7 @@ def train_dataloader(num_clients, loader_type='iid', store=True, path='./data/lo
 
 def test_dataloader(test_batch_size):
     test_loader = torch.utils.data.DataLoader(
-        datasets.CIFAR10('./data', train=False, transform=transforms.Compose([transforms.Resize((256, 256)),transforms.CenterCrop(224),
+        datasets.CIFAR10('./data', train=False, transform=transforms.Compose([
                                                                               transforms.ToTensor(),
                                                                               transforms.Normalize((0.5, 0.5, 0.5),
                                                                                                    (0.5, 0.5, 0.5))])),

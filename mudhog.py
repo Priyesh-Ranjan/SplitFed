@@ -6,6 +6,7 @@ import torch
 from codecarbon import EmissionsTracker
 import logging
 from copy import deepcopy
+from sklearn.decomposition import PCA
 
 class MuDHoG():
     def __init__(self) :
@@ -15,9 +16,17 @@ class MuDHoG():
         self.mal_ids = set()
         self.dbscan_min_samples = 5
         self.flip_sign_ids = set()
-        self.uAtk_ids = set()
+        #self.uAtk_ids = set()
         self.delay_decision = 2
+        self.sims = None
+        #self.mal_ids = set()
+        self.uAtk_ids = set()
+        self.tAtk_ids = set()
+        self.flip_sign_ids = set()
+        #self.unreliable_ids = set()
+        self.suspicious_id = set()
         self.unreliable_ids = set()
+        self.pre_mal_id = defaultdict(int)
         self.count_unreliable = defaultdict(int)
     
     def aggregator(self, w, clients):
@@ -75,7 +84,7 @@ class MuDHoG():
 #=======================================================================================================
 
     def get_hogs(self, clients) :
-        num_clients = len(clients)
+        self.num_clients = len(clients)
         # long_HoGs for clustering targeted/untargeted and calculating angle > 90 for flip-sign attack
         long_HoGs = {}
 
@@ -88,7 +97,7 @@ class MuDHoG():
         normalized_sHoGs = {}
 
         # STAGE 1: Collect long and short HoGs.
-        for i in range(num_clients):
+        for i in range(self.num_clients):
             # longHoGs
             sum_hog_i = clients[i].get_sum_hog().detach().cpu().numpy()
             #L2_sum_hog_i = client's[i].get_L2_sum_hog().detach().cpu().numpy()
@@ -111,7 +120,7 @@ class MuDHoG():
         
         # Exclude the firmed malicious client's
                 
-        num_clients = len(clients)
+        self.num_clients = len(clients)
         
         # STAGE 2: Clustering and find malicious client's
         if self.iter >= self.tao_0:
@@ -154,16 +163,18 @@ class MuDHoG():
             """
 
             # Step 2.1: excluding sign-flipping nodes from raw short HoGs:
-            for i in range(num_clients):
+            for i in range(self.num_clients):
                 if i in flip_sign_id or i in self.flip_sign_ids:
                     short_HoGs.pop(i)
             id_sHoGs, value_sHoGs = np.array(list(short_HoGs.keys())), np.array(list(short_HoGs.values()))
             # Find eps for MNIST and CIFAR:
-
+            #print(np.shape(value_sHoGs))
             # DBSCAN is mandatory success for this step, KMeans failed.
             # MNIST uses default eps=0.5, min_sample=5
             # CIFAR uses eps=50, min_sample=5 (based on heuristic evaluation Euclidean distance of grad of RestNet18.
             #start_t = time.time()
+            pca = PCA(n_components=5)
+            value_sHoGs = pca.fit_transform(value_sHoGs)
             cluster_sh = DBSCAN(eps=self.dbscan_eps,
                 min_samples=self.dbscan_min_samples).fit(value_sHoGs)
             #t_dbscan = time.time() - start_t
@@ -204,7 +215,7 @@ class MuDHoG():
               - Using KMeans (K=2) based on Euclidean distance of
                 long_HoGs==> find minority ids.
             """
-            for i in range(num_clients):
+            for i in range(self.num_clients):
                 if i in self.flip_sign_ids or i in flip_sign_id:
                     if i in long_HoGs:
                         long_HoGs.pop(i)
@@ -247,7 +258,7 @@ class MuDHoG():
                 else:
                     normal_id.add(k)
 
-            for k in range(num_clients):
+            for k in range(self.num_clients):
                 if k in uRel_id:
                     self.count_unreliable[k] += 1
                     if self.count_unreliable[k] > self.delay_decision:
@@ -271,3 +282,38 @@ class MuDHoG():
         print(weight_vec)
         #out = self.FedFuncWholeNet(normal_clients, lambda arr: torch.mean(arr, dim=-1, keepdim=True))
         return weight_vec
+    
+    def add_mal_id(self, sus_flip_sign, sus_uAtk, sus_tAtk):
+        all_suspicious = sus_flip_sign.union(sus_uAtk, sus_tAtk)
+        for i in range(self.num_clients):
+            if i not in all_suspicious:
+                if self.pre_mal_id[i] == 0:
+                    if i in self.mal_ids:
+                        self.mal_ids.remove(i)
+                    if i in self.flip_sign_ids:
+                        self.flip_sign_ids.remove(i)
+                    if i in self.uAtk_ids:
+                        self.uAtk_ids.remove(i)
+                    if i in self.tAtk_ids:
+                        self.tAtk_ids.remove(i)
+                else: #> 0
+                    self.pre_mal_id[i] = 0
+                    # Unreliable clients:
+                    if i in self.uAtk_ids:
+                        self.count_unreliable[i] += 1
+                        if self.count_unreliable[i] >= self.delay_decision:
+                            self.uAtk_ids.remove(i)
+                            self.mal_ids.remove(i)
+                            self.unreliable_ids.add(i)
+            else:
+                self.pre_mal_id[i] += 1
+                if self.pre_mal_id[i] >= self.delay_decision:
+                    if i in sus_flip_sign:
+                        self.flip_sign_ids.add(i)
+                        self.mal_ids.add(i)
+                    if i in sus_uAtk:
+                        self.uAtk_ids.add(i)
+                        self.mal_ids.add(i)
+                if self.pre_mal_id[i] >= 2*self.delay_decision and i in sus_tAtk:
+                    self.tAtk_ids.add(i)
+                    self.mal_ids.add(i)
