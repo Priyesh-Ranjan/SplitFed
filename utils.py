@@ -23,7 +23,6 @@ def calculate_accuracy(fx, y):
     acc = 100.00 *correct.float()/preds.shape[0]
     return acc
 
-
 def eval_train(ell, acc_train_collect_user, loss_train_collect_user) :
     # server-side global model update and distribute that model to all clients ------------------------------
     loss_train, acc_train = np.average(loss_train_collect_user), np.average(acc_train_collect_user)

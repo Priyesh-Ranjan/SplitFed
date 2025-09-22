@@ -10,6 +10,7 @@ from client_attackers import Attacker_DataPoisoning, Attacker_ModelPoisoning, po
 from utils import FedAvg, eval_train, eval_fed#, eval_glob
 import io
 from mudhog import MuDHoG
+from flame import FLAME
 
 from codecarbon import EmissionsTracker
 
@@ -147,6 +148,8 @@ def Split_Fed(args, trainData, testData):
     
     if args.AR == "mudhog" :
         mudhog_object = MuDHoG()
+    if args.AR == "flame" :
+        flame_object = FLAME()
     
     #------------ Training And Testing  -----------------
     #copy weights
@@ -204,6 +207,9 @@ def Split_Fed(args, trainData, testData):
             w_glob_client, c = FedAvg(w_locals_client)  
         elif args.AR == "mudhog" :
             w_glob_client, c = mudhog_object.aggregator(w_locals_client, clients)
+        elif args.AR == "flame" :
+            w_glob_prev = copy.deepcopy(w_glob_client)
+            w_glob_client, c = flame_object.aggregator(w_glob_prev, w_locals_client)    
             
         t = server.aggregation()
         # Update client-side global model 
@@ -287,6 +293,8 @@ def Fed(args, trainData, testData) :
     
     if args.AR == "mudhog" :
         mudhog_object = MuDHoG()
+    if args.AR == "flame" :
+        flame_object = FLAME()
     
     #------------ Training And Testing  -----------------
     #copy weights
@@ -339,6 +347,9 @@ def Fed(args, trainData, testData) :
             w_glob_client, c = FedAvg(w_locals_client)  
         elif args.AR == "mudhog" :
             w_glob_client, c = mudhog_object.aggregator(w_locals_client, clients)
+        elif args.AR == "flame" :
+            w_glob_prev = copy.deepcopy(w_glob_client)
+            w_glob_client, c = flame_object.aggregator(w_glob_prev, w_locals_client)
         
         # Update client-side global model 
         
