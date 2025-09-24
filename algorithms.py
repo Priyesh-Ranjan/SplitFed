@@ -147,9 +147,17 @@ def Split_Fed(args, trainData, testData):
     server = Server(nn.CrossEntropyLoss(), device, lr, num_users, AR)
     
     if args.AR == "mudhog" :
-        mudhog_object = MuDHoG()
+        if args.side == "client" or args.side == "server":
+            mudhog_object = MuDHoG()
+        elif args.side == "both":
+            mudhog_server = MuDHoG()
+            mudhog_client = MuDHoG()
     if args.AR == "flame" :
-        flame_object = FLAME()
+        if args.side == "client" or args.side == "server":
+            flame_object = FLAME()
+        elif args.side == "both" :
+            flame_server = FLAME()
+            flame_client = FLAME()
     
     #------------ Training And Testing  -----------------
     #copy weights
@@ -211,13 +219,26 @@ def Split_Fed(args, trainData, testData):
             w_glob_client, c = FedAvg(w_locals_client)  
             w_glob_server, t = FedAvg(w_locals_server)
         elif args.AR == "mudhog" :
-            w_glob_client, c = mudhog_object.aggregator(w_locals_client, clients)
-            w_glob_server, t = mudhog_object.aggregator(w_locals_server, server)
+            if args.side == "server" :
+                w_glob_server, t = mudhog_object.aggregator(w_locals_server, server)
+            elif args.side == "client" :    
+                w_glob_client, c = mudhog_object.aggregator(w_locals_client, clients)
+            elif args.side == "both" :    
+                w_glob_client, c = mudhog_client.aggregator(w_locals_client, clients)
+                w_glob_server, t = mudhog_server.aggregator(w_locals_server, server)
         elif args.AR == "flame" :
-            w_glob_prev = copy.deepcopy(w_glob_client)
-            w_glob_client, c = flame_object.aggregator(w_glob_prev, w_locals_client)   
-            w_glob_prev = copy.deepcopy(w_glob_server)
-            w_glob_server, t = flame_object.aggregator(w_glob_prev, w_locals_client)   
+            if args.side == "client" :
+                w_glob_prev = copy.deepcopy(w_glob_client)
+                w_glob_client, c = flame_object.aggregator(w_glob_prev, w_locals_client,"clients") 
+            elif args.side == "server" :    
+                w_glob_prev = copy.deepcopy(w_glob_server)
+                w_glob_server, t = flame_object.aggregator(w_glob_prev, w_locals_server, "server")   
+            elif args.side == "both" :
+                w_glob_prev = copy.deepcopy(w_glob_client)
+                w_glob_client, c = flame_client.aggregator(w_glob_prev, w_locals_client,"clients") 
+                w_glob_prev = copy.deepcopy(w_glob_server)
+                w_glob_server, t = flame_server.aggregator(w_glob_prev, w_locals_server, "server")   
+                
             
         # Update client-side global model 
         
@@ -356,7 +377,7 @@ def Fed(args, trainData, testData) :
             w_glob_client, c = mudhog_object.aggregator(w_locals_client, clients)
         elif args.AR == "flame" :
             w_glob_prev = copy.deepcopy(w_glob_client)
-            w_glob_client, c = flame_object.aggregator(w_glob_prev, w_locals_client)
+            w_glob_client, c = flame_object.aggregator(w_glob_prev, w_locals_client,"clients")
         
         # Update client-side global model 
         

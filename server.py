@@ -30,11 +30,11 @@ class Server() :
         self.AR = AR
         self.originalState = defaultdict(int)
         self.stateChange = defaultdict(int)
-        self.init_model()
         self.K_avg = 3
         self.sum_hog = defaultdict(int)
         self.avg_delta = defaultdict(int)
         self.hog_avg = defaultdict(int)
+        self.init_model()
     
     def get_num_clients(self) :
         return self.clients
@@ -59,9 +59,9 @@ class Server() :
             
     def compute_hogs(self):
         """Update sum_hog, avg_delta, and rolling history for all clients."""
-        for i in range(self.num_clients):
+        for i in range(self.clients):
             newState = self.net_model_server[i].state_dict()
-            for p in self.originalState:
+            for p in newState:
                 self.stateChange[i][p] = newState[p] - self.originalState[i][p]
                 self.sum_hog[i][p] += self.stateChange[i][p]
 

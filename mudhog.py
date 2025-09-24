@@ -32,15 +32,17 @@ class MuDHoG():
     def aggregator(self, w, objects):
         tracker = EmissionsTracker(log_level=logging.CRITICAL)
         tracker.start()
-        if len(objects) > 1 :
+        if isinstance(objects,list) :
             clients = objects
             for client in clients:
                 client.compute_hogs()
-            weight_vals = self.calculator(self.get_hogs(clients, 'clients'))    
+            weight_vals = self.calculator(*self.get_hogs(clients, 'clients'))    
+            print("Client-side aggregation done")
         else :
             server = objects
             server.compute_hogs()
-            weight_vals = self.calculator(self.get_hogs(server, 'server'))
+            weight_vals = self.calculator(*self.get_hogs(server, 'server'))
+            print("Server-side aggregation done")
         w_avg = deepcopy(w[0])
         for k in w_avg.keys():
             w_avg[k] *= 0
@@ -190,7 +192,7 @@ class MuDHoG():
             # MNIST uses default eps=0.5, min_sample=5
             # CIFAR uses eps=50, min_sample=5 (based on heuristic evaluation Euclidean distance of grad of RestNet18.
             #start_t = time.time()
-            pca = PCA(n_components=5)
+            pca = PCA(n_components=self.num_clients)
             value_sHoGs = pca.fit_transform(value_sHoGs)
             cluster_sh = DBSCAN(eps=self.dbscan_eps,
                 min_samples=self.dbscan_min_samples).fit(value_sHoGs)

@@ -15,6 +15,7 @@ def parse_args():
     parser.add_argument("--dataset", type=str, choices=["mnist", "cifar", "plant"], default="plant")
     parser.add_argument("--loader_type", type=str, choices=["iid", "dirichlet"], default="dirichlet")
     parser.add_argument("--AR", type=str, default="fedavg", choices=["fedavg","mudhog","flame"])
+    parser.add_argument("--side", type=str, default="both", choices=["client","server","both"])
     parser.add_argument("--PDR",type=float,default=1.0)
     parser.add_argument("--attack", type=str, default="No Attack")
     parser.add_argument("--label_flipping",nargs='?',type=str,choices=["uni","bi"], default="uni")

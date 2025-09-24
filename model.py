@@ -6,7 +6,7 @@ from torchvision.models import vgg16
 import torch
 import torchvision.models as models
 
-def Net(num_classes=10):
+def Net(num_classes=38):
     model = vgg16(pretrained=True)
     model.classifier[6] = nn.Linear(model.classifier[6].in_features, num_classes)
     return model

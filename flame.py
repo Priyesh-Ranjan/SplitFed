@@ -84,7 +84,8 @@ class FLAME:
         tracker.start()
 
         # normalize input → list of state_dicts
-        client_states = self._normalize_inputs(entity, nature)
+        #client_states = self._normalize_inputs(entity, nature)
+        client_states = entity
         num_clients = len(client_states)
         if num_clients == 0:
             return copy.deepcopy(global_state), tracker.stop()
