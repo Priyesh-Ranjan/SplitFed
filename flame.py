@@ -50,27 +50,50 @@ class FLAME:
         self.pca_components = pca_components
         self.random_state = random_state
 
+    def _normalize_inputs(self, entity, nature):
+        """
+        Converts input into a list of state_dicts,
+        depending on whether entity is clients or server.
+        """
+        if nature == "clients":
+            return [c.model.state_dict() for c in entity]
+
+        elif nature == "server":
+            return [entity.net_model_server[i].state_dict()
+                    for i in range(entity.get_num_clients())]
+
+        else:
+            raise ValueError(f"Unknown nature {nature}")
+
+
     def aggregator(self,
-                  global_state,
-                  client_states,
-                  client_weights=None):
+                   global_state,
+                   entity,
+                   nature="clients",
+                   client_weights=None):
         """
         Args:
             global_state: server's current state_dict
-            client_states: list of client state_dicts
-            client_weights: list of floats (data sizes), or None = equal weights
+            entity: either clients (list) or server (object)
+            nature: "clients" | "server"
+            client_weights: optional list of floats
         Returns:
-            new global state_dict
+            new global state_dict, agg (emissions)
         """
         tracker = EmissionsTracker(log_level=logging.CRITICAL)
         tracker.start()
+
+        # normalize input → list of state_dicts
+        client_states = self._normalize_inputs(entity, nature)
         num_clients = len(client_states)
         if num_clients == 0:
-            return copy.deepcopy(global_state)
+            return copy.deepcopy(global_state), tracker.stop()
 
-        # flatten
+        # flatten states
         global_vec = _flatten_state_dict(global_state).numpy()
-        client_vecs = np.stack([_flatten_state_dict(sd).numpy() for sd in client_states], axis=0)
+        client_vecs = np.stack(
+            [_flatten_state_dict(sd).numpy() for sd in client_states], axis=0
+        )
         deltas = client_vecs - global_vec[None, :]
 
         # clustering with PCA
@@ -122,4 +145,4 @@ class FLAME:
         new_global_vec = (global_vec + agg_delta).astype(np.float32)
         agg: float = tracker.stop()
 
-        return _unflatten_to_state_dict(torch.from_numpy(new_global_vec), global_state),agg
+        return _unflatten_to_state_dict(torch.from_numpy(new_global_vec), global_state), agg

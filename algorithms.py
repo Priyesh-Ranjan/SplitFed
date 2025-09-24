@@ -154,6 +154,7 @@ def Split_Fed(args, trainData, testData):
     #------------ Training And Testing  -----------------
     #copy weights
     w_glob_client = net_glob_client.state_dict()
+    w_glob_server = Net().classifier.state_dict()
     # Federation takes place after certain local epochs in train() client-side
     # this epoch is global epoch, also known as rounds
     loss_train = []; acc_train = []
@@ -169,6 +170,7 @@ def Split_Fed(args, trainData, testData):
         loss_clients_test = []; acc_clients_test = []
         client_temp = 0; server_temp = 0
         up = 0; down = 0
+        server_temp += server.setModelParameter(w_glob_server)
         #loss_clients_glob = []; acc_clients_glob = []
         for client in clients:
             # Training ------------------
@@ -199,19 +201,24 @@ def Split_Fed(args, trainData, testData):
         # Ater serving all clients for its local epochs------------
         # Fed  Server: Federation process at Client-Side-----------
         
+        w_locals_server = server.aggregation()
+        
         print("-----------------------------------------------------------")
         print("------ FedServer: Federation process at Client-Side ------- ")
         print("-----------------------------------------------------------")
         #w_glob_client, c = FedAvg(w_locals_client) 
         if args.AR == "fedavg" :
             w_glob_client, c = FedAvg(w_locals_client)  
+            w_glob_server, t = FedAvg(w_locals_server)
         elif args.AR == "mudhog" :
             w_glob_client, c = mudhog_object.aggregator(w_locals_client, clients)
+            w_glob_server, t = mudhog_object.aggregator(w_locals_server, server)
         elif args.AR == "flame" :
             w_glob_prev = copy.deepcopy(w_glob_client)
-            w_glob_client, c = flame_object.aggregator(w_glob_prev, w_locals_client)    
+            w_glob_client, c = flame_object.aggregator(w_glob_prev, w_locals_client)   
+            w_glob_prev = copy.deepcopy(w_glob_server)
+            w_glob_server, t = flame_object.aggregator(w_glob_prev, w_locals_client)   
             
-        t = server.aggregation()
         # Update client-side global model 
         
         l, a = eval_train(i, acc_clients_train, loss_clients_train)

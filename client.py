@@ -56,12 +56,13 @@ class Client(object):
     
     def get_sum_hog(self):
         #return utils.net2vec(self.sum_hog)
-        return torch.cat([v.flatten() for v in self.sum_hog.values()])
+        return torch.cat([v.detach().flatten() for v in self.sum_hog.values()])
     
     def get_avg_grad(self):
-        return torch.cat([v.flatten() for v in self.avg_delta.values()])
+        return torch.cat([v.detach().flatten() for v in self.avg_delta.values()])
     
     def compute_hogs(self):
+        tracker = EmissionsTracker(log_level=logging.CRITICAL)
         newState = self.model.state_dict()
         for p in self.originalState:
             self.stateChange[p] = newState[p] - self.originalState[p]
@@ -73,7 +74,10 @@ class Client(object):
                 self.avg_delta[p] = (self.avg_delta[p]*K_ + self.stateChange[p])/(K_+1)
             else:
                 self.avg_delta[p] += (self.stateChange[p] - self.hog_avg[0][p])/self.K_avg
-        self.hog_avg.append(self.stateChange)
+        self.hog_avg.append(deepcopy(self.stateChange))
+        em: float = tracker.stop()
+        return em
+        
     
     def train(self, server):
         client_train_emissions = 0; server_train_emissions = 0
@@ -119,9 +123,16 @@ class Client(object):
         
         self.model_transform()    
         self.model.cpu()
-        self.compute_hogs()
         #client_train_emissions = train_emissions_1 + train_emissions_2
         return np.average(loss), np.average(acc), self.model.state_dict(), client_train_emissions, server_train_emissions, up, down
+    
+    #def update(self):
+    #    tracker = EmissionsTracker(log_level=logging.CRITICAL)
+    #    newState = self.model.state_dict()
+    #    for param in self.originalState:
+    #        self.stateChange[param] = newState[param] - self.originalState[param]
+    #    em: float = tracker.stop()
+    #    return em
     
     def train_federated(self):
         emissions = 0
@@ -159,7 +170,6 @@ class Client(object):
         
         self.model_transform()    
         self.model.cpu()
-        self.compute_hogs()
         return np.average(loss), np.average(acc), self.model.state_dict(), emissions, 0.0, 0, 0
     
     def evaluate(self, server, ell, test):

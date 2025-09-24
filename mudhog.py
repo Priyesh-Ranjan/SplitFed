@@ -29,10 +29,18 @@ class MuDHoG():
         self.pre_mal_id = defaultdict(int)
         self.count_unreliable = defaultdict(int)
     
-    def aggregator(self, w, clients):
+    def aggregator(self, w, objects):
         tracker = EmissionsTracker(log_level=logging.CRITICAL)
         tracker.start()
-        weight_vals = self.calculator(clients)
+        if len(objects) > 1 :
+            clients = objects
+            for client in clients:
+                client.compute_hogs()
+            weight_vals = self.calculator(self.get_hogs(clients, 'clients'))    
+        else :
+            server = objects
+            server.compute_hogs()
+            weight_vals = self.calculator(self.get_hogs(server, 'server'))
         w_avg = deepcopy(w[0])
         for k in w_avg.keys():
             w_avg[k] *= 0
@@ -83,44 +91,53 @@ class MuDHoG():
 
 #=======================================================================================================
 
-    def get_hogs(self, clients) :
-        self.num_clients = len(clients)
+    def get_hogs(self, entity, nature) :
         # long_HoGs for clustering targeted/untargeted and calculating angle > 90 for flip-sign attack
         long_HoGs = {}
 
         # normalized_sHoGs for calculating angle > 90 for flip-sign attack
-        full_norm_short_HoGs = [] # for scan flip-sign each round
+        #full_norm_short_HoGs = [] # for scan flip-sign each round
 
         # L2 norm short HoGs for detecting additive noise or Gaussian/random noise untargeted
         short_HoGs = {}
         
         normalized_sHoGs = {}
 
+        if nature == "clients" : self.num_clients = len(entity)
+        elif nature == "server" : self.num_clients = entity.get_num_clients()
+        
         # STAGE 1: Collect long and short HoGs.
         for i in range(self.num_clients):
             # longHoGs
-            sum_hog_i = clients[i].get_sum_hog().detach().cpu().numpy()
+            if nature == 'clients' :
+                sum_hog_i = entity[i].get_sum_hog().detach().cpu().numpy()
+            elif nature == 'server' :
+                sum_hog_i = entity.get_sum_hog(i).detach().cpu().numpy()
             #L2_sum_hog_i = client's[i].get_L2_sum_hog().detach().cpu().numpy()
             long_HoGs[i] = sum_hog_i
 
             # shortHoGs
-            sHoG = clients[i].get_avg_grad().detach().cpu().numpy()
+            if nature == 'clients' :
+                sHoG = entity[i].get_avg_grad().detach().cpu().numpy()
+            elif nature == 'server' :
+                sHoG = entity.get_avg_grad(i).detach().cpu().numpy()
+            #sHoG = clients[i].get_avg_grad().detach().cpu().numpy()
             L2_sHoG = np.linalg.norm(sHoG)
-            full_norm_short_HoGs.append(sHoG/L2_sHoG)
+            #full_norm_short_HoGs.append(sHoG/L2_sHoG)
             short_HoGs[i] = sHoG
             
             if i not in self.mal_ids:
                 normalized_sHoGs[i] = sHoG/L2_sHoG
                 
-        return sHoG, short_HoGs, long_HoGs, normalized_sHoGs
+        return short_HoGs, long_HoGs, normalized_sHoGs
 
-    def calculator(self, clients):
+    def calculator(self, short_HoGs, long_HoGs, normalized_sHoGs):
         
-        sHoG, short_HoGs, long_HoGs, normalized_sHoGs = self.get_hogs(clients)
+        #short_HoGs, long_HoGs, normalized_sHoGs = self.get_hogs(clients)
         
         # Exclude the firmed malicious client's
                 
-        self.num_clients = len(clients)
+        #self.num_clients = len(clients)
         
         # STAGE 2: Clustering and find malicious client's
         if self.iter >= self.tao_0:
@@ -269,14 +286,14 @@ class MuDHoG():
                 if k not in uRel_id and self.count_unreliable[k] > 0:
                     self.count_unreliable[k] -= 1
 
-            weight_vec = np.ones(len(clients))
-            for i, client in enumerate(clients):
+            weight_vec = np.ones(self.num_clients)
+            for i in range(self.num_clients):
                 if i not in self.mal_ids and i not in tAtk_id and i not in uAtk_id:
                     weight_vec[i] = 1
                 else : weight_vec[i] = 0    
             #self.normal_clients = normal_clients
         else:
-            weight_vec = np.ones(len(clients))
+            weight_vec = np.ones(self.num_clients)
         
         self.iter += 1    
         print(weight_vec)
