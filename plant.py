@@ -13,7 +13,7 @@ from dataloaders import iidLoader, byLabelLoader, dirichletLoader
 IMG_SIZE = (224, 224)
 
 def getDataset():
-    dataset = datasets.ImageFolder(root='./data/plant/train',
+    dataset = datasets.ImageFolder(root='./data/plant_v2/train',
                                transform = transforms.Compose([
     transforms.Resize((IMG_SIZE)),
     transforms.RandomHorizontalFlip(),
@@ -60,7 +60,7 @@ def train_dataloader(num_clients, loader_type='iid', store=True, dist=0.9, path=
 
 def test_dataloader(test_batch_size):
     test_loader = torch.utils.data.DataLoader(
-        datasets.ImageFolder(root='./data/plant/test', transform = transforms.Compose([
+        datasets.ImageFolder(root='./data/plant_v2/test', transform = transforms.Compose([
     transforms.Resize((IMG_SIZE)),
     transforms.RandomHorizontalFlip(),
     transforms.RandomRotation(10),

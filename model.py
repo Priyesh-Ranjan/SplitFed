@@ -6,7 +6,7 @@ from torchvision.models import vgg16
 import torch
 import torchvision.models as models
 
-def Net(num_classes=38):
+def Net(num_classes=16):
     model = vgg16(pretrained=True)
     model.classifier[6] = nn.Linear(model.classifier[6].in_features, num_classes)
     return model
@@ -70,7 +70,7 @@ class VGG16_Client_Side(nn.Module):
         return self.features(x)
 
 class VGG16_Server_Side(nn.Module):
-    def __init__(self, num_classes=38):
+    def __init__(self, num_classes=16):
         super(VGG16_Server_Side, self).__init__()
 
         self.classifier = nn.Sequential(
