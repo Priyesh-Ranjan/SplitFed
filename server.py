@@ -10,6 +10,8 @@ import logging
 from collections import defaultdict, deque
 from copy import deepcopy
 from mudhog import MuDHoG
+from defense import LatentTrustAnalyzer
+from utils import FedAvg_Trust
 
 #====================================================================================================
 #                                  Server Side Program
@@ -35,6 +37,11 @@ class Server() :
         self.avg_delta = defaultdict(int)
         self.hog_avg = defaultdict(int)
         self.init_model()
+        if self.AR.lower() == "new" :
+            self.trust_analyzer = LatentTrustAnalyzer(
+            device=self.device,
+            trust_threshold=0.5,
+            log_dir=f"logs/trust_{self.aggregator_name}")
     
     def get_num_clients(self) :
         return self.clients
@@ -105,7 +112,35 @@ class Server() :
         self.net_model_server[idx] = copy.deepcopy(net_server);net_server.cpu()
         server_train_emissions: float = tracker.stop()
         
+        if self.AR.lower() == "new":
+            self.trust_analyzer.update(fx_client.detach(), idx)
+        
         return dfx_client, loss, acc, server_train_emissions
+    
+    def aggregate(self, models, round_idx):
+        """Aggregate client models using the selected algorithm and trust weights."""
+        # compute final trust per client
+        trust_scores = {
+            cid: self.trust_analyzer.finalize_client(cid, round_idx)
+            for cid in range(self.num_clients)
+        }
+
+        # Normalize trust scores (prevent division by zero)
+        weights = torch.tensor(list(trust_scores.values()), device=self.device)
+        weights = torch.softmax(weights, dim=0)
+
+        print(f"[Round {round_idx}] Trust Weights:", weights.cpu().numpy())
+
+        # Call the appropriate aggregator
+        
+        tracker = EmissionsTracker(log_level=logging.CRITICAL)
+        tracker.start()
+        
+        global_model = FedAvg_Trust(models, weights)
+        
+        agg : float = tracker.stop()
+
+        return global_model, agg
     
     def setModelParameter(self, w_glob_server):
         tracker = EmissionsTracker()

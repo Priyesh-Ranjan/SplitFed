@@ -17,6 +17,41 @@ def FedAvg(w):
     agg: float = tracker.stop()
     return w_avg, agg       
 
+def FedAvg_Trust(w, trust_scores=None):
+    """
+    Federated Averaging with optional trust weighting.
+    
+    Args:
+        w (list[dict]): List of client model weights (state_dicts).
+        trust_scores (list[float], optional): Trust scores for each client. 
+            If None, performs standard FedAvg.
+            
+    Returns:
+        (dict, float): Aggregated model weights, and total emissions tracked.
+    """
+    tracker = EmissionsTracker(log_level=logging.CRITICAL)
+    tracker.start()
+
+    num_clients = len(w)
+    w_avg = copy.deepcopy(w[0])
+
+    # Default equal weighting if no trust scores provided
+    if trust_scores is None:
+        trust_scores = [1.0 for _ in range(num_clients)]
+    else:
+        # Normalize trust scores to sum to 1 (avoid scaling drift)
+        trust_sum = sum(trust_scores)
+        trust_scores = [t / trust_sum for t in trust_scores]
+
+    # Weighted aggregation
+    for k in w_avg.keys():
+        w_avg[k] = trust_scores[0] * w[0][k]
+        for i in range(1, num_clients):
+            w_avg[k] += trust_scores[i] * w[i][k]
+
+    agg = tracker.stop()
+    return w_avg, agg
+
 def calculate_accuracy(fx, y):
     preds = fx.max(1, keepdim=True)[1]
     correct = preds.eq(y.view_as(preds)).sum()

@@ -237,7 +237,10 @@ def Split_Fed(args, trainData, testData):
                 w_glob_prev = copy.deepcopy(w_glob_client)
                 w_glob_client, c = flame_client.aggregator(w_glob_prev, w_locals_client,"clients") 
                 w_glob_prev = copy.deepcopy(w_glob_server)
-                w_glob_server, t = flame_server.aggregator(w_glob_prev, w_locals_server, "server")   
+                w_glob_server, t = flame_server.aggregator(w_glob_prev, w_locals_server, "server") 
+        elif args.AR == "new" :
+            w_glob_client, c = server.aggregate(w_locals_client,i)
+            w_glob_server, t = server.aggregate(w_locals_server,i)
                 
             
         # Update client-side global model 
