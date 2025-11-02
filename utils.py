@@ -29,9 +29,6 @@ def FedAvg_Trust(w, trust_scores=None):
     Returns:
         (dict, float): Aggregated model weights, and total emissions tracked.
     """
-    tracker = EmissionsTracker(log_level=logging.CRITICAL)
-    tracker.start()
-
     num_clients = len(w)
     w_avg = copy.deepcopy(w[0])
 
@@ -49,8 +46,7 @@ def FedAvg_Trust(w, trust_scores=None):
         for i in range(1, num_clients):
             w_avg[k] += trust_scores[i] * w[i][k]
 
-    agg = tracker.stop()
-    return w_avg, agg
+    return w_avg
 
 def calculate_accuracy(fx, y):
     preds = fx.max(1, keepdim=True)[1]

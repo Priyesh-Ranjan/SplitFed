@@ -104,7 +104,7 @@ def Split_Fed(args, trainData, testData):
     local_epochs = args.inner_epochs
     #frac = 1        # participation of clients; if 1 then 100% clients participate in SFLV1
     lr = args.lr
-    AR = args.AR
+    #AR = args.AR
     
     #if torch.cuda.device_count() > 1:
     #    print("We use",torch.cuda.device_count(), "GPUs")
@@ -144,7 +144,7 @@ def Split_Fed(args, trainData, testData):
         else :    
             clients.append(Client(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))  
     
-    server = Server(nn.CrossEntropyLoss(), device, lr, num_users, AR)
+    server = Server(nn.CrossEntropyLoss(), device, lr, num_users, args.AR)
     
     if args.AR == "mudhog" :
         if args.side == "client" or args.side == "server":
@@ -200,7 +200,8 @@ def Split_Fed(args, trainData, testData):
             #up += w_locals_client.element_size() * w_locals_client.nelement()
 
             # Testing -------------------
-            test_loss, test_acc = client.evaluate(server, ell= i, test = "local")
+            test_loss, test_acc = 0, 0
+            #test_loss, test_acc = client.evaluate(server, ell= i, test = "local")
             #glob_loss, glob_acc = client.evaluate(server, ell= i, test = "global")
         
             loss_clients_train.append(train_loss); acc_clients_train.append(train_acc)    
@@ -239,8 +240,8 @@ def Split_Fed(args, trainData, testData):
                 w_glob_prev = copy.deepcopy(w_glob_server)
                 w_glob_server, t = flame_server.aggregator(w_glob_prev, w_locals_server, "server") 
         elif args.AR == "new" :
-            w_glob_client, c = server.aggregate(w_locals_client,i)
-            w_glob_server, t = server.aggregate(w_locals_server,i)
+            w_glob_client, c = server.aggregate(w_locals_client,i,"client")
+            w_glob_server, t = server.aggregate(w_locals_server,i,"server")
                 
             
         # Update client-side global model 

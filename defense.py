@@ -34,8 +34,9 @@ class LatentTrustAnalyzer:
     # -----------------------------------------------------
     def compute_svd_metrics(self, fx_client):
         """Compute SVD, effective rank, and spectral slope of activations."""
-        B, C, H, W = fx_client.shape
-        X = fx_client.view(B, -1)
+        #B, C, H, W = fx_client.shape
+        #X = fx_client.view(B, -1)
+        X = fx_client.detach().cpu()
 
         try:
             U, S, Vt = torch.linalg.svd(X, full_matrices=False)
@@ -80,14 +81,14 @@ class LatentTrustAnalyzer:
             "trust": trust_score
         })
 
-        if trust_score < self.trust_threshold:
-            print(f"[ALERT] Client {client_id}: latent anomaly detected "
-                  f"(trust={trust_score:.3f}, rank={effective_rank:.2f},")# sim={sim:.2f})")
+        #if trust_score < self.trust_threshold:
+        #    print(f"[ALERT] Client {client_id}: latent anomaly detected "
+        #          f"(trust={trust_score:.3f}, rank={effective_rank:.2f},")# sim={sim:.2f})")
 
         #return trust_score
 
     # -----------------------------------------------------
-    def finalize_client(self, client_id, round_id=0):
+    def finalize_client(self, client_id, round_id=0, identity = None):
         """Aggregate all batch metrics per client and log to CSV."""
         if len(self.batch_metrics[client_id]) == 0:
             print(f"[WARN] No batch data for client {client_id}")
@@ -111,16 +112,18 @@ class LatentTrustAnalyzer:
         self.trust_scores[client_id] = avg_trust
 
         # log to CSV
-        with open(self.log_file, "a", newline="") as f:
-            writer = csv.writer(f)
-            writer.writerow([
+        if identity.lower() == "client":
+            with open(self.log_file, "a", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow([
                 round_id, client_id,
                 avg_rank, avg_slope, #avg_sim,
                 avg_trust
-            ])
+                ])
 
+        elif identity.lower() == "server":    
         # optional clear after epoch
-        self.batch_metrics[client_id].clear()
+            self.batch_metrics[client_id].clear()
 
         print(f"[INFO] Client {client_id} Summary — "
               f"Trust={avg_trust:.3f}, Rank={avg_rank:.2f},")# Sim={avg_sim:.2f}")

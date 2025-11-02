@@ -41,7 +41,7 @@ class Server() :
             self.trust_analyzer = LatentTrustAnalyzer(
             device=self.device,
             trust_threshold=0.5,
-            log_dir=f"logs/trust_{self.aggregator_name}")
+            log_dir=f"logs/trust_{self.AR}")
     
     def get_num_clients(self) :
         return self.clients
@@ -117,13 +117,17 @@ class Server() :
         
         return dfx_client, loss, acc, server_train_emissions
     
-    def aggregate(self, models, round_idx):
+    def aggregate(self, models, round_idx, identity = None):
         """Aggregate client models using the selected algorithm and trust weights."""
         # compute final trust per client
-        trust_scores = {
-            cid: self.trust_analyzer.finalize_client(cid, round_idx)
-            for cid in range(self.num_clients)
-        }
+        if identity.lower() == "client":
+            trust_scores = {
+            cid: self.trust_analyzer.finalize_client(cid, round_idx, "client")
+            for cid in range(self.clients)}
+        elif identity.lower() == "server":
+            trust_scores = {
+            cid: self.trust_analyzer.finalize_client(cid, round_idx, "server")
+            for cid in range(self.clients)}
 
         # Normalize trust scores (prevent division by zero)
         weights = torch.tensor(list(trust_scores.values()), device=self.device)
