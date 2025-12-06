@@ -1,5 +1,6 @@
 import copy
 import torch
+import gc
 from utils import FedAvg, calculate_accuracy
 #import numpy as np
 #import torch
@@ -11,7 +12,12 @@ from collections import defaultdict, deque
 from copy import deepcopy
 from mudhog import MuDHoG
 from defense import LatentTrustAnalyzer
+from defense_lab import ServerLatentMMDAnalyzer
+from defense_gac import GradientActivationCorrelationAnalyzer
 from utils import FedAvg_Trust
+
+
+
 
 #====================================================================================================
 #                                  Server Side Program
@@ -42,6 +48,16 @@ class Server() :
             device=self.device,
             trust_threshold=0.5,
             log_dir=f"logs/trust_{self.AR}")
+        if self.AR.lower() == "plr" :
+           self.trust_analyzer = ServerLatentMMDAnalyzer(
+               num_classes=16,
+               device=torch.device('cuda' if torch.cuda.is_available() else 'cpu'),
+               kernel_gamma=None,            # use median heuristic
+               max_samples_per_class=64,
+               subsample_per_mmd=32)
+        if self.AR.lower() == 'gac' :
+            self.trust_analyzer = GradientActivationCorrelationAnalyzer(tau=0.5)
+
     
     def get_num_clients(self) :
         return self.clients
@@ -103,10 +119,17 @@ class Server() :
         # calculate accuracy
         acc = calculate_accuracy(fx_server, y)
         
+        if self.AR.lower() == "plr":
+            self.trust_analyzer.update_client_latent(client_id=str(idx), latent=fx_client.detach(), labels=y.detach())
+            gc.collect(); torch.cuda.empty_cache()
+        
         #--------backward prop--------------
         loss.backward()
         dfx_client = fx_client.grad.clone().detach()
         self.optimizer_server[idx].step()
+        
+        if self.AR.lower() == "gac":
+            self.trust_analyzer.add_batch(idx, fx_client.detach(), dfx_client.detach(), y)
         
         # Update the server-side model for the current batch
         self.net_model_server[idx] = copy.deepcopy(net_server);net_server.cpu()
@@ -144,6 +167,72 @@ class Server() :
         
         agg : float = tracker.stop()
 
+        return global_model, agg
+    
+    def plr_aggregate(self, models, round_idx, identity = None):
+        """Aggregate client models using the selected algorithm and trust weights."""
+        # compute final trust per client
+        if identity.lower() == "client":
+            trust_scores, diag = self.trust_analyzer.compute_trust_scores(round_id=round_idx)
+        elif identity.lower() == "server":
+            trust_scores, diag = self.trust_analyzer.compute_trust_scores(round_id=round_idx)
+
+        # Normalize trust scores (prevent division by zero)
+        #tables = class_mmd_table(diag["normalized_class_pair_mmds"])
+
+        weights = [trust_scores.get(str(i), 0.0) for i in range(self.clients)]
+        #global_w, abi = FedAvg(client_state_dicts, trust_scores=weights)
+        #weights = torch.tensor(list(trust_scores.values()), device=self.device)
+        #weights = torch.softmax(weights, dim=0)
+
+        print(f"[Round {round_idx}] Trust Weights:", weights)
+
+        # Call the appropriate aggregator
+        
+        tracker = EmissionsTracker(log_level=logging.CRITICAL)
+        tracker.start()
+        
+        global_model = FedAvg_Trust(models, weights)
+        
+        agg : float = tracker.stop()
+        
+        if identity.lower == "server" : self.trust_analyzer.reset()
+        
+        self.cleanup_after_round()
+        
+        return global_model, agg
+    
+    def gac_aggregate(self, models, round_idx, identity = None):
+        """Aggregate client models using the selected algorithm and trust weights."""
+        # compute final trust per client
+        if identity.lower() == "client":
+            trust_scores, diag = self.trust_analyzer.finalize_scores()
+        elif identity.lower() == "server":
+            trust_scores, diag = self.trust_analyzer.finalize_scores()
+
+        # Normalize trust scores (prevent division by zero)
+        #tables = class_mmd_table(diag["normalized_class_pair_mmds"])
+
+        weights = [trust_scores.get(i, 0.0) for i in range(self.clients)]
+        #global_w, abi = FedAvg(client_state_dicts, trust_scores=weights)
+        #weights = torch.tensor(list(trust_scores.values()), device=self.device)
+        #weights = torch.softmax(weights, dim=0)
+
+        print(f"[Round {round_idx}] Trust Weights:", weights)
+
+        # Call the appropriate aggregator
+        
+        tracker = EmissionsTracker(log_level=logging.CRITICAL)
+        tracker.start()
+        
+        global_model = FedAvg_Trust(models, weights)
+        
+        agg : float = tracker.stop()
+        
+        if identity.lower == "server" : self.trust_analyzer.reset()
+        
+        self.cleanup_after_round()
+        
         return global_model, agg
     
     def setModelParameter(self, w_glob_server):
@@ -211,3 +300,21 @@ class Server() :
             acc = calculate_accuracy(fx_server, y)
             fx_server.cpu();y.cpu()
             return loss, acc
+        
+    def cleanup_after_round(self):
+        """Free latent features, clear cache, and release models."""
+    # Clear stored latents from analyzer
+        #if self.trust_analyzer is not None:
+        #    self.trust_analyzer.client_latents.clear()
+    
+    # Clear CUDA memory
+        torch.cuda.empty_cache()
+        gc.collect()
+
+    # Move server models to CPU explicitly and delete temp references
+        for i in range(len(self.net_model_server)):
+            if self.net_model_server[i] is not None:
+                self.net_model_server[i].cpu()
+                torch.cuda.empty_cache()
+        gc.collect()
+

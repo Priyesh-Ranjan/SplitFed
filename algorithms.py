@@ -5,8 +5,8 @@ from model import Net, VGG16_Client_Side
 import copy
 from server import Server
 from client import Client
-from client_attackers import Attacker_LF, label_flipping_setup, Attacker_SignFlipping, Attacker_Random
-from client_attackers import Attacker_DataPoisoning, Attacker_ModelPoisoning, poisoning_setup
+from client_attackers import Attacker_LF, label_flipping_setup, Attacker_SignFlipping, Attacker_Random, Attacker_BD
+from client_attackers import Attacker_DataPoisoning, Attacker_ModelPoisoning, poisoning_setup, backdoor_setup
 from utils import FedAvg, eval_train, eval_fed#, eval_glob
 import io
 from mudhog import MuDHoG
@@ -95,7 +95,8 @@ def Split(args, trainData, testData):
 
 def Split_Fed(args, trainData, testData):
     
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = 'cpu' #torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    print("Using "+str(device))
 
     #===================================================================
     # No. of users
@@ -115,6 +116,9 @@ def Split_Fed(args, trainData, testData):
     if args.attack.upper().count("LABEL_FLIPPING") :
         att = "LF"
         flip = label_flipping_setup(args.attack, args.label_flipping)
+    if args.attack.upper().count("BACKDOOR") :
+        att = "BD"
+        pattern, target = backdoor_setup(args.attack)    
     if args.attack.upper().count("SIGN_FLIPPING") :
         att = "SF"
     if args.attack.upper().count("RANDOM_FLIPPING") :
@@ -139,6 +143,7 @@ def Split_Fed(args, trainData, testData):
             if att == "SF": clients.append(Attacker_SignFlipping(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
             if att == "RLF": clients.append(Attacker_Random(net_glob_client, args.PDR, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
             if att == "LF": clients.append(Attacker_LF(net_glob_client, args.PDR, flip, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
+            if att == "BD": clients.append(Attacker_BD(net_glob_client, args.PDR, pattern, target, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
             if att == "DP": clients.append(Attacker_DataPoisoning(net_glob_client, args.PDR, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
             if att == "MP": clients.append(Attacker_ModelPoisoning(net_glob_client, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
         else :    
@@ -201,7 +206,7 @@ def Split_Fed(args, trainData, testData):
 
             # Testing -------------------
             test_loss, test_acc = 0, 0
-            #test_loss, test_acc = client.evaluate(server, ell= i, test = "local")
+            test_loss, test_acc = client.evaluate(server, ell= i, test = "local")
             #glob_loss, glob_acc = client.evaluate(server, ell= i, test = "global")
         
             loss_clients_train.append(train_loss); acc_clients_train.append(train_acc)    
@@ -242,6 +247,12 @@ def Split_Fed(args, trainData, testData):
         elif args.AR == "new" :
             w_glob_client, c = server.aggregate(w_locals_client,i,"client")
             w_glob_server, t = server.aggregate(w_locals_server,i,"server")
+        elif args.AR == "plr" :
+            w_glob_client, c = server.plr_aggregate(w_locals_client,i,"client")
+            w_glob_server, t = server.plr_aggregate(w_locals_server,i,"server")
+        elif args.AR == "gac" :
+            w_glob_client, c = server.gac_aggregate(w_locals_client,i,"client")
+            w_glob_server, t = server.gac_aggregate(w_locals_server,i,"server")
                 
             
         # Update client-side global model 

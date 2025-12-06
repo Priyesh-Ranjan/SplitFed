@@ -4,6 +4,7 @@ import torch
 #from server import evaluate_server, train_server
 from random import random, choice
 from client import Client
+from backdoor_utils import Backdoor_Utils
 
 def label_flipping_setup(attack, label_flipping) :
     attack = attack.split(" ")[1]
@@ -18,6 +19,13 @@ def label_flipping_setup(attack, label_flipping) :
             flip[targets[i]] = val
     
     return flip  
+
+def backdoor_setup(attack) :
+    attack = attack.split(" ")[1]
+    pattern = str(attack.split("->")[0].strip())
+    label = int(attack.split("->")[1].strip())
+    
+    return pattern, label  
 
 def poisoning_setup(attack) :
     mu = float(attack.split(" ")[1].split(",")[0])
@@ -39,6 +47,20 @@ class Attacker_LF(Client):
     def model_transform(self) :
         pass
 
+
+class Attacker_BD(Client):
+    def __init__(self, net_glob_client, PDR, pattern, target, idx, lr, device, optimizer, trainData, testData, local_ep):
+        super(Attacker_BD, self).__init__(net_glob_client, idx, lr, device, optimizer, trainData, testData, local_ep)
+        self.backdoor_injector = Backdoor_Utils(backdoor_label = target, backdoor_pattern = pattern, backdoor_fraction = PDR)
+
+    def data_transform(self, data, target):
+        data_, target_ = self.backdoor_injector.get_poison_batch(data, target, evaluation=False)
+        
+        assert target.shape == target_.shape, "Inconsistent target shape"
+        return data_, target_
+    
+    def model_transform(self) :
+        pass
 
 class Attacker_Random(Client):
     def __init__(self, net_glob_client, PDR, idx, lr, device, optimizer, trainData, testData, local_ep):
