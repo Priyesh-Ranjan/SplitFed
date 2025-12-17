@@ -95,7 +95,7 @@ def Split(args, trainData, testData):
 
 def Split_Fed(args, trainData, testData):
     
-    device = 'cpu' #torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print("Using "+str(device))
 
     #===================================================================
@@ -269,7 +269,7 @@ def Split_Fed(args, trainData, testData):
     return loss_train, acc_train, loss_test, acc_test, client_carbon, server_carbon, client_agg_carbon, server_agg_carbon, uplink, downlink
 
 def Fed(args, trainData, testData) :
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = "cpu" #torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     #===================================================================
     # No. of users

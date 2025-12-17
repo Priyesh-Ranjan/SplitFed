@@ -100,18 +100,21 @@ class Server() :
             self.hog_avg[i].append(deepcopy(self.stateChange[i]))        
         
     def train_server(self, fx_client, y, idx):
-        net_server = copy.deepcopy(self.net_model_server[idx]) #net_server = copy.deepcopy(self.net_model_server[idx].to(self.device))
-        net_server.to(self.device);net_server.train()
+        net_server = self.net_model_server[idx] #net_server = copy.deepcopy(self.net_model_server[idx].to(self.device))
+        net_server.to(self.device);
+        net_server.train()
+        
+        fx_client = fx_client.to(self.device)
+        fx_client.requires_grad_(True)
+        fx_client.retain_grad()
+        y = y.to(self.device)
         
         # train and update
         self.optimizer_server[idx].zero_grad()
         
-        fx_client = fx_client.to(self.device)
-        y = y.to(self.device)
-        
         #---------forward prop-------------
-        tracker = EmissionsTracker(log_level=logging.CRITICAL)
-        tracker.start()
+        #tracker = EmissionsTracker(log_level=logging.CRITICAL)
+        #tracker.start()
         fx_server = net_server(fx_client)
         
         # calculate loss
@@ -126,18 +129,24 @@ class Server() :
         #--------backward prop--------------
         loss.backward()
         dfx_client = fx_client.grad.clone().detach()
+        #self.optimizer_server[idx].step()
+        #loss.backward()
         self.optimizer_server[idx].step()
+        self.optimizer_server[idx].zero_grad()
         
         if self.AR.lower() == "gac":
             self.trust_analyzer.add_batch(idx, fx_client.detach(), dfx_client.detach(), y)
         
         # Update the server-side model for the current batch
-        self.net_model_server[idx] = copy.deepcopy(net_server);net_server.cpu()
-        server_train_emissions: float = tracker.stop()
+        with torch.no_grad():
+            self.net_model_server[idx].load_state_dict(net_server.state_dict())
+        net_server.cpu()
+        #server_train_emissions: float = tracker.stop()
         
         if self.AR.lower() == "new":
             self.trust_analyzer.update(fx_client.detach(), idx)
         
+        server_train_emissions = 0
         return dfx_client, loss, acc, server_train_emissions
     
     def aggregate(self, models, round_idx, identity = None):

@@ -84,6 +84,8 @@ class Client(object):
         up = 0; down = 0
         self.model.to(self.device)
         self.model.train()
+        #epoch_tracker = EmissionsTracker(log_level=logging.CRITICAL)
+        #epoch_tracker.start()
         for ep in range(self.local_ep):
             #len_batch = len(self.ldr_train)
             loss = []; acc = []
@@ -91,36 +93,42 @@ class Client(object):
                 images, labels = self.data_transform(images, labels)
                 images, labels = images.to(self.device), labels.to(self.device)
                 
-                tracker = EmissionsTracker(log_level=logging.CRITICAL)
-                tracker.start()
+                #tracker = EmissionsTracker(log_level=logging.CRITICAL)
+                #tracker.start()
                 self.optimizer_client.zero_grad()
                 #---------forward prop-------------
                 fx = self.model(images)
                 fx = fx.view(fx.size(0), -1)
-                client_fx = fx.clone().detach().requires_grad_(True)
-                te_1: float = tracker.stop()
-                client_train_emissions+=te_1
-                up += fx.element_size() * fx.nelement() + labels.element_size() * labels.nelement()
+                #client_fx = fx.clone().detach().requires_grad_(True)
+                client_fx = fx.detach().clone().requires_grad_(True)
+                #te_1: float = tracker.stop()
+                #client_train_emissions+=te_1
+                #up += fx.element_size() * fx.nelement() + labels.element_size() * labels.nelement()
                 # Sending activations to server and receiving gradients from server
                 
                 dfx, batch_loss, batch_acc, emissions = server.train_server(client_fx, labels, self.idx)
-                down += dfx.element_size() * dfx.nelement()
-                server_train_emissions += emissions
-                tracker = EmissionsTracker(log_level=logging.CRITICAL)
-                tracker.start()
+                #down += dfx.element_size() * dfx.nelement()
+                #server_train_emissions += emissions
+                #tracker = EmissionsTracker(log_level=logging.CRITICAL)
+                #tracker.start()
                 loss.append(batch_loss.item())
                 acc.append(batch_acc.item())
                 
                 #--------backward prop -------------
+                #fx.backward(dfx)
+                #self.optimizer_client.step()
                 fx.backward(dfx)
                 self.optimizer_client.step()
-                te_2: float = tracker.stop()
+                self.optimizer_client.zero_grad()
+                #te_2: float = tracker.stop()
             
-                client_train_emissions += te_2
+                #client_train_emissions += te_2
             prRed('Client{} Train => Local Epoch: {} / {} \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, ep, self.local_ep, 
                                                                                           np.average(acc), np.average(loss)))
             #prRed('Client{} Train => Epoch: {}'.format(self.idx, ell))
         
+        #te = epoch_tracker.stop()
+        #client_train_emissions += te
         self.model_transform()    
         self.model.cpu()
         #client_train_emissions = train_emissions_1 + train_emissions_2
@@ -144,8 +152,8 @@ class Client(object):
             for batch_idx, (images, labels) in enumerate(self.ldr_train):
                 images, labels = self.data_transform(images, labels)
                 images, labels = images.to(self.device), labels.to(self.device)
-                tracker = EmissionsTracker(log_level=logging.CRITICAL)
-                tracker.start()
+                #tracker = EmissionsTracker(log_level=logging.CRITICAL)
+                #tracker.start()
                 self.optimizer_client.zero_grad()
                 #---------forward prop-------------
                 out = self.model(images)
@@ -162,8 +170,8 @@ class Client(object):
                 batch_loss.backward()
                 self.optimizer_client.step()
                 
-                em: float = tracker.stop()
-                emissions += em
+                #em: float = tracker.stop()
+                #emissions += em
             prRed('Client{} Train => Local Epoch: {} / {} \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, ep, self.local_ep, 
                                                                                           np.average(acc), np.average(loss)))
             #prRed('Client{} Train => Epoch: {}'.format(self.idx, ell))
