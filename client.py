@@ -181,25 +181,54 @@ class Client(object):
         return np.average(loss), np.average(acc), self.model.state_dict(), emissions, 0.0, 0, 0
     
     def evaluate(self, server, ell, test):
-        self.model.to(self.device);self.model.eval()
-        loss = []; acc= []  
-        if test == "local" : ldr = self.ldr_test
-        #elif test == 'global' : ldr = self.ldr_glob
+        self.model.to(self.device)
+        self.model.eval()
+
+        loss = []
+        acc = []
+
+        num_classes = 16
+        global_correct = torch.zeros(num_classes)
+        global_total = torch.zeros(num_classes)
+
+        if test == "local":
+            ldr = self.ldr_test
+
         with torch.no_grad():
             len_batch = len(ldr)
-            for batch_idx, (images, labels) in enumerate(ldr):
+            for images, labels in ldr:
                 images, labels = images.to(self.device), labels.to(self.device)
-                #---------forward prop-------------
+
                 fx = self.model(images)
                 fx = fx.view(fx.size(0), -1)
-                # Sending activations to server 
-                batch_loss, batch_acc = server.eval_server(fx, labels, self.idx, len_batch, ell)
+
+                batch_loss, batch_acc, batch_correct, batch_total = server.eval_server(fx, labels, self.idx, len_batch, ell)
+
                 loss.append(batch_loss.item())
                 acc.append(batch_acc.item())
-                        
-        prGreen(' Client{} Test =>                   \tAcc: {:.3f} \tLoss: {:.4f}'.format(self.idx, np.average(acc), np.average(loss)))
+
+                global_correct += batch_correct
+                global_total += batch_total
+
+    # -------- class-wise accuracy --------
+        class_acc = torch.zeros(num_classes)
+        nonzero = global_total != 0
+        class_acc[nonzero] = global_correct[nonzero] / global_total[nonzero]
+
+        prGreen(
+        ' Client{} Test => \tAcc: {:.3f} \tLoss: {:.4f}'.format(
+            self.idx, np.mean(acc), np.mean(loss)
+        )
+    )
+
         self.model.cpu()
-        return np.average(loss), np.average(acc) 
+
+        return (
+        np.mean(loss),
+        np.mean(acc),
+        class_acc.numpy()
+    )
+
     
     def evaluate_federated(self, test) :
         temp_model = copy.deepcopy(self.model)

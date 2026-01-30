@@ -22,7 +22,7 @@ def parse_args():
     parser.add_argument("--experiment_name", type=str)
     parser.add_argument("--inner_epochs", type=int, default=1)
     parser.add_argument("--setup", type=str, choices=["split","fed","split_fed"], default="split_fed")
-    parser.add_argument("--alpha", type=float, default=0.7)
+    parser.add_argument("--alpha", type=float, default=0.5)
 
     args = parser.parse_args()
     return args

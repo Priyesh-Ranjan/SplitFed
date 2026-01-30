@@ -296,19 +296,39 @@ class Server() :
     def eval_server(self, fx_client, y, idx, len_batch, ell):
         net = copy.deepcopy(self.net_model_server[idx]).to(self.device)
         net.eval()
-      
+
         with torch.no_grad():
             fx_client = fx_client.to(self.device)
-            y = y.to(self.device) 
-            #---------forward prop-------------
+            y = y.to(self.device)
+
+        # -------- forward --------
             fx_server = net(fx_client)
-            
-            # calculate loss
+
             loss = self.criterion(fx_server, y)
-            # calculate accuracy
             acc = calculate_accuracy(fx_server, y)
-            fx_server.cpu();y.cpu()
-            return loss, acc
+
+        # -------- predictions --------
+            preds = torch.argmax(fx_server, dim=1)
+
+            num_classes = fx_server.shape[1]
+
+        # -------- per-class counts --------
+            class_correct = torch.zeros(num_classes, device=self.device)
+            class_total = torch.zeros(num_classes, device=self.device)
+
+            for t, p in zip(y.view(-1), preds.view(-1)):
+                class_total[t.long()] += 1
+                if t == p:
+                    class_correct[t.long()] += 1
+
+        return (
+        loss,
+        acc,
+        class_correct.cpu(),
+        class_total.cpu()
+    )
+
+
         
     def cleanup_after_round(self):
         """Free latent features, clear cache, and release models."""
@@ -326,4 +346,3 @@ class Server() :
                 self.net_model_server[i].cpu()
                 torch.cuda.empty_cache()
         gc.collect()
-

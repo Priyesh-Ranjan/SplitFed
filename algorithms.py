@@ -113,22 +113,24 @@ def Split_Fed(args, trainData, testData):
     idxs_users = range(num_users)
     clients = []
     
-    if args.attack.upper().count("LABEL_FLIPPING") :
-        att = "LF"
-        flip = label_flipping_setup(args.attack, args.label_flipping)
-    if args.attack.upper().count("BACKDOOR") :
-        att = "BD"
-        pattern, target = backdoor_setup(args.attack)    
-    if args.attack.upper().count("SIGN_FLIPPING") :
-        att = "SF"
-    if args.attack.upper().count("RANDOM_FLIPPING") :
-        att = "RLF"
-    if args.attack.upper().count("DATA_POISONING") :
-        att = "DP"
-        mu, std = poisoning_setup(args.attack)
-    if args.attack.upper().count("MODEL_POISONING") :
-        att = "MP"
-        mu, std = poisoning_setup(args.attack)
+    #if args.attack.upper().count("LABEL_FLIPPING") :
+    #    att = "LF"
+    #    flip = label_flipping_setup(args.attack, args.label_flipping)
+    #if args.attack.upper().count("BACKDOOR") :
+    #    att = "BD"
+    #    pattern, target = backdoor_setup(args.attack)    
+    #if args.attack.upper().count("SIGN_FLIPPING") :
+    #    att = "SF"
+    #if args.attack.upper().count("RANDOM_FLIPPING") :
+    #    att = "RLF"
+    #if args.attack.upper().count("DATA_POISONING") :
+    #    att = "DP"
+    #    mu, std = poisoning_setup(args.attack)
+    #if args.attack.upper().count("MODEL_POISONING") :
+    #    att = "MP"
+    #    mu, std = poisoning_setup(args.attack)
+    
+    attack_list = [a.strip().upper() for a in args.attack.split(";")]
     
     for idx in idxs_users :
         net_glob_client = Net().features
@@ -137,15 +139,35 @@ def Split_Fed(args, trainData, testData):
         #    net_glob_client = nn.DataParallel(net_glob_client)    
 
         #net_glob_client.to(device)
+        attack_type = attack_list[idx % len(attack_list)]
+        
         optimizer_client = torch.optim.Adam(net_glob_client.parameters(), lr = lr) 
  
         if idx < args.scale :
-            if att == "SF": clients.append(Attacker_SignFlipping(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
-            if att == "RLF": clients.append(Attacker_Random(net_glob_client, args.PDR, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
-            if att == "LF": clients.append(Attacker_LF(net_glob_client, args.PDR, flip, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
-            if att == "BD": clients.append(Attacker_BD(net_glob_client, args.PDR, pattern, target, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
-            if att == "DP": clients.append(Attacker_DataPoisoning(net_glob_client, args.PDR, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
-            if att == "MP": clients.append(Attacker_ModelPoisoning(net_glob_client, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
+            if "SIGN_FLIPPING" in attack_type:
+                clients.append(Attacker_SignFlipping(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
+
+            elif "RANDOM_FLIPPING" in attack_type:
+                clients.append(Attacker_Random(net_glob_client, args.PDR, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
+
+            elif "LABEL_FLIPPING" in attack_type:
+                flip = label_flipping_setup(attack_type, args.label_flipping)
+                clients.append(Attacker_LF(net_glob_client, args.PDR, flip, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
+
+            elif "BACKDOOR" in attack_type:
+                pattern, target = backdoor_setup(attack_type)
+                clients.append(Attacker_BD(net_glob_client, args.PDR, pattern, target, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
+
+            elif "DATA_POISONING" in attack_type:
+                mu, std = poisoning_setup(attack_type)
+                clients.append(Attacker_DataPoisoning(net_glob_client, args.PDR, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
+
+            elif "MODEL_POISONING" in attack_type:
+                mu, std = poisoning_setup(attack_type)
+                clients.append(Attacker_ModelPoisoning(net_glob_client, mu, std, idx, lr, device, optimizer_client, trainData[idx], testData, local_epochs))
+
+            else:
+                raise ValueError(f"Unknown attack type: {attack_type}")
         else :    
             clients.append(Client(net_glob_client, idx, lr, device, optimizer_client, trainData[idx], testData, local_ep = local_epochs))  
     
@@ -175,6 +197,8 @@ def Split_Fed(args, trainData, testData):
     client_carbon = []; server_carbon = []
     client_agg_carbon = []; server_agg_carbon = []
     uplink = []; downlink = []
+    #round_confusion = []     # list of [C x C] arrays
+    round_class = []
     #loss_glob = []; acc_glob = []
     
     for i in range(epochs):
@@ -206,7 +230,7 @@ def Split_Fed(args, trainData, testData):
 
             # Testing -------------------
             test_loss, test_acc = 0, 0
-            test_loss, test_acc = client.evaluate(server, ell= i, test = "local")
+            test_loss, test_acc, class_wise = client.evaluate(server, ell= i, test = "local")
             #glob_loss, glob_acc = client.evaluate(server, ell= i, test = "global")
         
             loss_clients_train.append(train_loss); acc_clients_train.append(train_acc)    
@@ -257,16 +281,28 @@ def Split_Fed(args, trainData, testData):
             
         # Update client-side global model 
         
+        server.setModelParameter(w_glob_server)
+        clients[0].setModelParameter(w_glob_client)
+
+# Evaluate ONCE (no averaging!)
+        glob_loss, glob_acc, glob_incorrect = clients[0].evaluate(server, ell=i, test="local")
+
+# Store true global metrics
+        loss_test.append(glob_loss)
+        acc_test.append(glob_acc)
+        #round_confusion.append(glob_cm)
+        round_class.append(glob_incorrect)
+        
         l, a = eval_train(i, acc_clients_train, loss_clients_train)
         loss_train.append(l); acc_train.append(a)
-        l, a = eval_fed(i, acc_clients_test, loss_clients_test)
-        loss_test.append(l); acc_test.append(a)
+        #l, a = eval_fed(i, acc_clients_test, loss_clients_test)
+        #loss_test.append(l); acc_test.append(a)
         client_carbon.append(client_temp); server_carbon.append(server_temp)
         client_agg_carbon.append(c); server_agg_carbon.append(t)
         uplink.append(up); downlink.append(down)
         #l, a = eval_glob(i, acc_clients_glob, loss_clients_glob)
         #loss_glob.append(l); acc_glob.append(a)
-    return loss_train, acc_train, loss_test, acc_test, client_carbon, server_carbon, client_agg_carbon, server_agg_carbon, uplink, downlink
+    return loss_train, acc_train, loss_test, acc_test, client_carbon, server_carbon, client_agg_carbon, server_agg_carbon, uplink, downlink, round_class
 
 def Fed(args, trainData, testData) :
     device = "cpu" #torch.device('cuda' if torch.cuda.is_available() else 'cpu')

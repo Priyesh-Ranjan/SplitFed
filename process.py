@@ -7,6 +7,8 @@
 import torch
 from pandas import DataFrame
 import pandas as pd
+import matplotlib.pyplot as plt
+import os
 
 import random
 import numpy as np
@@ -48,11 +50,15 @@ def main(args) :
     elif args.setup.upper() == "FED" :
         loss_train, acc_train, loss_test, acc_test, client_train_carbon, server_train_carbon, client_agg_carbon, server_agg_carbon, uplink_data, downlink_data = Fed(args, trainData, testData)
     elif args.setup.upper() == "SPLIT_FED" :
-        loss_train, acc_train, loss_test, acc_test, client_train_carbon, server_train_carbon, client_agg_carbon, server_agg_carbon, uplink_data, downlink_data = Split_Fed(args, trainData, testData)
+        loss_train, acc_train, loss_test, acc_test, client_train_carbon, server_train_carbon, client_agg_carbon, server_agg_carbon, uplink_data, downlink_data, round_class = Split_Fed(args, trainData, testData)
     print("Training and Evaluation completed!")    
 
     #===============================================================================
     # Save output data to .excel file (we use for comparision plots)
+    
+    class_dir = str(program)+"/" #os.path.join(base_dir, "class_accuracy")
+    os.makedirs(class_dir, exist_ok=True)
+    
     round_process = [i for i in range(1, len(acc_train)+1)]
     df = DataFrame({'round': round_process,'loss_train':loss_train,'acc_train':acc_train, 
                     'loss_test':loss_test, 'acc_test':acc_test, 
@@ -61,9 +67,31 @@ def main(args) :
                     'Data_sent_from_client_to_server': uplink_data, 'Data_sent_from_server_to_client': downlink_data
                     #'loss_glob':loss_glob, 'acc_glob':acc_glob
                     })     
-    file_name = program+".xlsx"    
-    df.to_excel(file_name, sheet_name= "v1_test", index = False)     
-    
+    file_name = class_dir+program+".xlsx"    
+    df.to_excel(file_name, sheet_name= "v1_test", index = False)   
+
+    #for r, cm in enumerate(round_confusion):
+    #    plt.figure(figsize=(7,6))
+    #    plt.imshow(cm)
+    #    plt.title(f"Confusion Matrix – Round {r+1}")
+    #    plt.xlabel("Predicted")
+    #    plt.ylabel("True")
+
+    #    for i in range(cm.shape[0]):
+    #        for j in range(cm.shape[1]):
+    #            plt.text(j, i, int(cm[i, j]),
+    #                 ha="center", va="center", color="black")
+
+    #    plt.colorbar()
+    #    plt.tight_layout()
+    #    plt.savefig(os.path.join(class_dir, f"round_{r+1:03d}_values.png"))
+    #    plt.close()
+
+    for r, class_acc in enumerate(round_class):
+        df_class = DataFrame({
+            'class': list(range(len(class_acc))),
+            'accuracy': class_acc})
+    df_class.to_csv(os.path.join(class_dir, f"round_{r+1:03d}.csv"),index=False)
     #pd.DataFrame.from_dict(emissions, orient="index").to_csv(str(program)+"_carbon.csv", index = False)
     #=============================================================================
     #                         Program Completed

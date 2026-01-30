@@ -1,0 +1,1153 @@
+===== START Thu 12/25/2025  5:05:36.87 ===== 
+C:\Users\pr8pf\AppData\Local\anaconda3\Lib\site-packages\torchvision\models\_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+  warnings.warn(
+C:\Users\pr8pf\AppData\Local\anaconda3\Lib\site-packages\torchvision\models\_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=VGG16_Weights.IMAGENET1K_V1`. You can also use `weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+[codecarbon INFO @ 05:06:09] [setup] RAM Tracking...
+[codecarbon INFO @ 05:06:09] [setup] CPU Tracking...
+[codecarbon WARNING @ 05:06:09] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 05:06:10] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 05:06:10] [setup] GPU Tracking...
+[codecarbon INFO @ 05:06:11] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 05:06:11] >>> Tracker's metadata:
+[codecarbon INFO @ 05:06:11]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 05:06:11]   Python version: 3.12.7
+[codecarbon INFO @ 05:06:11]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 05:06:11]   Available RAM : 126.630 GB
+[codecarbon INFO @ 05:06:11]   CPU count: 56
+[codecarbon INFO @ 05:06:11]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 05:06:11]   GPU count: 2
+[codecarbon INFO @ 05:06:11]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 05:06:14] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 05:06:15] Energy consumed for RAM : 0.000022 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 05:06:15] Energy consumed for all CPUs : 0.000048 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 05:06:15] Energy consumed for all GPUs : 0.000008 kWh. Total GPU Power : 17.754713155069318 W
+[codecarbon INFO @ 05:06:15] 0.000078 kWh of electricity used since the beginning.
+[codecarbon INFO @ 05:28:59] [setup] RAM Tracking...
+[codecarbon INFO @ 05:28:59] [setup] CPU Tracking...
+[codecarbon WARNING @ 05:28:59] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 05:29:00] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 05:29:00] [setup] GPU Tracking...
+[codecarbon INFO @ 05:29:00] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 05:29:00] >>> Tracker's metadata:
+[codecarbon INFO @ 05:29:00]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 05:29:00]   Python version: 3.12.7
+[codecarbon INFO @ 05:29:00]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 05:29:00]   Available RAM : 126.630 GB
+[codecarbon INFO @ 05:29:00]   CPU count: 56
+[codecarbon INFO @ 05:29:00]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 05:29:00]   GPU count: 2
+[codecarbon INFO @ 05:29:00]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 05:29:03] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 05:29:05] Energy consumed for RAM : 0.000015 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 05:29:05] Energy consumed for all CPUs : 0.000033 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 05:29:05] Energy consumed for all GPUs : 0.000009 kWh. Total GPU Power : 27.341371634721906 W
+[codecarbon INFO @ 05:29:05] 0.000058 kWh of electricity used since the beginning.
+[codecarbon INFO @ 05:29:58] [setup] RAM Tracking...
+[codecarbon INFO @ 05:29:58] [setup] CPU Tracking...
+[codecarbon WARNING @ 05:29:58] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 05:30:00] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 05:30:00] [setup] GPU Tracking...
+[codecarbon INFO @ 05:30:00] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 05:30:00] >>> Tracker's metadata:
+[codecarbon INFO @ 05:30:00]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 05:30:00]   Python version: 3.12.7
+[codecarbon INFO @ 05:30:00]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 05:30:00]   Available RAM : 126.630 GB
+[codecarbon INFO @ 05:30:00]   CPU count: 56
+[codecarbon INFO @ 05:30:00]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 05:30:00]   GPU count: 2
+[codecarbon INFO @ 05:30:00]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 05:30:03] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 05:30:04] Energy consumed for RAM : 0.000016 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 05:30:04] Energy consumed for all CPUs : 0.000034 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 05:30:04] Energy consumed for all GPUs : 0.000009 kWh. Total GPU Power : 27.28604482933806 W
+[codecarbon INFO @ 05:30:04] 0.000058 kWh of electricity used since the beginning.
+################################################################
+#                              batch_size: 64                  #
+#                         test_batch_size: 64                  #
+#                                  epochs: 10                  #
+#                               optimizer: SGD                 #
+#                                      lr: 0.001               #
+#                                momentum: 0.5                 #
+#                                    seed: 1                   #
+#                             num_clients: 10                  #
+#                                   scale: 5                   #
+#                                 dataset: plant               #
+#                             loader_type: dirichlet           #
+#                                      AR: fedavg              #
+#                                    side: both                #
+#                                     PDR: 1.0                 #
+#                                  attack: backdoor pls->14    #
+#                          label_flipping: uni                 #
+#                         experiment_name: split_fed_backdoor_pls_to_14_inner_epochs=5_epochs=10_PDR=1.0_scale=5_fed#
+#                            inner_epochs: 5                   #
+#                                   setup: split_fed           #
+#                                   alpha: 0.5                 #
+################################################################
+NVIDIA RTX A5000
+---------split_fed_backdoor_pls_to_14_inner_epochs=5_epochs=10_PDR=1.0_scale=5_fed----------
+initialize a data loader
+Using cuda
+[91m Client0 Train => Local Epoch: 0 / 5 	Acc: 96.794 	Loss: 0.0954[00m
+[91m Client0 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client0 Test => 	Acc: 2.194 	Loss: 83176492866.9538[00m
+[91m Client1 Train => Local Epoch: 0 / 5 	Acc: 89.844 	Loss: 0.2995[00m
+[91m Client1 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client1 Test => 	Acc: 2.194 	Loss: 58695842201.6000[00m
+[91m Client2 Train => Local Epoch: 0 / 5 	Acc: 89.497 	Loss: 0.3144[00m
+[91m Client2 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client2 Test => 	Acc: 2.194 	Loss: 50340226347.3231[00m
+[91m Client3 Train => Local Epoch: 0 / 5 	Acc: 94.575 	Loss: 0.1587[00m
+[91m Client3 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client3 Test => 	Acc: 2.188 	Loss: 52197569961.3538[00m
+[91m Client4 Train => Local Epoch: 0 / 5 	Acc: 87.891 	Loss: 0.3664[00m
+[91m Client4 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client4 Test => 	Acc: 2.194 	Loss: 29902807859.2000[00m
+[91m Client5 Train => Local Epoch: 0 / 5 	Acc: 19.792 	Loss: 25.4492[00m
+[91m Client5 Train => Local Epoch: 1 / 5 	Acc: 20.443 	Loss: 2.7373[00m
+[91m Client5 Train => Local Epoch: 2 / 5 	Acc: 20.182 	Loss: 2.2483[00m
+[91m Client5 Train => Local Epoch: 3 / 5 	Acc: 31.120 	Loss: 1.9955[00m
+[91m Client5 Train => Local Epoch: 4 / 5 	Acc: 45.052 	Loss: 1.7436[00m
+[92m  Client5 Test => 	Acc: 25.019 	Loss: 3.7546[00m
+[91m Client6 Train => Local Epoch: 0 / 5 	Acc: 26.719 	Loss: 3.4209[00m
+[91m Client6 Train => Local Epoch: 1 / 5 	Acc: 50.188 	Loss: 1.6421[00m
+[91m Client6 Train => Local Epoch: 2 / 5 	Acc: 64.750 	Loss: 1.1241[00m
+[91m Client6 Train => Local Epoch: 3 / 5 	Acc: 69.875 	Loss: 0.9449[00m
+[91m Client6 Train => Local Epoch: 4 / 5 	Acc: 75.062 	Loss: 0.7799[00m
+[92m  Client6 Test => 	Acc: 59.183 	Loss: 1.5087[00m
+[91m Client7 Train => Local Epoch: 0 / 5 	Acc: 20.859 	Loss: 4.7268[00m
+[91m Client7 Train => Local Epoch: 1 / 5 	Acc: 22.812 	Loss: 2.3625[00m
+[91m Client7 Train => Local Epoch: 2 / 5 	Acc: 24.141 	Loss: 2.1526[00m
+[91m Client7 Train => Local Epoch: 3 / 5 	Acc: 31.094 	Loss: 1.9783[00m
+[91m Client7 Train => Local Epoch: 4 / 5 	Acc: 39.297 	Loss: 1.8052[00m
+[92m  Client7 Test => 	Acc: 25.057 	Loss: 3.1177[00m
+[91m Client8 Train => Local Epoch: 0 / 5 	Acc: 17.318 	Loss: 7.4191[00m
+[91m Client8 Train => Local Epoch: 1 / 5 	Acc: 23.307 	Loss: 2.5680[00m
+[91m Client8 Train => Local Epoch: 2 / 5 	Acc: 24.219 	Loss: 2.2307[00m
+[91m Client8 Train => Local Epoch: 3 / 5 	Acc: 37.370 	Loss: 2.0003[00m
+[91m Client8 Train => Local Epoch: 4 / 5 	Acc: 51.953 	Loss: 1.6470[00m
+[92m  Client8 Test => 	Acc: 24.058 	Loss: 3.2906[00m
+[91m Client9 Train => Local Epoch: 0 / 5 	Acc: 20.493 	Loss: 2.6366[00m
+[91m Client9 Train => Local Epoch: 1 / 5 	Acc: 24.399 	Loss: 2.2137[00m
+[91m Client9 Train => Local Epoch: 2 / 5 	Acc: 25.661 	Loss: 2.1958[00m
+[91m Client9 Train => Local Epoch: 3 / 5 	Acc: 30.950 	Loss: 2.0220[00m
+[91m Client9 Train => Local Epoch: 4 / 5 	Acc: 33.353 	Loss: 1.9321[00m
+[92m  Client9 Test => 	Acc: 23.967 	Loss: 2.9522[00m
+------------------------------------------------
+------ Federation process at Server-Side ------- 
+------------------------------------------------
+-----------------------------------------------------------
+------ FedServer: Federation process at Client-Side ------- 
+-----------------------------------------------------------
+[92m  Client0 Test => 	Acc: 2.188 	Loss: 138.6691[00m
+ Train: Round   0, Avg Accuracy 74.472 | Avg Loss 0.791
+[91m Client0 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client0 Test => 	Acc: 2.201 	Loss: 138.2028[00m
+[91m Client1 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client1 Test => 	Acc: 2.194 	Loss: 226.2597[00m
+[91m Client2 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client2 Test => 	Acc: 2.208 	Loss: 217.2683[00m
+[91m Client3 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client3 Test => 	Acc: 2.194 	Loss: 139.0069[00m[codecarbon INFO @ 05:52:58] [setup] RAM Tracking...
+[codecarbon INFO @ 05:52:58] [setup] CPU Tracking...
+[codecarbon WARNING @ 05:52:58] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 05:52:59] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 05:52:59] [setup] GPU Tracking...
+[codecarbon INFO @ 05:52:59] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 05:52:59] >>> Tracker's metadata:
+[codecarbon INFO @ 05:52:59]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 05:52:59]   Python version: 3.12.7
+[codecarbon INFO @ 05:52:59]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 05:52:59]   Available RAM : 126.630 GB
+[codecarbon INFO @ 05:52:59]   CPU count: 56
+[codecarbon INFO @ 05:52:59]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 05:52:59]   GPU count: 2
+[codecarbon INFO @ 05:52:59]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 05:53:03] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 05:53:04] Energy consumed for RAM : 0.000013 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 05:53:04] Energy consumed for all CPUs : 0.000028 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 05:53:04] Energy consumed for all GPUs : 0.000005 kWh. Total GPU Power : 18.44338757715269 W
+[codecarbon INFO @ 05:53:04] 0.000046 kWh of electricity used since the beginning.
+[codecarbon INFO @ 05:53:58] [setup] RAM Tracking...
+[codecarbon INFO @ 05:53:58] [setup] CPU Tracking...
+[codecarbon WARNING @ 05:53:58] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 05:54:00] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 05:54:00] [setup] GPU Tracking...
+[codecarbon INFO @ 05:54:00] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 05:54:00] >>> Tracker's metadata:
+[codecarbon INFO @ 05:54:00]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 05:54:00]   Python version: 3.12.7
+[codecarbon INFO @ 05:54:00]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 05:54:00]   Available RAM : 126.630 GB
+[codecarbon INFO @ 05:54:00]   CPU count: 56
+[codecarbon INFO @ 05:54:00]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 05:54:00]   GPU count: 2
+[codecarbon INFO @ 05:54:00]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 05:54:03] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 05:54:04] Energy consumed for RAM : 0.000014 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 05:54:04] Energy consumed for all CPUs : 0.000029 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 05:54:04] Energy consumed for all GPUs : 0.000006 kWh. Total GPU Power : 19.27597683870322 W
+[codecarbon INFO @ 05:54:04] 0.000048 kWh of electricity used since the beginning.
+[codecarbon INFO @ 06:16:48] [setup] RAM Tracking...
+[codecarbon INFO @ 06:16:48] [setup] CPU Tracking...
+[codecarbon WARNING @ 06:16:48] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 06:16:50] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 06:16:50] [setup] GPU Tracking...
+[codecarbon INFO @ 06:16:50] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 06:16:50] >>> Tracker's metadata:
+[codecarbon INFO @ 06:16:50]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 06:16:50]   Python version: 3.12.7
+[codecarbon INFO @ 06:16:50]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 06:16:50]   Available RAM : 126.630 GB
+[codecarbon INFO @ 06:16:50]   CPU count: 56
+[codecarbon INFO @ 06:16:50]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 06:16:50]   GPU count: 2
+[codecarbon INFO @ 06:16:50]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 06:16:53] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 06:16:54] Energy consumed for RAM : 0.000015 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 06:16:54] Energy consumed for all CPUs : 0.000032 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 06:16:54] Energy consumed for all GPUs : 0.000006 kWh. Total GPU Power : 19.515489282293817 W
+[codecarbon INFO @ 06:16:54] 0.000053 kWh of electricity used since the beginning.
+[codecarbon INFO @ 06:17:49] [setup] RAM Tracking...
+[codecarbon INFO @ 06:17:49] [setup] CPU Tracking...
+[codecarbon WARNING @ 06:17:49] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 06:17:51] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 06:17:51] [setup] GPU Tracking...
+[codecarbon INFO @ 06:17:51] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 06:17:51] >>> Tracker's metadata:
+[codecarbon INFO @ 06:17:51]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 06:17:51]   Python version: 3.12.7
+[codecarbon INFO @ 06:17:51]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 06:17:51]   Available RAM : 126.630 GB
+[codecarbon INFO @ 06:17:51]   CPU count: 56
+[codecarbon INFO @ 06:17:51]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 06:17:51]   GPU count: 2
+[codecarbon INFO @ 06:17:51]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 06:17:54] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 06:17:55] Energy consumed for RAM : 0.000013 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 06:17:55] Energy consumed for all CPUs : 0.000029 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 06:17:55] Energy consumed for all GPUs : 0.000006 kWh. Total GPU Power : 19.768083752516613 W
+[codecarbon INFO @ 06:17:55] 0.000047 kWh of electricity used since the beginning.
+
+[91m Client4 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client4 Test => 	Acc: 2.188 	Loss: 265.8579[00m
+[91m Client5 Train => Local Epoch: 0 / 5 	Acc: 11.068 	Loss: 25.6373[00m
+[91m Client5 Train => Local Epoch: 1 / 5 	Acc: 24.219 	Loss: 2.4385[00m
+[91m Client5 Train => Local Epoch: 2 / 5 	Acc: 30.078 	Loss: 2.2044[00m
+[91m Client5 Train => Local Epoch: 3 / 5 	Acc: 30.729 	Loss: 2.3096[00m
+[91m Client5 Train => Local Epoch: 4 / 5 	Acc: 25.651 	Loss: 2.1005[00m
+[92m  Client5 Test => 	Acc: 12.321 	Loss: 4.0576[00m
+[91m Client6 Train => Local Epoch: 0 / 5 	Acc: 19.312 	Loss: 9.2041[00m
+[91m Client6 Train => Local Epoch: 1 / 5 	Acc: 25.000 	Loss: 2.0932[00m
+[91m Client6 Train => Local Epoch: 2 / 5 	Acc: 25.781 	Loss: 2.0798[00m
+[91m Client6 Train => Local Epoch: 3 / 5 	Acc: 26.125 	Loss: 2.0810[00m
+[91m Client6 Train => Local Epoch: 4 / 5 	Acc: 26.531 	Loss: 2.0800[00m
+[92m  Client6 Test => 	Acc: 12.341 	Loss: 3.2428[00m
+[91m Client7 Train => Local Epoch: 0 / 5 	Acc: 18.516 	Loss: 16.8347[00m
+[91m Client7 Train => Local Epoch: 1 / 5 	Acc: 22.656 	Loss: 2.5994[00m
+[91m Client7 Train => Local Epoch: 2 / 5 	Acc: 19.766 	Loss: 2.2949[00m
+[91m Client7 Train => Local Epoch: 3 / 5 	Acc: 26.797 	Loss: 2.2165[00m
+[91m Client7 Train => Local Epoch: 4 / 5 	Acc: 26.797 	Loss: 2.2866[00m
+[92m  Client7 Test => 	Acc: 9.656 	Loss: 2.8837[00m
+[91m Client8 Train => Local Epoch: 0 / 5 	Acc: 8.854 	Loss: 26.7174[00m
+[91m Client8 Train => Local Epoch: 1 / 5 	Acc: 17.839 	Loss: 2.9260[00m
+[91m Client8 Train => Local Epoch: 2 / 5 	Acc: 20.182 	Loss: 2.8207[00m
+[91m Client8 Train => Local Epoch: 3 / 5 	Acc: 17.578 	Loss: 2.4716[00m
+[91m Client8 Train => Local Epoch: 4 / 5 	Acc: 23.438 	Loss: 2.2197[00m
+[92m  Client8 Test => 	Acc: 4.093 	Loss: 3.6329[00m
+[91m Client9 Train => Local Epoch: 0 / 5 	Acc: 15.865 	Loss: 15.6188[00m
+[91m Client9 Train => Local Epoch: 1 / 5 	Acc: 23.678 	Loss: 2.2892[00m
+[91m Client9 Train => Local Epoch: 2 / 5 	Acc: 23.978 	Loss: 2.1658[00m
+[91m Client9 Train => Local Epoch: 3 / 5 	Acc: 26.442 	Loss: 2.0728[00m
+[91m Client9 Train => Local Epoch: 4 / 5 	Acc: 33.834 	Loss: 1.9397[00m
+[92m  Client9 Test => 	Acc: 19.740 	Loss: 3.2764[00m
+------------------------------------------------
+------ Federation process at Server-Side ------- 
+------------------------------------------------
+-----------------------------------------------------------
+------ FedServer: Federation process at Client-Side ------- 
+-----------------------------------------------------------
+[92m  Client0 Test => 	Acc: 2.201 	Loss: 2.7344[00m
+ Train: Round   1, Avg Accuracy 63.625 | Avg Loss 1.063
+[91m Client0 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.1122[00m
+[91m Client0 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client0 Test => 	Acc: 2.188 	Loss: 213195.1897[00m
+[91m Client1 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.4845[00m
+[91m Client1 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client1 Test => 	Acc: 2.194 	Loss: 1072.2454[00m
+[91m Client2 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.4828[00m
+[91m Client2 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client2 Test => 	Acc: 2.188 	Loss: 965.7533[00m
+[91m Client3 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.2255[00m
+[91m Client3 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client3 Test => 	Acc: 2.188 	Loss: 20130.4385[00m
+[91m Client4 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.5634[00m
+[91m Client4 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client4 Test => 	Acc: 2.188 	Loss: 68.0869[00m
+[91m Client5 Train => Local Epoch: 0 / 5 	Acc: 18.359 	Loss: 2.3999[00m
+[91m Client5 Train => Local Epoch: 1 / 5 	Acc: 31.250 	Loss: 2.0661[00m
+[91m Client5 Train => Local Epoch: 2 / 5 	Acc: 31.641 	Loss: 2.0121[00m
+[91m Client5 Train => Local Epoch: 3 / 5 	Acc: 30.990 	Loss: 2.0114[00m
+[91m Client5 Train => Local Epoch: 4 / 5 	Acc: 32.552 	Loss: 1.8755[00m
+[92m  Client5 Test => 	Acc: 15.576 	Loss: 3.5136[00m
+[91m Client6 Train => Local Epoch: 0 / 5 	Acc: 23.438 	Loss: 2.1824[00m
+[91m Client6 Train => Local Epoch: 1 / 5 	Acc: 27.688 	Loss: 2.0897[00m
+[91m Client6 Train => Local Epoch: 2 / 5 	Acc: 43.125 	Loss: 1.8407[00m
+[91m Client6 Train => Local Epoch: 3 / 5 	Acc: 56.688 	Loss: 1.4280[00m
+[91m Client6 Train => Local Epoch: 4 / 5 	Acc: 65.812 	Loss: 1.1204[00m
+[92m  Client6 Test => 	Acc: 44.591 	Loss: 1.9974[00m
+[91m Client7 Train => Local Epoch: 0 / 5 	Acc: 17.891 	Loss: 2.3954[00m
+[91m Client7 Train => Local Epoch: 1 / 5 	Acc: 25.469 	Loss: 2.1470[00m
+[91m Client7 Train => Local Epoch: 2 / 5 	Acc: 28.672 	Loss: 1.9969[00m
+[91m Client7 Train => Local Epoch: 3 / 5 	Acc: 39.375 	Loss: 1.7559[00m
+[91m Client7 Train => Local Epoch: 4 / 5 	Acc: 46.641 	Loss: 1.6047[00m
+[92m  Client7 Test => 	Acc: 29.881 	Loss: 2.9759[00m
+[91m Client8 Train => Local Epoch: 0 / 5 	Acc: 18.750 	Loss: 2.6866[00m
+[91m Client8 Train => Local Epoch: 1 / 5 	Acc: 24.609 	Loss: 2.1933[00m
+[91m Client8 Train => Local Epoch: 2 / 5 	Acc: 31.250 	Loss: 2.0694[00m
+[91m Client8 Train => Local Epoch: 3 / 5 	Acc: 38.672 	Loss: 1.9411[00m
+[91m Client8 Train => Local Epoch: 4 / 5 	Acc: 50.130 	Loss: 1.6746[00m
+[92m  Client8 Test => 	Acc: 13.223 	Loss: 3.8572[00m
+[91m Client9 Train => Local Epoch: 0 / 5 	Acc: 22.536 	Loss: 2.2566[00m
+[91m Client9 Train => Local Epoch: 1 / 5 	Acc: 30.288 	Loss: 2.0555[00m
+[91m Client9 Train => Local Epoch: 2 / 5 	Acc: 36.238 	Loss: 1.8741[00m
+[91m Client9 Train => Local Epoch: 3 / 5 	Acc: 48.197 	Loss: 1.5923[00m
+[91m Client9 Train => Local Epoch: 4 / 5 	Acc: 54.567 	Loss: 1.4357[00m
+[92m  Client9 Test => 	Acc: 37.237 	Loss: 2.4947[00m
+------------------------------------------------
+------ Federation process at Server-Side ------- 
+------------------------------------------------
+-----------------------------------------------------------
+------ FedServer: Federation process at Client-Side ------- 
+-----------------------------------------------------------
+[92m  Client0 Test => 	Acc: 2.194 	Loss: 18.9997[00m
+ Train: Round   2, Avg Accuracy 74.970 | Avg Loss 0.771
+[91m Client0 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m[codecarbon INFO @ 06:40:38] [setup] RAM Tracking...
+[codecarbon INFO @ 06:40:38] [setup] CPU Tracking...
+[codecarbon WARNING @ 06:40:38] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 06:40:40] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 06:40:40] [setup] GPU Tracking...
+[codecarbon INFO @ 06:40:40] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 06:40:40] >>> Tracker's metadata:
+[codecarbon INFO @ 06:40:40]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 06:40:40]   Python version: 3.12.7
+[codecarbon INFO @ 06:40:40]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 06:40:40]   Available RAM : 126.630 GB
+[codecarbon INFO @ 06:40:40]   CPU count: 56
+[codecarbon INFO @ 06:40:40]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 06:40:40]   GPU count: 2
+[codecarbon INFO @ 06:40:40]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 06:40:43] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 06:40:44] Energy consumed for RAM : 0.000015 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 06:40:44] Energy consumed for all CPUs : 0.000033 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 06:40:44] Energy consumed for all GPUs : 0.000007 kWh. Total GPU Power : 20.858770117315565 W
+[codecarbon INFO @ 06:40:44] 0.000055 kWh of electricity used since the beginning.
+[codecarbon INFO @ 06:41:37] [setup] RAM Tracking...
+[codecarbon INFO @ 06:41:37] [setup] CPU Tracking...
+[codecarbon WARNING @ 06:41:37] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 06:41:39] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 06:41:39] [setup] GPU Tracking...
+[codecarbon INFO @ 06:41:39] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 06:41:39] >>> Tracker's metadata:
+[codecarbon INFO @ 06:41:39]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 06:41:39]   Python version: 3.12.7
+[codecarbon INFO @ 06:41:39]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 06:41:39]   Available RAM : 126.630 GB
+[codecarbon INFO @ 06:41:39]   CPU count: 56
+[codecarbon INFO @ 06:41:39]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 06:41:39]   GPU count: 2
+[codecarbon INFO @ 06:41:39]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 06:41:42] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 06:41:43] Energy consumed for RAM : 0.000014 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 06:41:43] Energy consumed for all CPUs : 0.000030 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 06:41:43] Energy consumed for all GPUs : 0.000006 kWh. Total GPU Power : 21.681104423889714 W
+[codecarbon INFO @ 06:41:43] 0.000050 kWh of electricity used since the beginning.
+
+[92m  Client0 Test => 	Acc: 2.194 	Loss: 22.7627[00m
+[91m Client1 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client1 Test => 	Acc: 2.194 	Loss: 20.7252[00m
+[91m Client2 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client2 Test => 	Acc: 2.208 	Loss: 20.8059[00m
+[91m Client3 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client3 Test => 	Acc: 2.201 	Loss: 20.8363[00m
+[91m Client4 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client4 Test => 	Acc: 2.208 	Loss: 24.7976[00m
+[91m Client5 Train => Local Epoch: 0 / 5 	Acc: 0.391 	Loss: 10.9163[00m
+[91m Client5 Train => Local Epoch: 1 / 5 	Acc: 13.411 	Loss: 2.5975[00m
+[91m Client5 Train => Local Epoch: 2 / 5 	Acc: 30.599 	Loss: 2.2184[00m
+[91m Client5 Train => Local Epoch: 3 / 5 	Acc: 29.948 	Loss: 2.0594[00m
+[91m Client5 Train => Local Epoch: 4 / 5 	Acc: 31.901 	Loss: 2.0062[00m
+[92m  Client5 Test => 	Acc: 12.335 	Loss: 3.5537[00m
+[91m Client6 Train => Local Epoch: 0 / 5 	Acc: 16.625 	Loss: 12.5238[00m
+[91m Client6 Train => Local Epoch: 1 / 5 	Acc: 25.938 	Loss: 2.1248[00m
+[91m Client6 Train => Local Epoch: 2 / 5 	Acc: 25.188 	Loss: 2.0882[00m
+[91m Client6 Train => Local Epoch: 3 / 5 	Acc: 24.688 	Loss: 2.0771[00m
+[91m Client6 Train => Local Epoch: 4 / 5 	Acc: 25.906 	Loss: 2.0816[00m
+[92m  Client6 Test => 	Acc: 12.341 	Loss: 3.1990[00m
+[91m Client7 Train => Local Epoch: 0 / 5 	Acc: 9.062 	Loss: 6.8479[00m
+[91m Client7 Train => Local Epoch: 1 / 5 	Acc: 26.953 	Loss: 2.3582[00m
+[91m Client7 Train => Local Epoch: 2 / 5 	Acc: 27.109 	Loss: 2.2288[00m
+[91m Client7 Train => Local Epoch: 3 / 5 	Acc: 26.797 	Loss: 2.2067[00m
+[91m Client7 Train => Local Epoch: 4 / 5 	Acc: 27.109 	Loss: 2.1855[00m
+[92m  Client7 Test => 	Acc: 9.642 	Loss: 3.2769[00m
+[91m Client8 Train => Local Epoch: 0 / 5 	Acc: 0.260 	Loss: 11.7450[00m
+[91m Client8 Train => Local Epoch: 1 / 5 	Acc: 9.375 	Loss: 2.8511[00m
+[91m Client8 Train => Local Epoch: 2 / 5 	Acc: 27.995 	Loss: 2.4226[00m
+[91m Client8 Train => Local Epoch: 3 / 5 	Acc: 27.995 	Loss: 2.1855[00m
+[91m Client8 Train => Local Epoch: 4 / 5 	Acc: 27.865 	Loss: 2.1265[00m
+[92m  Client8 Test => 	Acc: 4.100 	Loss: 3.9107[00m
+[91m Client9 Train => Local Epoch: 0 / 5 	Acc: 12.019 	Loss: 5.6703[00m
+[91m Client9 Train => Local Epoch: 1 / 5 	Acc: 26.683 	Loss: 2.1437[00m
+[91m Client9 Train => Local Epoch: 2 / 5 	Acc: 26.983 	Loss: 2.1564[00m
+[91m Client9 Train => Local Epoch: 3 / 5 	Acc: 25.901 	Loss: 2.1077[00m
+[91m Client9 Train => Local Epoch: 4 / 5 	Acc: 26.322 	Loss: 2.1065[00m
+[92m  Client9 Test => 	Acc: 7.118 	Loss: 3.1926[00m
+------------------------------------------------
+------ Federation process at Server-Side ------- 
+------------------------------------------------
+-----------------------------------------------------------
+------ FedServer: Federation process at Client-Side ------- 
+-----------------------------------------------------------
+[92m  Client0 Test => 	Acc: 9.662 	Loss: 2.7108[00m
+ Train: Round   3, Avg Accuracy 63.910 | Avg Loss 1.051
+[91m Client0 Train => Local Epoch: 0 / 5 	Acc: 95.690 	Loss: 0.1964[00m
+[91m Client0 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client0 Test => 	Acc: 2.194 	Loss: 91.7279[00m
+[91m Client1 Train => Local Epoch: 0 / 5 	Acc: 77.778 	Loss: 0.8764[00m
+[91m Client1 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client1 Test => 	Acc: 2.194 	Loss: 47.5483[00m
+[91m Client2 Train => Local Epoch: 0 / 5 	Acc: 77.778 	Loss: 0.8815[00m
+[91m Client2 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client2 Test => 	Acc: 2.194 	Loss: 47.3365[00m
+[91m Client3 Train => Local Epoch: 0 / 5 	Acc: 88.889 	Loss: 0.3663[00m
+[91m Client3 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client3 Test => 	Acc: 2.188 	Loss: 67.5917[00m
+[91m Client4 Train => Local Epoch: 0 / 5 	Acc: 75.000 	Loss: 1.0440[00m
+[91m Client4 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client4 Test => 	Acc: 2.194 	Loss: 43.2655[00m
+[91m Client5 Train => Local Epoch: 0 / 5 	Acc: 18.359 	Loss: 2.3206[00m
+[91m Client5 Train => Local Epoch: 1 / 5 	Acc: 30.469 	Loss: 2.0853[00m
+[91m Client5 Train => Local Epoch: 2 / 5 	Acc: 30.469 	Loss: 2.0384[00m
+[91m Client5 Train => Local Epoch: 3 / 5 	Acc: 30.990 	Loss: 2.0296[00m
+[91m Client5 Train => Local Epoch: 4 / 5 	Acc: 31.380 	Loss: 1.9977[00m
+[92m  Client5 Test => 	Acc: 12.375 	Loss: 3.5279[00m
+[91m Client6 Train => Local Epoch: 0 / 5 	Acc: 23.688 	Loss: 2.2016[00m
+[91m Client6 Train => Local Epoch: 1 / 5 	Acc: 26.156 	Loss: 2.0837[00m
+[91m Client6 Train => Local Epoch: 2 / 5 	Acc: 25.219 	Loss: 2.0847[00m
+[91m Client6 Train => Local Epoch: 3 / 5 	Acc: 24.719 	Loss: 2.0803[00m
+[91m Client6 Train => Local Epoch: 4 / 5 	Acc: 26.531 	Loss: 2.0764[00m
+[92m  Client6 Test => 	Acc: 12.348 	Loss: 3.2798[00m
+[91m Client7 Train => Local Epoch: 0 / 5 	Acc: 26.562 	Loss: 2.3748[00m
+[91m Client7 Train => Local Epoch: 1 / 5 	Acc: 26.875 	Loss: 2.1912[00m
+[91m Client7 Train => Local Epoch: 2 / 5 	Acc: 26.406 	Loss: 2.1839[00m
+[91m Client7 Train => Local Epoch: 3 / 5 	Acc: 26.953 	Loss: 2.1791[00m
+[91m Client7 Train => Local Epoch: 4 / 5 	Acc: 27.031 	Loss: 2.1774[00m
+[92m  Client7 Test => 	Acc: 9.636 	Loss: 3.3341[00m
+[91m Client8 Train => Local Epoch: 0 / 5 	Acc: 10.286 	Loss: 2.7442[00m
+[91m Client8 Train => Local Epoch: 1 / 5 	Acc: 23.177 	Loss: 2.3199[00m
+[91m Client8 Train => Local Epoch: 2 / 5 	Acc: 27.604 	Loss: 2.1256[00m
+[91m Client8 Train => Local Epoch: 3 / 5 	Acc: 25.651 	Loss: 2.1398[00m
+[91m Client8 Train => Local Epoch: 4 / 5 	Acc: 28.125 	Loss: 2.1125[00m[codecarbon INFO @ 07:04:23] [setup] RAM Tracking...
+[codecarbon INFO @ 07:04:23] [setup] CPU Tracking...
+[codecarbon WARNING @ 07:04:23] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 07:04:25] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 07:04:25] [setup] GPU Tracking...
+[codecarbon INFO @ 07:04:25] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 07:04:25] >>> Tracker's metadata:
+[codecarbon INFO @ 07:04:25]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 07:04:25]   Python version: 3.12.7
+[codecarbon INFO @ 07:04:25]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 07:04:25]   Available RAM : 126.630 GB
+[codecarbon INFO @ 07:04:25]   CPU count: 56
+[codecarbon INFO @ 07:04:25]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 07:04:25]   GPU count: 2
+[codecarbon INFO @ 07:04:25]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 07:04:28] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 07:04:29] Energy consumed for RAM : 0.000016 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 07:04:29] Energy consumed for all CPUs : 0.000035 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 07:04:29] Energy consumed for all GPUs : 0.000007 kWh. Total GPU Power : 18.912456865770324 W
+[codecarbon INFO @ 07:04:29] 0.000058 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:05:25] [setup] RAM Tracking...
+[codecarbon INFO @ 07:05:25] [setup] CPU Tracking...
+[codecarbon WARNING @ 07:05:25] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 07:05:27] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 07:05:27] [setup] GPU Tracking...
+[codecarbon INFO @ 07:05:27] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 07:05:27] >>> Tracker's metadata:
+[codecarbon INFO @ 07:05:27]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 07:05:27]   Python version: 3.12.7
+[codecarbon INFO @ 07:05:27]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 07:05:27]   Available RAM : 126.630 GB
+[codecarbon INFO @ 07:05:27]   CPU count: 56
+[codecarbon INFO @ 07:05:27]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 07:05:27]   GPU count: 2
+[codecarbon INFO @ 07:05:27]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 07:05:30] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 07:05:31] Energy consumed for RAM : 0.000015 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 07:05:31] Energy consumed for all CPUs : 0.000032 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 07:05:31] Energy consumed for all GPUs : 0.000007 kWh. Total GPU Power : 21.006482531342726 W
+[codecarbon INFO @ 07:05:31] 0.000054 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:28:21] [setup] RAM Tracking...
+[codecarbon INFO @ 07:28:21] [setup] CPU Tracking...
+[codecarbon WARNING @ 07:28:21] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 07:28:22] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 07:28:22] [setup] GPU Tracking...
+[codecarbon INFO @ 07:28:22] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 07:28:22] >>> Tracker's metadata:
+[codecarbon INFO @ 07:28:22]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 07:28:22]   Python version: 3.12.7
+[codecarbon INFO @ 07:28:22]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 07:28:22]   Available RAM : 126.630 GB
+[codecarbon INFO @ 07:28:22]   CPU count: 56
+[codecarbon INFO @ 07:28:22]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 07:28:22]   GPU count: 2
+[codecarbon INFO @ 07:28:22]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 07:28:25] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 07:28:27] Energy consumed for RAM : 0.000019 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 07:28:27] Energy consumed for all CPUs : 0.000040 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 07:28:27] Energy consumed for all GPUs : 0.000007 kWh. Total GPU Power : 18.987427071248046 W
+[codecarbon INFO @ 07:28:27] 0.000067 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:29:22] [setup] RAM Tracking...
+[codecarbon INFO @ 07:29:22] [setup] CPU Tracking...
+[codecarbon WARNING @ 07:29:22] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 07:29:24] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 07:29:24] [setup] GPU Tracking...
+[codecarbon INFO @ 07:29:24] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 07:29:24] >>> Tracker's metadata:
+[codecarbon INFO @ 07:29:24]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 07:29:24]   Python version: 3.12.7
+[codecarbon INFO @ 07:29:24]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 07:29:24]   Available RAM : 126.630 GB
+[codecarbon INFO @ 07:29:24]   CPU count: 56
+[codecarbon INFO @ 07:29:24]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 07:29:24]   GPU count: 2
+[codecarbon INFO @ 07:29:24]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 07:29:27] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 07:29:28] Energy consumed for RAM : 0.000016 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 07:29:28] Energy consumed for all CPUs : 0.000034 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 07:29:28] Energy consumed for all GPUs : 0.000007 kWh. Total GPU Power : 20.569827421765712 W
+[codecarbon INFO @ 07:29:28] 0.000057 kWh of electricity used since the beginning.
+
+[92m  Client8 Test => 	Acc: 4.093 	Loss: 3.7027[00m
+[91m Client9 Train => Local Epoch: 0 / 5 	Acc: 23.498 	Loss: 2.2798[00m
+[91m Client9 Train => Local Epoch: 1 / 5 	Acc: 26.923 	Loss: 2.1284[00m
+[91m Client9 Train => Local Epoch: 2 / 5 	Acc: 25.060 	Loss: 2.1055[00m
+[91m Client9 Train => Local Epoch: 3 / 5 	Acc: 26.623 	Loss: 2.1068[00m
+[91m Client9 Train => Local Epoch: 4 / 5 	Acc: 24.219 	Loss: 2.0996[00m
+[92m  Client9 Test => 	Acc: 7.112 	Loss: 3.1724[00m
+------------------------------------------------
+------ Federation process at Server-Side ------- 
+------------------------------------------------
+-----------------------------------------------------------
+------ FedServer: Federation process at Client-Side ------- 
+-----------------------------------------------------------
+[92m  Client0 Test => 	Acc: 2.201 	Loss: 15.0861[00m
+ Train: Round   4, Avg Accuracy 63.729 | Avg Loss 1.046
+[91m Client0 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client0 Test => 	Acc: 2.194 	Loss: 16.7068[00m
+[91m Client1 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client1 Test => 	Acc: 2.188 	Loss: 15.6691[00m
+[91m Client2 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client2 Test => 	Acc: 2.208 	Loss: 15.6644[00m
+[91m Client3 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client3 Test => 	Acc: 2.201 	Loss: 15.1400[00m
+[91m Client4 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client4 Test => 	Acc: 2.194 	Loss: 16.0357[00m
+[91m Client5 Train => Local Epoch: 0 / 5 	Acc: 0.260 	Loss: 11.5265[00m
+[91m Client5 Train => Local Epoch: 1 / 5 	Acc: 0.391 	Loss: 4.0430[00m
+[91m Client5 Train => Local Epoch: 2 / 5 	Acc: 24.089 	Loss: 2.3883[00m
+[91m Client5 Train => Local Epoch: 3 / 5 	Acc: 30.729 	Loss: 2.1098[00m
+[91m Client5 Train => Local Epoch: 4 / 5 	Acc: 31.120 	Loss: 2.0332[00m
+[92m  Client5 Test => 	Acc: 12.362 	Loss: 3.4880[00m
+[91m Client6 Train => Local Epoch: 0 / 5 	Acc: 15.312 	Loss: 4.0426[00m
+[91m Client6 Train => Local Epoch: 1 / 5 	Acc: 25.875 	Loss: 2.0829[00m
+[91m Client6 Train => Local Epoch: 2 / 5 	Acc: 24.594 	Loss: 2.0792[00m
+[91m Client6 Train => Local Epoch: 3 / 5 	Acc: 24.656 	Loss: 2.0737[00m
+[91m Client6 Train => Local Epoch: 4 / 5 	Acc: 26.000 	Loss: 2.0758[00m
+[92m  Client6 Test => 	Acc: 12.362 	Loss: 3.2517[00m
+[91m Client7 Train => Local Epoch: 0 / 5 	Acc: 6.172 	Loss: 7.6912[00m
+[91m Client7 Train => Local Epoch: 1 / 5 	Acc: 23.828 	Loss: 2.4047[00m
+[91m Client7 Train => Local Epoch: 2 / 5 	Acc: 27.109 	Loss: 2.2154[00m
+[91m Client7 Train => Local Epoch: 3 / 5 	Acc: 26.797 	Loss: 2.1826[00m
+[91m Client7 Train => Local Epoch: 4 / 5 	Acc: 27.188 	Loss: 2.1682[00m
+[92m  Client7 Test => 	Acc: 9.629 	Loss: 3.3548[00m
+[91m Client8 Train => Local Epoch: 0 / 5 	Acc: 0.260 	Loss: 12.0026[00m
+[91m Client8 Train => Local Epoch: 1 / 5 	Acc: 0.260 	Loss: 3.9635[00m
+[91m Client8 Train => Local Epoch: 2 / 5 	Acc: 21.224 	Loss: 2.5418[00m
+[91m Client8 Train => Local Epoch: 3 / 5 	Acc: 27.604 	Loss: 2.2550[00m
+[91m Client8 Train => Local Epoch: 4 / 5 	Acc: 27.865 	Loss: 2.1267[00m
+[92m  Client8 Test => 	Acc: 4.087 	Loss: 3.8087[00m
+[91m Client9 Train => Local Epoch: 0 / 5 	Acc: 5.829 	Loss: 6.2977[00m
+[91m Client9 Train => Local Epoch: 1 / 5 	Acc: 25.481 	Loss: 2.2027[00m
+[91m Client9 Train => Local Epoch: 2 / 5 	Acc: 26.082 	Loss: 2.1145[00m
+[91m Client9 Train => Local Epoch: 3 / 5 	Acc: 24.820 	Loss: 2.0845[00m
+[91m Client9 Train => Local Epoch: 4 / 5 	Acc: 27.464 	Loss: 2.0944[00m
+[92m  Client9 Test => 	Acc: 7.132 	Loss: 3.2042[00m
+------------------------------------------------
+------ Federation process at Server-Side ------- 
+------------------------------------------------
+-----------------------------------------------------------
+------ FedServer: Federation process at Client-Side ------- 
+-----------------------------------------------------------
+[92m  Client0 Test => 	Acc: 2.201 	Loss: 2.7475[00m
+ Train: Round   5, Avg Accuracy 63.964 | Avg Loss 1.050
+[91m Client0 Train => Local Epoch: 0 / 5 	Acc: 98.842 	Loss: 0.1159[00m
+[91m Client0 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client0 Test => 	Acc: 2.188 	Loss: 60.5409[00m
+[91m Client1 Train => Local Epoch: 0 / 5 	Acc: 95.399 	Loss: 0.5126[00m
+[91m Client1 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client1 Test => 	Acc: 2.208 	Loss: 33.2831[00m
+[91m Client2 Train => Local Epoch: 0 / 5 	Acc: 96.181 	Loss: 0.5126[00m
+[91m Client2 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client2 Test => 	Acc: 2.188 	Loss: 33.0267[00m
+[91m Client3 Train => Local Epoch: 0 / 5 	Acc: 97.700 	Loss: 0.2131[00m
+[91m Client3 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client3 Test => 	Acc: 2.194 	Loss: 46.6902[00m
+[91m Client4 Train => Local Epoch: 0 / 5 	Acc: 96.094 	Loss: 0.6006[00m
+[91m Client4 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client4 Test => 	Acc: 2.188 	Loss: 30.7069[00m
+[91m Client5 Train => Local Epoch: 0 / 5 	Acc: 20.182 	Loss: 2.3584[00m
+[91m Client5 Train => Local Epoch: 1 / 5 	Acc: 30.990 	Loss: 2.0719[00m
+[91m Client5 Train => Local Epoch: 2 / 5 	Acc: 30.078 	Loss: 2.0442[00m
+[91m Client5 Train => Local Epoch: 3 / 5 	Acc: 30.469 	Loss: 2.0290[00m
+[91m Client5 Train => Local Epoch: 4 / 5 	Acc: 31.641 	Loss: 2.0066[00m[codecarbon INFO @ 07:52:12] [setup] RAM Tracking...
+[codecarbon INFO @ 07:52:12] [setup] CPU Tracking...
+[codecarbon WARNING @ 07:52:12] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 07:52:14] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 07:52:14] [setup] GPU Tracking...
+[codecarbon INFO @ 07:52:14] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 07:52:14] >>> Tracker's metadata:
+[codecarbon INFO @ 07:52:14]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 07:52:14]   Python version: 3.12.7
+[codecarbon INFO @ 07:52:14]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 07:52:14]   Available RAM : 126.630 GB
+[codecarbon INFO @ 07:52:14]   CPU count: 56
+[codecarbon INFO @ 07:52:14]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 07:52:14]   GPU count: 2
+[codecarbon INFO @ 07:52:14]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 07:52:17] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 07:52:18] Energy consumed for RAM : 0.000013 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 07:52:18] Energy consumed for all CPUs : 0.000028 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 07:52:18] Energy consumed for all GPUs : 0.000005 kWh. Total GPU Power : 19.226751492415957 W
+[codecarbon INFO @ 07:52:18] 0.000046 kWh of electricity used since the beginning.
+[codecarbon INFO @ 07:53:13] [setup] RAM Tracking...
+[codecarbon INFO @ 07:53:13] [setup] CPU Tracking...
+[codecarbon WARNING @ 07:53:13] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 07:53:14] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 07:53:14] [setup] GPU Tracking...
+[codecarbon INFO @ 07:53:14] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 07:53:14] >>> Tracker's metadata:
+[codecarbon INFO @ 07:53:14]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 07:53:14]   Python version: 3.12.7
+[codecarbon INFO @ 07:53:14]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 07:53:14]   Available RAM : 126.630 GB
+[codecarbon INFO @ 07:53:14]   CPU count: 56
+[codecarbon INFO @ 07:53:14]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 07:53:14]   GPU count: 2
+[codecarbon INFO @ 07:53:14]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 07:53:18] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 07:53:19] Energy consumed for RAM : 0.000014 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 07:53:19] Energy consumed for all CPUs : 0.000030 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 07:53:19] Energy consumed for all GPUs : 0.000006 kWh. Total GPU Power : 20.171937441831314 W
+[codecarbon INFO @ 07:53:19] 0.000049 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:16:13] [setup] RAM Tracking...
+[codecarbon INFO @ 08:16:13] [setup] CPU Tracking...
+[codecarbon WARNING @ 08:16:13] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 08:16:14] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 08:16:14] [setup] GPU Tracking...
+[codecarbon INFO @ 08:16:14] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 08:16:14] >>> Tracker's metadata:
+[codecarbon INFO @ 08:16:14]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 08:16:14]   Python version: 3.12.7
+[codecarbon INFO @ 08:16:14]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 08:16:14]   Available RAM : 126.630 GB
+[codecarbon INFO @ 08:16:14]   CPU count: 56
+[codecarbon INFO @ 08:16:14]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 08:16:14]   GPU count: 2
+[codecarbon INFO @ 08:16:14]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 08:16:17] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 08:16:19] Energy consumed for RAM : 0.000017 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 08:16:19] Energy consumed for all CPUs : 0.000037 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 08:16:19] Energy consumed for all GPUs : 0.000007 kWh. Total GPU Power : 19.436552283497868 W
+[codecarbon INFO @ 08:16:19] 0.000061 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:17:13] [setup] RAM Tracking...
+[codecarbon INFO @ 08:17:13] [setup] CPU Tracking...
+[codecarbon WARNING @ 08:17:13] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 08:17:15] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 08:17:15] [setup] GPU Tracking...
+[codecarbon INFO @ 08:17:15] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 08:17:15] >>> Tracker's metadata:
+[codecarbon INFO @ 08:17:15]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 08:17:15]   Python version: 3.12.7
+[codecarbon INFO @ 08:17:15]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 08:17:15]   Available RAM : 126.630 GB
+[codecarbon INFO @ 08:17:15]   CPU count: 56
+[codecarbon INFO @ 08:17:15]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 08:17:15]   GPU count: 2
+[codecarbon INFO @ 08:17:15]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 08:17:18] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 08:17:19] Energy consumed for RAM : 0.000014 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 08:17:19] Energy consumed for all CPUs : 0.000030 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 08:17:19] Energy consumed for all GPUs : 0.000006 kWh. Total GPU Power : 19.906742545609927 W
+[codecarbon INFO @ 08:17:19] 0.000050 kWh of electricity used since the beginning.
+
+[92m  Client5 Test => 	Acc: 12.341 	Loss: 3.5031[00m
+[91m Client6 Train => Local Epoch: 0 / 5 	Acc: 23.406 	Loss: 2.1865[00m
+[91m Client6 Train => Local Epoch: 1 / 5 	Acc: 26.062 	Loss: 2.0807[00m
+[91m Client6 Train => Local Epoch: 2 / 5 	Acc: 25.656 	Loss: 2.0835[00m
+[91m Client6 Train => Local Epoch: 3 / 5 	Acc: 25.094 	Loss: 2.0806[00m
+[91m Client6 Train => Local Epoch: 4 / 5 	Acc: 25.094 	Loss: 2.0813[00m
+[92m  Client6 Test => 	Acc: 12.368 	Loss: 3.2298[00m
+[91m Client7 Train => Local Epoch: 0 / 5 	Acc: 23.594 	Loss: 2.3979[00m
+[91m Client7 Train => Local Epoch: 1 / 5 	Acc: 22.109 	Loss: 2.2279[00m
+[91m Client7 Train => Local Epoch: 2 / 5 	Acc: 27.188 	Loss: 2.1842[00m
+[91m Client7 Train => Local Epoch: 3 / 5 	Acc: 27.188 	Loss: 2.1777[00m
+[91m Client7 Train => Local Epoch: 4 / 5 	Acc: 26.953 	Loss: 2.1796[00m
+[92m  Client7 Test => 	Acc: 9.649 	Loss: 3.3446[00m
+[91m Client8 Train => Local Epoch: 0 / 5 	Acc: 9.766 	Loss: 2.7934[00m
+[91m Client8 Train => Local Epoch: 1 / 5 	Acc: 26.953 	Loss: 2.2427[00m
+[91m Client8 Train => Local Epoch: 2 / 5 	Acc: 27.083 	Loss: 2.1471[00m
+[91m Client8 Train => Local Epoch: 3 / 5 	Acc: 23.958 	Loss: 2.1372[00m
+[91m Client8 Train => Local Epoch: 4 / 5 	Acc: 27.865 	Loss: 2.1088[00m
+[92m  Client8 Test => 	Acc: 4.100 	Loss: 3.6413[00m
+[91m Client9 Train => Local Epoch: 0 / 5 	Acc: 21.575 	Loss: 2.3203[00m
+[91m Client9 Train => Local Epoch: 1 / 5 	Acc: 26.803 	Loss: 2.1223[00m
+[91m Client9 Train => Local Epoch: 2 / 5 	Acc: 24.880 	Loss: 2.1097[00m
+[91m Client9 Train => Local Epoch: 3 / 5 	Acc: 24.880 	Loss: 2.1015[00m
+[91m Client9 Train => Local Epoch: 4 / 5 	Acc: 26.382 	Loss: 2.0855[00m
+[92m  Client9 Test => 	Acc: 7.132 	Loss: 3.2307[00m
+------------------------------------------------
+------ Federation process at Server-Side ------- 
+------------------------------------------------
+-----------------------------------------------------------
+------ FedServer: Federation process at Client-Side ------- 
+-----------------------------------------------------------
+[92m  Client0 Test => 	Acc: 2.188 	Loss: 12.5764[00m
+ Train: Round   6, Avg Accuracy 63.793 | Avg Loss 1.046
+[91m Client0 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client0 Test => 	Acc: 2.194 	Loss: 13.4303[00m
+[91m Client1 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client1 Test => 	Acc: 2.188 	Loss: 13.0221[00m
+[91m Client2 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client2 Test => 	Acc: 2.201 	Loss: 13.0217[00m
+[91m Client3 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0001[00m
+[91m Client3 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client3 Test => 	Acc: 2.208 	Loss: 13.7901[00m
+[91m Client4 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client4 Test => 	Acc: 2.214 	Loss: 13.6056[00m
+[91m Client5 Train => Local Epoch: 0 / 5 	Acc: 0.391 	Loss: 10.1648[00m
+[91m Client5 Train => Local Epoch: 1 / 5 	Acc: 0.391 	Loss: 4.2213[00m
+[91m Client5 Train => Local Epoch: 2 / 5 	Acc: 18.620 	Loss: 2.3112[00m
+[91m Client5 Train => Local Epoch: 3 / 5 	Acc: 31.510 	Loss: 2.0756[00m
+[91m Client5 Train => Local Epoch: 4 / 5 	Acc: 30.729 	Loss: 2.0383[00m
+[92m  Client5 Test => 	Acc: 12.348 	Loss: 3.4054[00m
+[91m Client6 Train => Local Epoch: 0 / 5 	Acc: 17.312 	Loss: 3.8566[00m
+[91m Client6 Train => Local Epoch: 1 / 5 	Acc: 25.281 	Loss: 2.0853[00m
+[91m Client6 Train => Local Epoch: 2 / 5 	Acc: 25.625 	Loss: 2.0773[00m
+[91m Client6 Train => Local Epoch: 3 / 5 	Acc: 26.031 	Loss: 2.0775[00m
+[91m Client6 Train => Local Epoch: 4 / 5 	Acc: 25.125 	Loss: 2.0737[00m
+[92m  Client6 Test => 	Acc: 12.362 	Loss: 3.2074[00m
+[91m Client7 Train => Local Epoch: 0 / 5 	Acc: 6.172 	Loss: 7.1250[00m
+[91m Client7 Train => Local Epoch: 1 / 5 	Acc: 23.281 	Loss: 2.3813[00m
+[91m Client7 Train => Local Epoch: 2 / 5 	Acc: 26.953 	Loss: 2.2417[00m
+[91m Client7 Train => Local Epoch: 3 / 5 	Acc: 26.719 	Loss: 2.2008[00m
+[91m Client7 Train => Local Epoch: 4 / 5 	Acc: 27.109 	Loss: 2.1753[00m
+[92m  Client7 Test => 	Acc: 9.662 	Loss: 3.3013[00m
+[91m Client8 Train => Local Epoch: 0 / 5 	Acc: 0.260 	Loss: 10.7207[00m
+[91m Client8 Train => Local Epoch: 1 / 5 	Acc: 0.260 	Loss: 4.3665[00m
+[91m Client8 Train => Local Epoch: 2 / 5 	Acc: 11.328 	Loss: 2.5952[00m
+[91m Client8 Train => Local Epoch: 3 / 5 	Acc: 27.474 	Loss: 2.2988[00m
+[91m Client8 Train => Local Epoch: 4 / 5 	Acc: 27.734 	Loss: 2.1344[00m
+[92m  Client8 Test => 	Acc: 4.093 	Loss: 3.6140[00m
+[91m Client9 Train => Local Epoch: 0 / 5 	Acc: 5.349 	Loss: 5.8996[00m
+[91m Client9 Train => Local Epoch: 1 / 5 	Acc: 25.541 	Loss: 2.1648[00m
+[91m Client9 Train => Local Epoch: 2 / 5 	Acc: 24.760 	Loss: 2.1201[00m
+[91m Client9 Train => Local Epoch: 3 / 5 	Acc: 25.661 	Loss: 2.0882[00m
+[91m Client9 Train => Local Epoch: 4 / 5 	Acc: 26.623 	Loss: 2.1047[00m
+[92m  Client9 Test => 	Acc: 7.105 	Loss: 3.1892[00m
+------------------------------------------------
+------ Federation process at Server-Side ------- 
+------------------------------------------------
+-----------------------------------------------------------
+------ FedServer: Federation process at Client-Side ------- 
+-----------------------------------------------------------
+[92m  Client0 Test => 	Acc: 2.201 	Loss: 2.8090[00m
+ Train: Round   7, Avg Accuracy 63.732 | Avg Loss 1.053
+[91m Client0 Train => Local Epoch: 0 / 5 	Acc: 99.569 	Loss: 0.1096[00m
+[91m Client0 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client0 Test => 	Acc: 2.188 	Loss: 45.5650[00m
+[91m Client1 Train => Local Epoch: 0 / 5 	Acc: 98.958 	Loss: 0.4835[00m
+[91m Client1 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client1 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client1 Test => 	Acc: 2.194 	Loss: 26.1278[00m
+[91m Client2 Train => Local Epoch: 0 / 5 	Acc: 99.132 	Loss: 0.4856[00m
+[91m Client2 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client2 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m[codecarbon INFO @ 08:40:08] [setup] RAM Tracking...
+[codecarbon INFO @ 08:40:08] [setup] CPU Tracking...
+[codecarbon WARNING @ 08:40:08] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 08:40:10] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 08:40:10] [setup] GPU Tracking...
+[codecarbon INFO @ 08:40:10] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 08:40:10] >>> Tracker's metadata:
+[codecarbon INFO @ 08:40:10]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 08:40:10]   Python version: 3.12.7
+[codecarbon INFO @ 08:40:10]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 08:40:10]   Available RAM : 126.630 GB
+[codecarbon INFO @ 08:40:10]   CPU count: 56
+[codecarbon INFO @ 08:40:10]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 08:40:10]   GPU count: 2
+[codecarbon INFO @ 08:40:10]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 08:40:13] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 08:40:14] Energy consumed for RAM : 0.000012 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 08:40:14] Energy consumed for all CPUs : 0.000026 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 08:40:14] Energy consumed for all GPUs : 0.000006 kWh. Total GPU Power : 22.124610804019458 W
+[codecarbon INFO @ 08:40:14] 0.000044 kWh of electricity used since the beginning.
+[codecarbon INFO @ 08:41:10] [setup] RAM Tracking...
+[codecarbon INFO @ 08:41:10] [setup] CPU Tracking...
+[codecarbon WARNING @ 08:41:10] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 08:41:11] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 08:41:11] [setup] GPU Tracking...
+[codecarbon INFO @ 08:41:11] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 08:41:11] >>> Tracker's metadata:
+[codecarbon INFO @ 08:41:11]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 08:41:11]   Python version: 3.12.7
+[codecarbon INFO @ 08:41:11]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 08:41:11]   Available RAM : 126.630 GB
+[codecarbon INFO @ 08:41:11]   CPU count: 56
+[codecarbon INFO @ 08:41:11]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 08:41:11]   GPU count: 2
+[codecarbon INFO @ 08:41:11]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 08:41:14] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 08:41:15] Energy consumed for RAM : 0.000012 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 08:41:15] Energy consumed for all CPUs : 0.000025 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 08:41:15] Energy consumed for all GPUs : 0.000007 kWh. Total GPU Power : 28.173059470057144 W
+[codecarbon INFO @ 08:41:15] 0.000044 kWh of electricity used since the beginning.
+[codecarbon INFO @ 09:04:07] [setup] RAM Tracking...
+[codecarbon INFO @ 09:04:07] [setup] CPU Tracking...
+[codecarbon WARNING @ 09:04:07] No CPU tracking mode found. Falling back on CPU constant mode. 
+ Windows OS detected: Please install Intel Power Gadget to measure CPU
+
+[codecarbon INFO @ 09:04:08] CPU Model on constant consumption mode: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 09:04:08] [setup] GPU Tracking...
+[codecarbon INFO @ 09:04:08] Tracking Nvidia GPU via pynvml
+[codecarbon INFO @ 09:04:08] >>> Tracker's metadata:
+[codecarbon INFO @ 09:04:08]   Platform system: Windows-11-10.0.22631-SP0
+[codecarbon INFO @ 09:04:08]   Python version: 3.12.7
+[codecarbon INFO @ 09:04:08]   CodeCarbon version: 2.8.3
+[codecarbon INFO @ 09:04:08]   Available RAM : 126.630 GB
+[codecarbon INFO @ 09:04:08]   CPU count: 56
+[codecarbon INFO @ 09:04:08]   CPU model: Intel(R) Xeon(R) Gold 6258R CPU @ 2.70GHz
+[codecarbon INFO @ 09:04:08]   GPU count: 2
+[codecarbon INFO @ 09:04:08]   GPU model: 2 x NVIDIA RTX A5000
+[codecarbon INFO @ 09:04:11] Saving emissions data to file C:\Users\pr8pf\Documents\GitHub\SplitFed\emissions.csv
+[codecarbon INFO @ 09:04:12] Energy consumed for RAM : 0.000012 kWh. RAM Power : 47.48608875274658 W
+[codecarbon INFO @ 09:04:12] Energy consumed for all CPUs : 0.000026 kWh. Total CPU Power : 102.50000000000001 W
+[codecarbon INFO @ 09:04:12] Energy consumed for all GPUs : 0.000005 kWh. Total GPU Power : 18.37709421644633 W
+[codecarbon INFO @ 09:04:12] 0.000043 kWh of electricity used since the beginning.
+
+[92m  Client2 Test => 	Acc: 2.188 	Loss: 25.7946[00m
+[91m Client3 Train => Local Epoch: 0 / 5 	Acc: 99.609 	Loss: 0.1977[00m
+[91m Client3 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client3 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client3 Test => 	Acc: 2.188 	Loss: 35.1720[00m
+[91m Client4 Train => Local Epoch: 0 / 5 	Acc: 98.926 	Loss: 0.5665[00m
+[91m Client4 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0002[00m
+[91m Client4 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client4 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client4 Test => 	Acc: 2.201 	Loss: 24.2132[00m
+[91m Client5 Train => Local Epoch: 0 / 5 	Acc: 9.375 	Loss: 2.3976[00m
+[91m Client5 Train => Local Epoch: 1 / 5 	Acc: 30.859 	Loss: 2.0965[00m
+[91m Client5 Train => Local Epoch: 2 / 5 	Acc: 30.859 	Loss: 2.0352[00m
+[91m Client5 Train => Local Epoch: 3 / 5 	Acc: 31.120 	Loss: 2.0384[00m
+[91m Client5 Train => Local Epoch: 4 / 5 	Acc: 30.729 	Loss: 2.0291[00m
+[92m  Client5 Test => 	Acc: 12.328 	Loss: 3.4774[00m
+[91m Client6 Train => Local Epoch: 0 / 5 	Acc: 21.625 	Loss: 2.2162[00m
+[91m Client6 Train => Local Epoch: 1 / 5 	Acc: 24.656 	Loss: 2.0881[00m
+[91m Client6 Train => Local Epoch: 2 / 5 	Acc: 26.094 	Loss: 2.0781[00m
+[91m Client6 Train => Local Epoch: 3 / 5 	Acc: 25.562 	Loss: 2.0769[00m
+[91m Client6 Train => Local Epoch: 4 / 5 	Acc: 25.938 	Loss: 2.0804[00m
+[92m  Client6 Test => 	Acc: 11.054 	Loss: 3.1922[00m
+[91m Client7 Train => Local Epoch: 0 / 5 	Acc: 19.922 	Loss: 2.4407[00m
+[91m Client7 Train => Local Epoch: 1 / 5 	Acc: 27.188 	Loss: 2.2009[00m
+[91m Client7 Train => Local Epoch: 2 / 5 	Acc: 26.094 	Loss: 2.1925[00m
+[91m Client7 Train => Local Epoch: 3 / 5 	Acc: 27.109 	Loss: 2.1821[00m
+[91m Client7 Train => Local Epoch: 4 / 5 	Acc: 27.109 	Loss: 2.1762[00m
+[92m  Client7 Test => 	Acc: 9.662 	Loss: 3.3580[00m
+[91m Client8 Train => Local Epoch: 0 / 5 	Acc: 8.333 	Loss: 2.8512[00m
+[91m Client8 Train => Local Epoch: 1 / 5 	Acc: 25.000 	Loss: 2.2954[00m
+[91m Client8 Train => Local Epoch: 2 / 5 	Acc: 28.125 	Loss: 2.1126[00m
+[91m Client8 Train => Local Epoch: 3 / 5 	Acc: 24.609 	Loss: 2.1525[00m
+[91m Client8 Train => Local Epoch: 4 / 5 	Acc: 26.562 	Loss: 2.1099[00m
+[92m  Client8 Test => 	Acc: 4.087 	Loss: 3.7316[00m
+[91m Client9 Train => Local Epoch: 0 / 5 	Acc: 19.772 	Loss: 2.3829[00m
+[91m Client9 Train => Local Epoch: 1 / 5 	Acc: 26.803 	Loss: 2.1281[00m
+[91m Client9 Train => Local Epoch: 2 / 5 	Acc: 23.558 	Loss: 2.1128[00m
+[91m Client9 Train => Local Epoch: 3 / 5 	Acc: 27.224 	Loss: 2.0885[00m
+[91m Client9 Train => Local Epoch: 4 / 5 	Acc: 26.983 	Loss: 2.0908[00m
+[92m  Client9 Test => 	Acc: 9.636 	Loss: 3.2026[00m
+------------------------------------------------
+------ Federation process at Server-Side ------- 
+------------------------------------------------
+-----------------------------------------------------------
+------ FedServer: Federation process at Client-Side ------- 
+-----------------------------------------------------------
+[92m  Client0 Test => 	Acc: 2.188 	Loss: 10.4636[00m
+ Train: Round   8, Avg Accuracy 63.732 | Avg Loss 1.049
+[91m Client0 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0003[00m
+[91m Client0 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0001[00m
+[91m Client0 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0001[00m
+[91m Client0 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[91m Client0 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0000[00m
+[92m  Client0 Test => 	Acc: 2.201 	Loss: 14.3288[00m
+[91m Client1 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0004[00m
+[91m Client1 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0003[00m
+[91m Client1 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0003[00m
+[91m Client1 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0002[00m
+[91m Client1 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0002[00m
+[92m  Client1 Test => 	Acc: 2.188 	Loss: 11.2047[00m
+[91m Client2 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0004[00m
+[91m Client2 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0003[00m
+[91m Client2 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0002[00m
+[91m Client2 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0002[00m
+[91m Client2 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0001[00m
+[92m  Client2 Test => 	Acc: 2.201 	Loss: 11.9296[00m
+[91m Client3 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0004[00m
+[91m Client3 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0002[00m
+[91m Client3 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0001[00m
+[91m Client3 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0001[00m
+[91m Client3 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0001[00m
+[92m  Client3 Test => 	Acc: 2.194 	Loss: 12.7926[00m
+[91m Client4 Train => Local Epoch: 0 / 5 	Acc: 100.000 	Loss: 0.0004[00m
+[91m Client4 Train => Local Epoch: 1 / 5 	Acc: 100.000 	Loss: 0.0003[00m
+[91m Client4 Train => Local Epoch: 2 / 5 	Acc: 100.000 	Loss: 0.0002[00m
+[91m Client4 Train => Local Epoch: 3 / 5 	Acc: 100.000 	Loss: 0.0002[00m
+[91m Client4 Train => Local Epoch: 4 / 5 	Acc: 100.000 	Loss: 0.0002[00m
+[92m  Client4 Test => 	Acc: 2.194 	Loss: 11.2710[00m
+[91m Client5 Train => Local Epoch: 0 / 5 	Acc: 0.260 	Loss: 8.5672[00m
+[91m Client5 Train => Local Epoch: 1 / 5 	Acc: 2.083 	Loss: 3.5143[00m
+[91m Client5 Train => Local Epoch: 2 / 5 	Acc: 23.568 	Loss: 2.1578[00m
+[91m Client5 Train => Local Epoch: 3 / 5 	Acc: 31.510 	Loss: 2.0398[00m
+[91m Client5 Train => Local Epoch: 4 / 5 	Acc: 30.990 	Loss: 2.0310[00m
+[92m  Client5 Test => 	Acc: 12.341 	Loss: 3.4956[00m
+[91m Client6 Train => Local Epoch: 0 / 5 	Acc: 18.031 	Loss: 3.4407[00m
+[91m Client6 Train => Local Epoch: 1 / 5 	Acc: 24.625 	Loss: 2.0997[00m
+[91m Client6 Train => Local Epoch: 2 / 5 	Acc: 24.500 	Loss: 2.0851[00m
+[91m Client6 Train => Local Epoch: 3 / 5 	Acc: 25.406 	Loss: 2.0783[00m
+[91m Client6 Train => Local Epoch: 4 / 5 	Acc: 26.031 	Loss: 2.0756[00m
+[92m  Client6 Test => 	Acc: 12.341 	Loss: 3.1960[00m
+[91m Client7 Train => Local Epoch: 0 / 5 	Acc: 6.328 	Loss: 6.0496[00m
+[91m Client7 Train => Local Epoch: 1 / 5 	Acc: 27.031 	Loss: 2.3461[00m
+[91m Client7 Train => Local Epoch: 2 / 5 	Acc: 26.094 	Loss: 2.3144[00m
+[91m Client7 Train => Local Epoch: 3 / 5 	Acc: 27.031 	Loss: 2.2513[00m
+[91m Client7 Train => Local Epoch: 4 / 5 	Acc: 27.031 	Loss: 2.1999[00m
+[92m  Client7 Test => 	Acc: 9.642 	Loss: 3.2191[00m
+[91m Client8 Train => Local Epoch: 0 / 5 	Acc: 0.260 	Loss: 9.1378[00m
+[91m Client8 Train => Local Epoch: 1 / 5 	Acc: 1.172 	Loss: 3.8828[00m
+[91m Client8 Train => Local Epoch: 2 / 5 	Acc: 17.969 	Loss: 2.4661[00m
+[91m Client8 Train => Local Epoch: 3 / 5 	Acc: 27.604 	Loss: 2.2017[00m
+[91m Client8 Train => Local Epoch: 4 / 5 	Acc: 27.995 	Loss: 2.1227[00m
+[92m  Client8 Test => 	Acc: 4.120 	Loss: 3.8203[00m
+[91m Client9 Train => Local Epoch: 0 / 5 	Acc: 7.392 	Loss: 5.1423[00m
+[91m Client9 Train => Local Epoch: 1 / 5 	Acc: 24.639 	Loss: 2.1406[00m
+[91m Client9 Train => Local Epoch: 2 / 5 	Acc: 27.163 	Loss: 2.1055[00m
+[91m Client9 Train => Local Epoch: 3 / 5 	Acc: 25.962 	Loss: 2.1082[00m
+[91m Client9 Train => Local Epoch: 4 / 5 	Acc: 26.322 	Loss: 2.0960[00m
+[92m  Client9 Test => 	Acc: 7.112 	Loss: 3.2694[00m
+------------------------------------------------
+------ Federation process at Server-Side ------- 
+------------------------------------------------
+-----------------------------------------------------------
+------ FedServer: Federation process at Client-Side ------- 
+-----------------------------------------------------------
+[92m  Client0 Test => 	Acc: 9.636 	Loss: 2.7668[00m
+ Train: Round   9, Avg Accuracy 63.837 | Avg Loss 1.053
+Training and Evaluation completed!
+===== END Thu 12/25/2025  9:05:12.49 ===== 

@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = ['variables.py', 'process.py', 'algorithms.py', 'server.py', 'client.py', 'model.py', 'plant.py', 'dataloaders.py', 'mudhog.py', 'cifar.py', 'client_attackers.py', 'defense_lab.py', 'backdoor_utils.py']
+recent_files = ['variables.py', 'process.py', 'algorithms.py', 'server.py', 'client.py', 'plant.py', 'client_attackers.py', 'defense_lab.py', 'defense_gac.py', 'backdoor_utils.py', 'model.py', 'utils.py']
 
 [main]
 version = 0.2.0
